@@ -1,0 +1,148 @@
+Output of Stanford Parser in different formats:
+
+penn:
+(ROOT
+  (S
+    (NP (DT A) (NN library))
+    (VP (VBZ issues)
+      (NP (NNS books))
+      (PP (TO to)
+        (NP (NNS students)
+          (CC and)
+          (NNS teachers))))
+    (. .)))
+
+
+wordsAndTags:
+A/DT library/NN issues/VBZ books/NNS to/TO students/NNS and/CC teachers/NNS ./.
+
+
+oneline:
+(ROOT (S (NP (DT A) (NN library)) (VP (VBZ issues) (NP (NNS books)) (PP (TO to) (NP (NNS students) (CC and) (NNS teachers)))) (. .)))
+
+rootSymbolOnly:
+ROOT
+
+words:
+A library issues books to students and teachers .
+
+
+dependencies:
+dep(library-2,A-1)
+dep(issues-3,library-2)
+dep(null-0,issues-3,root)
+dep(issues-3,books-4)
+dep(issues-3,to-5)
+dep(to-5,students-6)
+dep(students-6,and-7)
+dep(students-6,teachers-8)
+
+
+typedDependencies:
+det(library-2, A-1)
+nsubj(issues-3, library-2)
+root(ROOT-0, issues-3)
+dobj(issues-3, books-4)
+case(students-6, to-5)
+nmod:to(issues-3, students-6)
+cc(students-6, and-7)
+nmod:to(issues-3, teachers-8)
+conj:and(students-6, teachers-8)
+
+
+latexTree:
+.[
+ROOT
+  S
+    NP
+      DT
+        A
+      NN
+        library
+    VP
+      VBZ
+        issues
+      NP
+        NNS
+          books
+      PP
+        TO
+          to
+        NP
+          NNS
+            students
+          CC
+            and
+          NNS
+            teachers
+    .
+      .
+.]
+
+xmlTree:
+<node value="ROOT">
+  <node value="S">
+    <node value="NP">
+      <node value="DT">
+        <leaf value="A"/>
+      </node>
+      <node value="NN">
+        <leaf value="library"/>
+      </node>
+    </node>
+    <node value="VP">
+      <node value="VBZ">
+        <leaf value="issues"/>
+      </node>
+      <node value="NP">
+        <node value="NNS">
+          <leaf value="books"/>
+        </node>
+      </node>
+      <node value="PP">
+        <node value="TO">
+          <leaf value="to"/>
+        </node>
+        <node value="NP">
+          <node value="NNS">
+            <leaf value="students"/>
+          </node>
+          <node value="CC">
+            <leaf value="and"/>
+          </node>
+          <node value="NNS">
+            <leaf value="teachers"/>
+          </node>
+        </node>
+      </node>
+    </node>
+    <node value=".">
+      <leaf value="."/>
+    </node>
+  </node>
+</node>
+
+semanticGraph:
+
+conllStyleDependencies:
+10A	DT	2
+11library	NN	3
+12issues	VBZ	0
+13books	NNS	3
+14to	TO	3
+15students	NNS	5
+16and	CC	6
+17teachers	NNS	6
+18.	.	3
+
+
+conll2007:
+1	A	_	DT	DT	_	2	det	_	_
+2	library	_	NN	NN	_	3	nsubj	_	_
+3	issues	_	VBZ	VBZ	_	0	root	_	_
+4	books	_	NNS	NNS	_	3	dobj	_	_
+5	to	_	TO	TO	_	6	case	_	_
+6	students	_	NNS	NNS	_	3	nmod	_	_
+7	and	_	CC	CC	_	6	cc	_	_
+8	teachers	_	NNS	NNS	_	6	conj	_	_
+

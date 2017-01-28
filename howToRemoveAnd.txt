@@ -1,0 +1,54 @@
+1. A library issues books and loans to students.
+
+(ROOT
+  (S
+    (NP (DT A) (NN library))
+    (VP (VBZ issues)
+      (NP (NNS books)
+        (CC and)
+        (NNS loans))
+      (PP (TO to)
+        (NP (NNS students))))
+    (. .)))
+
+== Get to the CC. Excluding its parent's other children to the left of CC and the CC, copy everything else onto a new parse tree.
+
+2. A library issues books to students and loans to students.
+
+3. Issuing of books and loans is done by the library to students.
+
+(ROOT
+  (S
+    (NP
+      (NP (NN Issuing))
+      (PP (IN of)
+        (NP
+          (NP (NNS books)
+            (CC and)
+            (NNS loans))
+          (PP (TO to)
+            (NP (NNS students))))))
+    (VP (VBZ is)
+      (VP (VBN done)
+        (PP (IN by)
+          (NP (DT the) (NN library)))))
+    (. .)))
+
+== Since this is in the passive voice, the exact opposite of the rule for active voice should be applied.
+	That is, Get to the CC. Excluding its parent's other children to the right of CC and the CC, copy everything else onto a new parse tree.
+
+Steps:
+1. Check if there is a 'cc' reln or a 'conj'. Do this by using a list of TypedDependencies which can be produced using a GrammaticalStructure.
+Use the method reln() to get the GrammaticalRelation and check if it's shortName() equals "cc" (or "conj").
+If yes, then check if the DEPENDENT in the relation is an "and" by using the .dep() method on the dependency.
+ 
+2. If "and" is found, check if the sentence in the active or the passive voice. Check for the terms 'auxpass' or 'nsubjpass' in the dependencies using the reln() method. If either of these terms are found, then the sentence is in passive voice. Else it is in active voice.
+
+3. For ACTIVE voice,
+we will use the rule mentioned above, i.e. Get to the CC. Excluding its parent's other children to the left of CC and the CC, copy everything else onto a new parse tree. Now, excluding its parent's other children to the right of CC and the CC, copy everything to a new parse tree. Then convert the two parse trees into sentences to get the original sentence split in to two sentences without an "and".
+For now, do this using the tagged output. Find a way to use the tree output.
+
+
+4. For PASSIVE voice,
+we will use the rule mentioned above, i.e. Get to the CC. Excluding its parent's other children to the right of CC and the CC, copy everything else onto a new parse tree. Now, excluding its parent's other children to the left of CC and the CC, copy everything to a new parse tree. Convert them into sentences.
+For now, do this using the tagged output. Find a way to use the tree output.
