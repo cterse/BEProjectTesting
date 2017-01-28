@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="com.apress.books.model.Category"/>
+<fullyQualifiedTypeName name="com.apress.books.model.Author"/>
+<fullyQualifiedTypeName name="java.sql.Connection"/>
+<fullyQualifiedTypeName name="java.sql.DriverManager"/>
+<fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+<fullyQualifiedTypeName name="java.sql.ResultSet"/>
+<fullyQualifiedTypeName name="com.apress.books.dao.BookDAOImpl"/>
+<fullyQualifiedTypeName name="com.apress.books.dao.BookDAO"/>
+<fullyQualifiedTypeName name="com.apress.books.model.Book"/>
+<fullyQualifiedTypeName name="edu.stanford.nlp.ling.CoreLabel"/>
+<fullyQualifiedTypeName name="edu.stanford.nlp.process.PTBTokenizer"/>
+<fullyQualifiedTypeName name="java.io.StringReader"/>
+<fullyQualifiedTypeName name="edu.stanford.nlp.process.CoreLabelTokenFactory"/>
+<fullyQualifiedTypeName name="edu.stanford.nlp.process.WordToSentenceProcessor"/>
+<fullyQualifiedTypeName name="edu.stanford.nlp.util.StringUtils"/>
+<fullyQualifiedTypeName name="java.io.FileReader"/>
+<fullyQualifiedTypeName name="java.lang.StringBuilder"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.awt.Desktop"/>
+<fullyQualifiedTypeName name="java.util.Scanner"/>
+<fullyQualifiedTypeName name="test.OpenFile"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="java.io.PrintWriter"/>
+</qualifiedTypeNameHistroy>

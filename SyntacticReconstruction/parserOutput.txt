@@ -1,0 +1,15 @@
+This/DT is/VBZ a/DT test/NN sentence/NN and/CC this/DT is/VBZ another/DT sentence/NN ./.
+
+(ROOT (S (S (NP (DT This)) (VP (VBZ is) (NP (DT a) (NN test) (NN sentence)))) (CC and) (S (NP (DT this)) (VP (VBZ is) (NP (DT another) (NN sentence)))) (. .)))
+
+nsubj(sentence-5, This-1)
+cop(sentence-5, is-2)
+det(sentence-5, a-3)
+compound(sentence-5, test-4)
+root(ROOT-0, sentence-5)
+cc(sentence-5, and-6)
+nsubj(sentence-10, this-7)
+cop(sentence-10, is-8)
+det(sentence-10, another-9)
+conj:and(sentence-5, sentence-10)
+

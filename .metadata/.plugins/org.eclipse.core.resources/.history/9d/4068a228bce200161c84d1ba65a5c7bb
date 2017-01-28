@@ -1,0 +1,8 @@
+package test;
+
+public class TestParser {
+	public static void main(String[] args) {
+		String parserModel = "edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz";
+		
+	}
+}

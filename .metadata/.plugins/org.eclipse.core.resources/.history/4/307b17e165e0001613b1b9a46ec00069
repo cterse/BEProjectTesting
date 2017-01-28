@@ -1,0 +1,32 @@
+package deepakasks;
+
+import java.util.Scanner;
+
+public class NumberOfOnesNaive {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner t = new Scanner(System.in);
+		int n = t.nextInt();
+		
+		int count = 0;
+		for(int i=1; i<=n; i++) {
+			String temp = getBinaryString(i);
+			int numberOfOnes = getNumberOfOnes(temp);
+			count += numberOfOnes;
+		}
+		System.out.println(count);
+	}
+
+	private static int getNumberOfOnes(String temp) {
+		// TODO Auto-generated method stub
+		
+		return 0;
+	}
+
+	private static String getBinaryString(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

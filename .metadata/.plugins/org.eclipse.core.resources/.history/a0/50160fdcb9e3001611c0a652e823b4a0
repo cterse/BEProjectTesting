@@ -1,0 +1,9 @@
+package test;
+
+import java.util.Scanner;
+
+public class OpenFile {
+	public static void main(String[] args) {
+		System.out.println("H:\\Chinmay\\workspace\\SyntacticReconstruction\\sentences.txt");
+	}
+}
