@@ -39,6 +39,7 @@ public class Test {
 		
 		//Open the sentences.txt file
 		OpenFile.open("sentences.txt");
+		
 	}
 
 }

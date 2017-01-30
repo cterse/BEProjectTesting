@@ -75,7 +75,7 @@ public class SyntaxRecon {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		//Open the file containing individual sentences for reconstruction
-		File sentencesFile = new File("H:\\Chinmay\\workspace\\SyntacticReconstruction\\sentences.txt");
+		File sentencesFile = new File("sentences.txt");
 		Scanner sentencesFileScanner = null;
 		try {
 			sentencesFileScanner = new Scanner(sentencesFile);
@@ -100,7 +100,7 @@ public class SyntaxRecon {
 	    
 		//Now, we have the parser output for the sentence in the "parserOutput.txt" file
 		//a scanner to read the parserOutput.txt file
-		File parserOutput = new File("H:\\Chinmay\\workspace\\SyntacticReconstruction\\parserOutput.txt");
+		File parserOutput = new File("parserOutput.txt");
 		Scanner parserOutputFileScanner = null;
 		try {
 			parserOutputFileScanner = new Scanner(parserOutput);
@@ -121,7 +121,7 @@ public class SyntaxRecon {
 		Tree CCNode = null;		//this will point to the CC node
 		while( treeIterator.hasNext() ) {
 			Tree node = treeIterator.next();
-			if(node.value().equalsIgnoreCase("cc"))
+			if(node.value().equalsIgnoreCase("CC"))
 				if(node.firstChild().value().equalsIgnoreCase("and")) {
 					CCNode = node;
 					break;
@@ -158,6 +158,7 @@ public class SyntaxRecon {
 			if( sentencePassive ) {
 				//We know that sentence is in passive voice
 				System.out.println("Sentence is in passive voice");
+				
 			} else {
 				//We know that sentence is in active voice
 				System.out.println("Sentence is in active voice ");
@@ -167,8 +168,8 @@ public class SyntaxRecon {
 				System.out.println("CC parent = "+CCParent.value());
 				
 				//Get the words in the relation of AND!!!!!!!!!
-				//Considering only one "and" in the sentence
-				String gov = "";
+				//Considering only one "and" in the sentence....For now, this isn't needed
+				/*String gov = "";
 				String dep = "";
 				for(int i=0; i<tdl.size(); i++) {
 					if( tdl.get(i).reln().toString().equalsIgnoreCase("conj:and") ) {
@@ -176,22 +177,23 @@ public class SyntaxRecon {
 						dep = tdl.get(i).dep().value();
 					}
 				}
-				//System.out.println("Gov = "+gov+" dep = "+dep);
+				System.out.println("Gov = "+gov+" dep = "+dep);
 				
-				//Check the placing of "and" wrt to gov and dep
+				Check the placing of "and" wrt to gov and dep
 				Tree prevSibling = TreeManipulation.getPreviousSibling(CCNode, parse);
 				Tree nextSibling = TreeManipulation.getNextSibling(CCNode, parse);
-				//System.out.println("prev = "+prevSibling+" next = "+nextSibling);
+				System.out.println("prev = "+prevSibling+" next = "+nextSibling);
 				String beforeAnd = prevSibling.lastChild().toString();
 				String afterAnd = nextSibling.firstChild().toString();
-				//System.out.println("beforeAnd = "+beforeAnd+" afterAnd = "+afterAnd);
-					
+				System.out.println("beforeAnd = "+beforeAnd+" afterAnd = "+afterAnd);
+				*/	
+				
 				Iterator<Tree> CCParentIterator = parse.iterator();
 				//get the first sentence
 				while( CCParentIterator.hasNext() ) {
 					Tree node = CCParentIterator.next();
-					if( node.value().equals(".") )
-						break;
+					//if( node.value().equals(".") )
+						//break;
 					if( node.equals(CCNode) ) {
 						Tree CCParentNextSibling = TreeManipulation.getNextSibling(CCParent, parse);
 						if( CCParentNextSibling != null && CCParentNextSibling.value().equalsIgnoreCase("PP") ) {
@@ -216,8 +218,8 @@ public class SyntaxRecon {
 					//Take NP+VBZ from the VP before the CC
 					while(CCParentIterator.hasNext()) {
 						Tree node = CCParentIterator.next();
-						if( node.value().equals(".") )
-							break;
+						//if( node.value().equals(".") )
+							//break;
 						if( node.equals(CCParent) ) {
 							//break;
 							while( !node.equals(CCNode) ) {
@@ -241,9 +243,8 @@ public class SyntaxRecon {
 					Tree node = null;
 					while( CCParentIterator.hasNext() ) {
 						node = CCParentIterator.next();
-						if( node.value().equalsIgnoreCase(".") ) {
-							break;
-						}
+						//if( node.value().equalsIgnoreCase(".") )
+							//break;
 						if( node.value().equalsIgnoreCase("VP") ) {
 							while( !node.equals(TreeManipulation.getNextSibling(CCNode, parse)) ) {
 								node = CCParentIterator.next();
@@ -265,8 +266,8 @@ public class SyntaxRecon {
 					CCParentIterator = node.iterator();
 					while( CCParentIterator.hasNext() ) {
 						node = CCParentIterator.next();
-						if( node.value().equals(".") )
-							break;
+						//if( node.value().equals(".") )
+							//break;
 						if( node.isLeaf() ) {
 							andRemovedFilePW.print(node.value()+" ");
 							System.out.print(node.value()+" ");
@@ -303,7 +304,7 @@ public class SyntaxRecon {
 		
 		//Create file "parserOutput.txt" and
 		//Print the collapsed dependencies and tagged sentence to file
-		File parserOutputFile = new File("H:\\Chinmay\\workspace\\SyntacticReconstruction\\parserOutput.txt");
+		File parserOutputFile = new File("parserOutput.txt");
 		PrintWriter printWriter = null;
 		try {
 			printWriter = new PrintWriter(parserOutputFile);

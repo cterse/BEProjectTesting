@@ -54,10 +54,10 @@ public class TestParser {
 		
 		//Parse the above tokenized sentence
 		Tree parse = lp.apply(rawWords);
-		parse.dependencies();
+		//parse.dependencies();
 		
 		//Print the collapsed dependencies
-		File file = new File("H:\\Chinmay\\workspace\\StanfordParserOutputs.txt");
+		File file = new File("StanfordParserOutputs.txt");
 		PrintWriter pw = null;
 		try {
 			pw = new PrintWriter(file);

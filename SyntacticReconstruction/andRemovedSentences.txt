@@ -1,2 +1,2 @@
-A library issues books to students 
-A library issues books to library issues loans to students 
+A library can issue loans to students . 
+Another sentence here ? 
