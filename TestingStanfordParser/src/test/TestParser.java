@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.StringReader;
+import java.util.Iterator;
 import java.util.List;
 
 import edu.stanford.nlp.ling.CoreLabel;
@@ -37,7 +38,7 @@ public class TestParser {
 
 	private static void demoAPI(LexicalizedParser lp) {
 		// TODO Auto-generated method stub
-		String sent2 = "A library issues books to students and teachers.";
+		String sent2 = "Library issues books and loans to teachers.";
 		
 		//Think of this as a factory, that creates tokenizers... :P
 		TokenizerFactory<CoreLabel> tokenizerFactory = PTBTokenizer.factory(new CoreLabelTokenFactory(), "");
@@ -53,9 +54,10 @@ public class TestParser {
 		
 		//Parse the above tokenized sentence
 		Tree parse = lp.apply(rawWords);
+		parse.dependencies();
 		
 		//Print the collapsed dependencies
-		File file = new File("H:\\Chinmay\\StanfordParserOutputs.txt");
+		File file = new File("H:\\Chinmay\\workspace\\StanfordParserOutputs.txt");
 		PrintWriter pw = null;
 		try {
 			pw = new PrintWriter(file);
@@ -109,7 +111,7 @@ public class TestParser {
 	    pw.println();
 	    pw.println("conllStyleDependencies:");
 	    tp = new TreePrint("conllStyleDependencies");
-	    tp.printTree(parse, pw);
+	    //tp.printTree(parse, pw);
 	    pw.println();
 	    pw.println("conll2007:");
 	    tp = new TreePrint("conll2007");
@@ -123,22 +125,47 @@ public class TestParser {
 	    List<TypedDependency> tdl = gs.typedDependenciesCCprocessed();
 	    
 	    System.out.println(sent2);
+	    System.out.println(parse.depth());
 	    System.out.println(tdl);
-	    System.out.println("tdl.get(3) = "+tdl.get(3));
-	    System.out.println("tdl.get(3).dep() = "+tdl.get(8).dep());
-	    System.out.println("tdl.get(3).gov() = "+tdl.get(8).gov());
-	    System.out.println("tdl.get(3).reln() = "+tdl.get(8).reln().toString());
+	    System.out.println("tdl.get(1) = "+tdl.get(1));
+	    System.out.println("tdl.get(1).dep() = "+tdl.get(1).dep());
+	    System.out.println("tdl.get(1).gov() = "+tdl.get(1).gov());
+	    System.out.println("tdl.get(1).reln() = "+tdl.get(1).reln().toString());
 	    //GrammaticalRelation newGR = new GrammaticalRelation(null, "dobj", "", null);
 	    //System.out.println(tdl.get(3).reln().compareTo(newGR));
-	    System.out.println(tdl.get(3).reln().getLanguage());
-	    System.out.println(tdl.get(3).reln().getParent());
-	    System.out.println(tdl.get(3).reln().getShortName());
-	    System.out.println(tdl.get(3).reln().getSpecific());
-	    System.out.println(tdl.get(3).reln().getLanguage());
-	    System.out.println(tdl.get(3).reln().getLongName());
+	    System.out.println(tdl.get(1).reln().getLanguage());
+	    System.out.println(tdl.get(1).reln().getParent());
+	    System.out.println(tdl.get(1).reln().getShortName());
+	    System.out.println(tdl.get(1).reln().getSpecific());
+	    System.out.println(tdl.get(1).reln().getLanguage());
+	    System.out.println(tdl.get(1).reln().getLongName());
 	    
 	    //Print the parsed output
 	    //System.out.println(parse);
+	    tp = new TreePrint("penn");
+	    tp.printTree(parse);
+	    
+	    System.out.println(parse.firstChild());
+	    System.out.println(parse.getChild(0)); //shows error for 2,3,...
+	    Tree temp = parse.firstChild();
+	    System.out.println(temp.getChild(0));
+	    System.out.println(temp.getChild(0).value());  //value of node = NP | CC | VP etc.
+	    System.out.println(temp.getChild(0).constituents());	//??
+	    
+	    Iterator<Tree> itree = parse.iterator();
+	    Tree temp2 = null;
+	    while(itree.hasNext()) {
+	    	temp2 = itree.next();
+	    	System.out.println(temp2);
+	    	if(temp2.value().equalsIgnoreCase("CC")) {
+	    		System.out.println("CC found!");
+	    		//break;
+	    	}
+	    }
+	    /*System.out.println(temp2);
+	    System.out.println(temp2.firstChild().value());
+	    System.out.println("Ancestor = "+temp2.ancestor(1, parse).value());*/
+	    
 	}
 }
 

@@ -1,4 +1,4 @@
-This is a test sentence and this is another sentence.
+A library issues books to students and library issues loans to students.
 It caters to the needs of customers.
 A customer is termed as a member and is given a membership card.
 Each membership card has a unique member number.

@@ -17,11 +17,19 @@
 <fullyQualifiedTypeName name="edu.stanford.nlp.util.StringUtils"/>
 <fullyQualifiedTypeName name="java.io.FileReader"/>
 <fullyQualifiedTypeName name="java.lang.StringBuilder"/>
-<fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.awt.Desktop"/>
 <fullyQualifiedTypeName name="java.util.Scanner"/>
-<fullyQualifiedTypeName name="test.OpenFile"/>
 <fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="edu.stanford.nlp.trees.TreebankLanguagePack"/>
+<fullyQualifiedTypeName name="edu.stanford.nlp.trees.GrammaticalStructureFactory"/>
+<fullyQualifiedTypeName name="edu.stanford.nlp.trees.GrammaticalStructure"/>
+<fullyQualifiedTypeName name="edu.stanford.nlp.trees.GrammaticalRelation"/>
+<fullyQualifiedTypeName name="edu.stanford.nlp.trees.TypedDependency"/>
 <fullyQualifiedTypeName name="java.io.PrintWriter"/>
+<fullyQualifiedTypeName name="test.OpenFile"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="edu.stanford.nlp.trees.Tree"/>
+<fullyQualifiedTypeName name="java.util.Iterator"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
 </qualifiedTypeNameHistroy>

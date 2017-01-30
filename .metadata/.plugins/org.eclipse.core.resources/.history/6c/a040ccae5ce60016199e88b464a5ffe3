@@ -1,0 +1,30 @@
+package test;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import edu.stanford.nlp.trees.Tree;
+
+public class TreeManipulation {
+	
+	public List<Integer> searchNode(String searchNodeValue, Tree parse) {
+		List<Integer> nodeNumbers = new ArrayList<Integer>();
+		Iterator<Tree> it = parse.iterator();
+		while( it.hasNext() ) {
+			Tree node = it.next();
+			if( node.value().equalsIgnoreCase(searchNodeValue) ) {
+				nodeNumbers.add(node.nodeNumber(parse));
+			}
+		}
+		return nodeNumbers;
+	}
+	
+	public Tree getNextSibling(Tree node, Tree parse) {
+		Tree Nextsibling = null;
+		Iterator<Tree> it = parse.iterator();
+		List<Tree> children = parse.ancestor(1, parse).getChildrenAsList();
+		
+	}
+	
+}

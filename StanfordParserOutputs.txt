@@ -1,53 +1,51 @@
-Output of Stanford Parser in different formats:
+Output of Stanford Parser in differnet formats:
 
 penn:
 (ROOT
   (S
-    (NP (DT A) (NN library))
+    (NP (NNP Library))
     (VP (VBZ issues)
-      (NP (NNS books))
+      (NP (NNS books)
+        (CC and)
+        (NNS loans))
       (PP (TO to)
-        (NP (NNS students)
-          (CC and)
-          (NNS teachers))))
+        (NP (NNS teachers))))
     (. .)))
 
 
 wordsAndTags:
-A/DT library/NN issues/VBZ books/NNS to/TO students/NNS and/CC teachers/NNS ./.
+Library/NNP issues/VBZ books/NNS and/CC loans/NNS to/TO teachers/NNS ./.
 
 
 oneline:
-(ROOT (S (NP (DT A) (NN library)) (VP (VBZ issues) (NP (NNS books)) (PP (TO to) (NP (NNS students) (CC and) (NNS teachers)))) (. .)))
+(ROOT (S (NP (NNP Library)) (VP (VBZ issues) (NP (NNS books) (CC and) (NNS loans)) (PP (TO to) (NP (NNS teachers)))) (. .)))
 
 rootSymbolOnly:
 ROOT
 
 words:
-A library issues books to students and teachers .
+Library issues books and loans to teachers .
 
 
 dependencies:
-dep(library-2,A-1)
-dep(issues-3,library-2)
-dep(null-0,issues-3,root)
-dep(issues-3,books-4)
-dep(issues-3,to-5)
-dep(to-5,students-6)
-dep(students-6,and-7)
-dep(students-6,teachers-8)
+dep(issues-2,Library-1)
+dep(null-0,issues-2,root)
+dep(issues-2,books-3)
+dep(books-3,and-4)
+dep(books-3,loans-5)
+dep(issues-2,to-6)
+dep(to-6,teachers-7)
 
 
 typedDependencies:
-det(library-2, A-1)
-nsubj(issues-3, library-2)
-root(ROOT-0, issues-3)
-dobj(issues-3, books-4)
-case(students-6, to-5)
-nmod:to(issues-3, students-6)
-cc(students-6, and-7)
-nmod:to(issues-3, teachers-8)
-conj:and(students-6, teachers-8)
+nsubj(issues-2, Library-1)
+root(ROOT-0, issues-2)
+dobj(issues-2, books-3)
+cc(books-3, and-4)
+dobj(issues-2, loans-5)
+conj:and(books-3, loans-5)
+case(teachers-7, to-6)
+nmod:to(issues-2, teachers-7)
 
 
 latexTree:
@@ -55,24 +53,22 @@ latexTree:
 ROOT
   S
     NP
-      DT
-        A
-      NN
-        library
+      NNP
+        Library
     VP
       VBZ
         issues
       NP
         NNS
           books
+        CC
+          and
+        NNS
+          loans
       PP
         TO
           to
         NP
-          NNS
-            students
-          CC
-            and
           NNS
             teachers
     .
@@ -83,11 +79,8 @@ xmlTree:
 <node value="ROOT">
   <node value="S">
     <node value="NP">
-      <node value="DT">
-        <leaf value="A"/>
-      </node>
-      <node value="NN">
-        <leaf value="library"/>
+      <node value="NNP">
+        <leaf value="Library"/>
       </node>
     </node>
     <node value="VP">
@@ -98,18 +91,18 @@ xmlTree:
         <node value="NNS">
           <leaf value="books"/>
         </node>
+        <node value="CC">
+          <leaf value="and"/>
+        </node>
+        <node value="NNS">
+          <leaf value="loans"/>
+        </node>
       </node>
       <node value="PP">
         <node value="TO">
           <leaf value="to"/>
         </node>
         <node value="NP">
-          <node value="NNS">
-            <leaf value="students"/>
-          </node>
-          <node value="CC">
-            <leaf value="and"/>
-          </node>
           <node value="NNS">
             <leaf value="teachers"/>
           </node>
@@ -125,24 +118,13 @@ xmlTree:
 semanticGraph:
 
 conllStyleDependencies:
-10A	DT	2
-11library	NN	3
-12issues	VBZ	0
-13books	NNS	3
-14to	TO	3
-15students	NNS	5
-16and	CC	6
-17teachers	NNS	6
-18.	.	3
-
 
 conll2007:
-1	A	_	DT	DT	_	2	det	_	_
-2	library	_	NN	NN	_	3	nsubj	_	_
-3	issues	_	VBZ	VBZ	_	0	root	_	_
-4	books	_	NNS	NNS	_	3	dobj	_	_
-5	to	_	TO	TO	_	6	case	_	_
-6	students	_	NNS	NNS	_	3	nmod	_	_
-7	and	_	CC	CC	_	6	cc	_	_
-8	teachers	_	NNS	NNS	_	6	conj	_	_
+1	Library	_	NNP	NNP	_	2	nsubj	_	_
+2	issues	_	VBZ	VBZ	_	0	root	_	_
+3	books	_	NNS	NNS	_	2	dobj	_	_
+4	and	_	CC	CC	_	3	cc	_	_
+5	loans	_	NNS	NNS	_	3	conj	_	_
+6	to	_	TO	TO	_	7	case	_	_
+7	teachers	_	NNS	NNS	_	2	nmod	_	_
 

@@ -1,15 +1,32 @@
-This/DT is/VBZ a/DT test/NN sentence/NN and/CC this/DT is/VBZ another/DT sentence/NN ./.
+A/DT library/NN issues/VBZ books/NNS to/TO students/NNS and/CC library/NN issues/NNS loans/NNS to/TO students/NNS ./.
 
-(ROOT (S (S (NP (DT This)) (VP (VBZ is) (NP (DT a) (NN test) (NN sentence)))) (CC and) (S (NP (DT this)) (VP (VBZ is) (NP (DT another) (NN sentence)))) (. .)))
+(ROOT (S (NP (DT A) (NN library)) (VP (VBZ issues) (NP (NNS books)) (PP (TO to) (NP (NP (NNS students)) (CC and) (NP (NN library) (NNS issues) (NNS loans)))) (PP (TO to) (NP (NNS students)))) (. .)))
 
-nsubj(sentence-5, This-1)
-cop(sentence-5, is-2)
-det(sentence-5, a-3)
-compound(sentence-5, test-4)
-root(ROOT-0, sentence-5)
-cc(sentence-5, and-6)
-nsubj(sentence-10, this-7)
-cop(sentence-10, is-8)
-det(sentence-10, another-9)
-conj:and(sentence-5, sentence-10)
+det(library-2, A-1)
+nsubj(issues-3, library-2)
+root(ROOT-0, issues-3)
+dobj(issues-3, books-4)
+case(students-6, to-5)
+nmod:to(issues-3, students-6)
+cc(students-6, and-7)
+compound(loans-10, library-8)
+compound(loans-10, issues-9)
+nmod:to(issues-3, loans-10)
+conj:and(students-6, loans-10)
+case(students-12, to-11)
+nmod:to(issues-3, students-12)
+
+(ROOT
+  (S
+    (NP (DT A) (NN library))
+    (VP (VBZ issues)
+      (NP (NNS books))
+      (PP (TO to)
+        (NP
+          (NP (NNS students))
+          (CC and)
+          (NP (NN library) (NNS issues) (NNS loans))))
+      (PP (TO to)
+        (NP (NNS students))))
+    (. .)))
 
