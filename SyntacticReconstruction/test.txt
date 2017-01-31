@@ -1,1 +1,11 @@
-This is a test sentence. This is just to see where the second sentence goes. 
+A library issues books to students.
+A user can search products.
+A user can add products to cart.
+A user has name and age.
+A card has a unique number.
+A man can have a pizza.
+The Spartans can have a bloodbath.
+Cards have colours.
+A player gets game points.
+A dog gets bones from his master.
+A dog gets a ball for his master.

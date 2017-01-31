@@ -67,6 +67,8 @@ public class SyntaxRecon {
 	sense as passive voice form. This needs some user
 	interference to decide which sentence acts as
 	passive voice.
+	
+	9. Resolve apostrophes 
 	*/
 	
 	final static String parserModel = "edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz";
@@ -296,6 +298,8 @@ public class SyntaxRecon {
 
 	private static Tree parseSentence(String sentence1) {
 		// TODO Auto-generated method stub
+		
+		//Already initialized a lexicalized parser above
 		//String parserModel = "edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz";
 		//LexicalizedParser lp = LexicalizedParser.loadModel(parserModel);
 		
