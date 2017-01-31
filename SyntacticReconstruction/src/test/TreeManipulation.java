@@ -55,4 +55,19 @@ public class TreeManipulation {
 		return null;
 	}
 	
+	public static String getSentence(Tree parse) {
+		//improve this method
+		String sentence = null;
+		if( parse != null ) {
+			sentence = "";
+			Iterator<Tree> it = parse.iterator();
+			while( it.hasNext() ) {
+				Tree node = it.next();
+				if( node.isLeaf() )
+					sentence = sentence +" "+ node.value();
+			}
+		}
+		return sentence;
+	}
+	
 }

@@ -109,12 +109,23 @@ public class SyntaxRecon {
 			e.printStackTrace();
 		}
 		
-		//Method to remove and from sentence.
+		//Method to remove and from sentence. Works for a single "and" for now
+		//Output in andRemovedSentences2.txt
 		removeAnd(parse, tdl);
 	}
 
 	private static void removeAnd(Tree parse, List<TypedDependency> tdl) {
 		// TODO Auto-generated method stub
+		
+		//Create a file to store sentences after removing and from them
+		File file = new File("andRemovedSentences.txt");
+		PrintWriter andRemovedFilePW = null; 
+		try {
+			andRemovedFilePW = new PrintWriter(file);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		//First, check if there is an "and" in the sentence
 		Iterator<Tree> treeIterator = parse.iterator();
@@ -128,22 +139,17 @@ public class SyntaxRecon {
 				}
 		}
 		if(CCNode == null) {
-			//"And" not found
+			//"And" not found, print the sentence as is
 			System.out.println("And not found "+CCNode);
+			andRemovedFilePW.println(TreeManipulation.getSentence(parse));	
+			System.out.println(TreeManipulation.getSentence(parse));
+			andRemovedFilePW.close();
+			AddTerminatorsToFile.addTerminators(file);
 			return;
+			
 		} else {
 			//"And" is found in the sentence
 			System.out.println("And found at node = "+CCNode.nodeNumber(parse));
-			
-			//Create a file to store sentences after removing and from them
-			File file = new File("andRemovedSentences.txt");
-			PrintWriter andRemovedFilePW = null; 
-			try {
-				andRemovedFilePW = new PrintWriter(file);
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			
 			//Check if the sentence is in active or passive voice
 			//Use the dependencies for checking the voice
