@@ -279,6 +279,9 @@ public class SyntaxRecon {
 				//OpenFile.open("andRemovedSentences.txt");
 				andRemovedFilePW.close();
 				
+				//Add proper sentence terminators to sentences in andRemovedFile
+				//AddTerminatorsToFile.addTerminators(file);
+				
 				//System.out.println("\n"+TreeManipulation.getNextSibling(CCNode, parse));
 				//System.out.println(TreeManipulation.getPreviousSibling(CCNode, parse));
 			}

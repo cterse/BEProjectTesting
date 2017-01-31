@@ -32,4 +32,5 @@
 <fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="test.AddTerminatorsToFile"/>
 </qualifiedTypeNameHistroy>
