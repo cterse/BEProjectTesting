@@ -1,6 +1,6 @@
-A/DT library/NN can/MD issue/VB loans/NNS and/CC books/NNS to/TO students/NNS ./.
+A/DT library/NN can/MD issue/VB loans/NNS and/CC books/NNS to/TO students/NNS !/.
 
-(ROOT (S (NP (DT A) (NN library)) (VP (MD can) (VP (VB issue) (NP (NNS loans) (CC and) (NNS books)) (PP (TO to) (NP (NNS students))))) (. .)))
+(ROOT (S (NP (DT A) (NN library)) (VP (MD can) (VP (VB issue) (NP (NNS loans) (CC and) (NNS books)) (PP (TO to) (NP (NNS students))))) (. !)))
 
 det(library-2, A-1)
 nsubj(issue-4, library-2)
@@ -23,5 +23,5 @@ nmod:to(issue-4, students-9)
           (NNS books))
         (PP (TO to)
           (NP (NNS students)))))
-    (. .)))
+    (. !)))
 

@@ -9,8 +9,8 @@ import java.util.Scanner;
 
 public class AddTerminatorsToFile {
 	
-	public static void addTerminators(String fileName) {
-		File file = new File(fileName);
+	public static void addTerminators(File file) {
+		//File file = new File(fileName);
 		Scanner t = null;
 		try {
 			t = new Scanner(file);
@@ -21,7 +21,7 @@ public class AddTerminatorsToFile {
 		
 		PrintWriter pw = null;
 		try {
-			pw = new PrintWriter(file);
+			pw = new PrintWriter("andRemovedSentences2.txt");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -68,8 +68,8 @@ public class AddTerminatorsToFile {
 	
 	
 	public static void main(String[] args) {
-		String fileName = "andRemovedSentences.txt";
-		addTerminators(fileName);
+		//String fileName = "andRemovedSentences.txt";
+		addTerminators(new File("andRemovedSentences.txt"));
 	}
 	
 }
