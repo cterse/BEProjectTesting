@@ -1,1 +1,0 @@
- A library can issue loans to students !

@@ -69,7 +69,7 @@ public class ElementExtraction {
 		//Traverse the parse tree to find potential elements
 		List<Tree> potentialClasses = new ArrayList<Tree>();
 		List<Tree> potentialMethods = new ArrayList<Tree>();
-		List<Tree> potentialAttribute = new ArrayList<Tree>();
+		List<Tree> potentialAttributes = new ArrayList<Tree>();
 		Tree node = null;
 		while( it.hasNext() ) {
 			node = it.next();
@@ -78,9 +78,10 @@ public class ElementExtraction {
 				potentialClasses.add(node);
 			}
 			if( node.value().equalsIgnoreCase("VB") || node.value().equalsIgnoreCase("VBD") || node.value().equalsIgnoreCase("VBG") || node.value().equalsIgnoreCase("VBN") || node.value().equalsIgnoreCase("VBP") || node.value().equalsIgnoreCase("VBZ") ) {
-				if(  ) {
-					//write code to check if verb is present in list of possession verbs
+				if( possessionVerbs.contains(node.value()) ) {
+					//verb is present in list of possession verbs
 					//if yes, then the following noun becomes a potential attribute
+					
 				}
 				node = it.next();
 				potentialMethods.add(node);

@@ -166,6 +166,7 @@ public class SyntaxRecon {
 			if( sentencePassive ) {
 				//We know that sentence is in passive voice
 				System.out.println("Sentence is in passive voice");
+				//Write code to resolve "and" in a passive voice
 				
 			} else {
 				//We know that sentence is in active voice
@@ -289,9 +290,6 @@ public class SyntaxRecon {
 				
 				//Add proper sentence terminators to sentences in andRemovedFile
 				AddTerminatorsToFile.addTerminators(file);
-				
-				//System.out.println("\n"+TreeManipulation.getNextSibling(CCNode, parse));
-				//System.out.println(TreeManipulation.getPreviousSibling(CCNode, parse));
 			}
 		}
 	}
