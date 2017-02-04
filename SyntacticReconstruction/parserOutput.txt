@@ -1,25 +1,16 @@
-Issuing/NN and/CC loaning/NN is/VBZ done/VBN by/IN the/DT library/NN ./.
+Danny/NNP did/VBD a/DT double/JJ ./.
 
-(ROOT (S (NP (NN Issuing) (CC and) (NN loaning)) (VP (VBZ is) (VP (VBN done) (PP (IN by) (NP (DT the) (NN library))))) (. .)))
+(ROOT (S (NP (NNP Danny)) (VP (VBD did) (NP (DT a) (JJ double))) (. .)))
 
-nsubjpass(done-5, Issuing-1)
-cc(Issuing-1, and-2)
-conj:and(Issuing-1, loaning-3)
-nsubjpass(done-5, loaning-3)
-auxpass(done-5, is-4)
-root(ROOT-0, done-5)
-case(library-8, by-6)
-det(library-8, the-7)
-nmod:by(done-5, library-8)
+nsubj(did-2, Danny-1)
+root(ROOT-0, did-2)
+det(double-4, a-3)
+dobj(did-2, double-4)
 
 (ROOT
   (S
-    (NP (NN Issuing)
-      (CC and)
-      (NN loaning))
-    (VP (VBZ is)
-      (VP (VBN done)
-        (PP (IN by)
-          (NP (DT the) (NN library)))))
+    (NP (NNP Danny))
+    (VP (VBD did)
+      (NP (DT a) (JJ double)))
     (. .)))
 

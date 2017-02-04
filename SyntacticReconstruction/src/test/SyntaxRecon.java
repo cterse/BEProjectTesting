@@ -30,23 +30,23 @@ public class SyntaxRecon {
 	Syntax reconstruction rules: 
 	1. Discard prepositional phrase (PP), adjective phrase
 	(ADJP), determiner (DT) or adjective (JJ), if they
-	precedes the subject of the sentence.
+	precedes the subject of the sentence. [no]
 	
 	2. If NP and VP is preceded by “No”, then convert it
-	into “NP not VP”.
+	into “NP not VP”. [no]
 	
 	3. Noun phrases (NP) which are separated by
 	connectives like “and, or” are taken as individual
 	sentences. If {{NP1}{VP1{ VBZ NP2,NP3 and
 	NP4}}} then convert it into {{NP1}{VP1{ VBZ
 	NP2 }}}, {{NP1}{VP1{ VBZ NP3}}},
-	{{NP1}{VP1{ VBZ NP4}}}.
+	{{NP1}{VP1{ VBZ NP4}}}. [done for single and]
 	
 	4. Sentences which are connected by connectives like
 	“and, or, but, yet” are split at their connectives
 	and created at two individual sentences. If sentence1
 	and/or sentence2, then convert it into two sentences
-	{sentence1} {sentence2}.
+	{sentence1} {sentence2}. [done for single and]
 	
 	5. If a sentence has no verbs (VP) then discard that
 	sentence.
@@ -92,6 +92,18 @@ public class SyntaxRecon {
 		
 		//First we need to parse the sentence.
 		Tree parse = parseSentence(sentence1);
+		
+		//If sentence has no verb, discard it
+		//For now, return. In loop, continue
+		Iterator<Tree> it = parse.iterator();
+		Tree node = null;
+		while( it.hasNext() ) {
+			node = it.next();
+			if( node.value().equalsIgnoreCase("PP") ) {
+				break;
+			}
+		}
+		System.out.println(node);
 		
 		//Get the dependencies
 		TreebankLanguagePack tlp = lp.treebankLanguagePack(); // PennTreebankLanguagePack for English
