@@ -1,7 +1,0 @@
-package test;
-
-public class TestParser {
-	public static void main(String[] args) {
-		String parserModel = "";
-	}
-}

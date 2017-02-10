@@ -1,7 +1,0 @@
-package test;
-
-public class OpenFile {
-	public static void main(String[] args) {
-		
-	}
-}
