@@ -91,6 +91,8 @@ public class ElementExtraction {
 		System.out.println(potentialClasses);
 		System.out.println("\nPotential methods: ");
 		System.out.println(potentialMethods);
+		System.out.println("\nPotential attributes: ");
+		System.out.println(potentialAttributes);
 		
 		outputPW.close();
 	}
