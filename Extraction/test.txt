@@ -1,8 +1,9 @@
+Hockey teams make a hockey league.
 A library issues books to students.
 A user can search products.
 A user can add products to cart.
 A user has name and age.
-A card has a unique number.
+A credit card has a unique number.
 A man can have a pizza.
 The Spartans can have a bloodbath.
 Cards have colours.

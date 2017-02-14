@@ -51,7 +51,7 @@ public class ElementExtraction {
 			sentences.add(inputFileScanner.nextLine());
 		}
 		
-		int i = 7;
+		int i = 5;
 		Tree parse = parseSentence(sentences.get(i));
 		
 		//Get the dependencies
@@ -80,16 +80,27 @@ public class ElementExtraction {
 		
 		Iterator<Tree> it = parse.iterator();
 		//Traverse the parse tree to find potential elements
-		List<Tree> potentialClasses = new ArrayList<Tree>();
+		List<String> potentialClasses = new ArrayList<String>();
 		List<Tree> potentialMethods = new ArrayList<Tree>();
 		List<String> potentialAttributes = new ArrayList<String>(); //!!!!!!!! check types
 		Tree node = null;
 		while( it.hasNext() ) {
 			node = it.next();
-			if( node.value().equalsIgnoreCase("NN") || node.value().equalsIgnoreCase("NNS") ) {
+			
+			//Check for nouns i.e. Classes
+			if( node.value().equalsIgnoreCase("NN") || node.value().equalsIgnoreCase("NNP") || node.value().equalsIgnoreCase("NNPS") || node.value().equalsIgnoreCase("NNS") ) {
+				String compound = it.next().value();
 				node = it.next();
-				potentialClasses.add(node);
+				if( node.value().equalsIgnoreCase("NN") || node.value().equalsIgnoreCase("NNP") || node.value().equalsIgnoreCase("NNPS") || node.value().equalsIgnoreCase("NNS") ) {
+					//This means there are two nouns back to back i.e compound nouns
+					String className = it.next().value();
+					potentialClasses.add(compound+"_"+className);
+				} else {
+					potentialClasses.add(compound);
+				}
 			}
+			
+			//Check for verbs
 			if( node.value().equalsIgnoreCase("VB") || node.value().equalsIgnoreCase("VBD") || node.value().equalsIgnoreCase("VBG") || node.value().equalsIgnoreCase("VBN") || node.value().equalsIgnoreCase("VBP") || node.value().equalsIgnoreCase("VBZ") ) {
 				System.out.println("Checking verbs");
 				node = it.next();
@@ -105,6 +116,7 @@ public class ElementExtraction {
 				}
 			}
 		}
+		
 		System.out.println("\nPotential classes: ");
 		System.out.println(potentialClasses);
 		System.out.println("\nPotential methods: ");
