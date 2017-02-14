@@ -51,7 +51,7 @@ public class ElementExtraction {
 			sentences.add(inputFileScanner.nextLine());
 		}
 		
-		int i = 5;
+		int i = 0;
 		Tree parse = parseSentence(sentences.get(i));
 		
 		//Get the dependencies
@@ -88,10 +88,10 @@ public class ElementExtraction {
 			node = it.next();
 			
 			//Check for nouns i.e. Classes
-			if( node.value().equalsIgnoreCase("NN") || node.value().equalsIgnoreCase("NNP") || node.value().equalsIgnoreCase("NNPS") || node.value().equalsIgnoreCase("NNS") ) {
+			if( node.value().equalsIgnoreCase("NN") || node.value().equalsIgnoreCase("NNS") ) {
 				String compound = it.next().value();
 				node = it.next();
-				if( node.value().equalsIgnoreCase("NN") || node.value().equalsIgnoreCase("NNP") || node.value().equalsIgnoreCase("NNPS") || node.value().equalsIgnoreCase("NNS") ) {
+				if( node.value().equalsIgnoreCase("NN") || node.value().equalsIgnoreCase("NNS") ) {
 					//This means there are two nouns back to back i.e compound nouns
 					String className = it.next().value();
 					potentialClasses.add(compound+"_"+className);
@@ -102,15 +102,38 @@ public class ElementExtraction {
 			
 			//Check for verbs
 			if( node.value().equalsIgnoreCase("VB") || node.value().equalsIgnoreCase("VBD") || node.value().equalsIgnoreCase("VBG") || node.value().equalsIgnoreCase("VBN") || node.value().equalsIgnoreCase("VBP") || node.value().equalsIgnoreCase("VBZ") ) {
-				System.out.println("Checking verbs");
+				System.out.println("\nChecking verbs");
 				node = it.next();
 				if( possessionVerbs.contains(node.value()) ) {
 					//verb is present in list of possession verbs
-					//if yes, then the following noun becomes a potential attribute
-					System.out.println(node.value()+" is present.\n");
-					System.out.println("Object = "+getObject(tdl));
-					potentialAttributes.add(getObject(tdl));
+					System.out.println("Possession verb = \""+node.value()+"\" is present.\n");
+					
+					//now check if its an auxiliary verb
+					boolean auxVerb = false;
+					Iterator<TypedDependency> tdlTempIt = tdl.iterator();
+					while( tdlTempIt.hasNext() ) {
+						TypedDependency tempDep = tdlTempIt.next();
+						System.out.println("node.value = "+node.value());
+						System.out.println("reln = "+tempDep.reln().toString()+" dep = "+tempDep.gov().value());
+						if( tempDep.dep().value().equalsIgnoreCase(node.value()) && tempDep.reln().toString().equalsIgnoreCase("aux") ) {
+							//the possessive verb is an aux
+							System.out.println("AUX FOUND AT = reln = "+tempDep.reln().toString()+" dep = "+tempDep.gov().value());
+							auxVerb = true; 
+							System.out.println("Found poss verb is an aux");
+							break;
+						}
+					}
+					
+					//if possessive verb is not aux, it is related to an attribute
+					//here the dobj is considered as attribute
+					System.out.println(auxVerb);
+					if( !auxVerb ) {
+						potentialAttributes.add( getObject(tdl) );
+					} else {
+						//the verb is an aux, ignore it
+					}
 				} else {
+					//the verb is not possession verb
 					//node = it.next();
 					potentialMethods.add(node);
 				}
