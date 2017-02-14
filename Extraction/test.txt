@@ -1,4 +1,4 @@
-A library issues loans to students.
+A library has issued loans to students.
 A player has a name.
 Neha has made cakes.
 Hockey teams can make a hockey league.

@@ -1,3 +1,8 @@
+/*
+ * For attribute extraction, a list of possession verbs is created.
+ * Objects of sentences containing these verbs in non-auxiliary form are taken as attributes.
+ */
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -51,7 +56,7 @@ public class ElementExtraction {
 			sentences.add(inputFileScanner.nextLine());
 		}
 		
-		int i = 0;
+		int i = 7;
 		Tree parse = parseSentence(sentences.get(i));
 		
 		//Get the dependencies
@@ -182,9 +187,16 @@ public class ElementExtraction {
 		// TODO Auto-generated method stub
 		Iterator<TypedDependency> tdlIt = tdl.iterator();
 		while( tdlIt.hasNext() ) {
-			TypedDependency temp = tdlIt.next();
-			if( temp.reln().toString().equalsIgnoreCase("dobj") ) {
-				return temp.dep().value(); 
+			TypedDependency temp1 = tdlIt.next();
+			if( temp1.reln().toString().equalsIgnoreCase("dobj") ) {
+				Iterator<TypedDependency> it2 = tdl.iterator();
+				while( it2.hasNext() ) {
+					TypedDependency temp2 = it2.next();
+					if( temp2.gov().value().equalsIgnoreCase(temp1.dep().value()) && temp2.reln().toString().equalsIgnoreCase("compound") ) {
+						return temp2.dep().value()+"_"+temp1.dep().value();
+					}
+				}
+				return temp1.dep().value();
 			}
 		}
 		return null;
