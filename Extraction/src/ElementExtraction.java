@@ -81,7 +81,7 @@ public class ElementExtraction {
 		Iterator<Tree> it = parse.iterator();
 		//Traverse the parse tree to find potential elements
 		List<String> potentialClasses = new ArrayList<String>();
-		List<Tree> potentialMethods = new ArrayList<Tree>();
+		List<String> potentialMethods = new ArrayList<String>();
 		List<String> potentialAttributes = new ArrayList<String>(); //!!!!!!!! check types
 		Tree node = null;
 		while( it.hasNext() ) {
@@ -113,20 +113,18 @@ public class ElementExtraction {
 					Iterator<TypedDependency> tdlTempIt = tdl.iterator();
 					while( tdlTempIt.hasNext() ) {
 						TypedDependency tempDep = tdlTempIt.next();
-						System.out.println("node.value = "+node.value());
-						System.out.println("reln = "+tempDep.reln().toString()+" dep = "+tempDep.gov().value());
 						if( tempDep.dep().value().equalsIgnoreCase(node.value()) && tempDep.reln().toString().equalsIgnoreCase("aux") ) {
 							//the possessive verb is an aux
-							System.out.println("AUX FOUND AT = reln = "+tempDep.reln().toString()+" dep = "+tempDep.gov().value());
+							//System.out.println("AUX FOUND AT = reln = "+tempDep.reln().toString()+" dep = "+tempDep.gov().value());
 							auxVerb = true; 
-							System.out.println("Found poss verb is an aux");
+							System.out.println("Found poss verb is an aux, hence discarded");
 							break;
 						}
 					}
 					
 					//if possessive verb is not aux, it is related to an attribute
 					//here the dobj is considered as attribute
-					System.out.println(auxVerb);
+					//System.out.println(auxVerb);
 					if( !auxVerb ) {
 						potentialAttributes.add( getObject(tdl) );
 					} else {
@@ -134,8 +132,38 @@ public class ElementExtraction {
 					}
 				} else {
 					//the verb is not possession verb
-					//node = it.next();
-					potentialMethods.add(node);
+					//check for aux/auxpass verbs and copulas
+					boolean isMethod = true;
+					Iterator<TypedDependency> tdlTempIt = tdl.iterator();
+					while( tdlTempIt.hasNext() ) {
+						TypedDependency tempDep = tdlTempIt.next();
+						if( tempDep.dep().value().equalsIgnoreCase(node.value()) && (tempDep.reln().toString().equalsIgnoreCase("aux") || tempDep.reln().toString().equalsIgnoreCase("auxpass")) ) {
+							//the present verb is an auxiliary hence ignore it
+							isMethod = false;
+							break;
+						}
+						if( tempDep.dep().value().equalsIgnoreCase(node.value()) && tempDep.reln().toString().equalsIgnoreCase("cop") ) {
+							//the verb is a copula hence not a method
+							//but determines a relationship!!!!
+							isMethod = false;
+							break;
+						}
+					}
+					if( isMethod ) {
+						//the verb is a method. Append it with its aux/auxpass (if present) and add to list
+						tdlTempIt = tdl.iterator();
+						String temp = "";
+						while( tdlTempIt.hasNext() ) {
+							TypedDependency tempDep = tdlTempIt.next();
+							if( tempDep.gov().value().equalsIgnoreCase(node.value()) && (tempDep.reln().toString().equalsIgnoreCase("aux") || tempDep.reln().toString().equalsIgnoreCase("auxpass")) ) {
+								temp = tempDep.dep().value() + "_" + node.value();
+								potentialMethods.add(temp);
+								break;
+							}
+						}
+						if( temp.equalsIgnoreCase("") )
+							potentialMethods.add(node.value());
+					}
 				}
 			}
 		}
