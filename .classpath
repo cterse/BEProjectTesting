@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="SyntacticReconstruction/src"/>
+	<classpathentry kind="src" path="TestingStanfordParser/src"/>
+	<classpathentry kind="src" path="TestTagger/src"/>
+	<classpathentry kind="lib" path="SyntacticReconstruction/Parser/stanford-parser.jar"/>
+	<classpathentry kind="lib" path="TestingStanfordParser/Parser/stanford-parser.jar"/>
+	<classpathentry kind="lib" path="TestTagger/tagger/stanford-postagger-3.7.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="SyntacticReconstruction/bin"/>
+</classpath>
