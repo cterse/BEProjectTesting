@@ -2,10 +2,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Classes {
-	private String name;
-	private String compound;
+	private String cname = "";
+	private String compound = "";
 	
-	List<String> methods = new ArrayList<String>();
-	List<String> attributes = new ArrayList<String>();
+	private List<String> methods = new ArrayList<String>();
+	private List<String> attributes = new ArrayList<String>();
+	
+	Classes(String cname) {
+		this.cname = cname;
+	}
+	
+	Classes(String compound, String cname) {
+		this.compound = compound;
+		this.cname = cname;
+	}
+	
+	public void addMethod(String name) {
+		methods.add(name);
+	}
+	
+	public void addAttribute(String name) {
+		attributes.add(name);
+	}
+	
+	public String getClassName() {
+		return cname;
+	}
+	
+	public String getClassFullName() {
+		if( compound == "" ) {
+			return cname;
+		} else return (compound+"_"+cname);
+	}
+	
+	public String toString() {
+		if(compound == "")
+			System.out.println("Class full name = "+cname);
+		else System.out.println("Class full name = "+compound+"_"+cname);
+		System.out.println("Methods = "+methods);
+		System.out.println("Attributes = "+attributes);
+		return "";
+	}
 	
 }

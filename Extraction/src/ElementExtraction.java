@@ -56,7 +56,7 @@ public class ElementExtraction {
 			sentences.add(inputFileScanner.nextLine());
 		}
 		
-		int i = 7;
+		int i = 11;
 		Tree parse = parseSentence(sentences.get(i));
 		
 		//Get the dependencies
@@ -85,12 +85,17 @@ public class ElementExtraction {
 		
 		Iterator<Tree> it = parse.iterator();
 		//Traverse the parse tree to find potential elements
+		List<Classes> classList = new ArrayList<Classes>();
 		List<String> potentialClasses = new ArrayList<String>();
 		List<String> potentialMethods = new ArrayList<String>();
-		List<String> potentialAttributes = new ArrayList<String>(); //!!!!!!!! check types
+		List<String> potentialAttributes = new ArrayList<String>(); //!!!!!!!! check generics
 		Tree node = null;
+		
+		int classesFoundInSentence = 0;
 		while( it.hasNext() ) {
 			node = it.next();
+			
+			int classFound = -1;
 			
 			//Check for nouns i.e. Classes
 			if( node.value().equalsIgnoreCase("NN") || node.value().equalsIgnoreCase("NNS") ) {
@@ -100,8 +105,13 @@ public class ElementExtraction {
 					//This means there are two nouns back to back i.e compound nouns
 					String className = it.next().value();
 					potentialClasses.add(compound+"_"+className);
+					classFound = findClassInList(classList, className);
+					classList.add(new Classes(compound, className));
+					classesFoundInSentence++;
 				} else {
 					potentialClasses.add(compound);
+					classList.add(new Classes(compound));
+					classesFoundInSentence++;
 				}
 			}
 			
@@ -109,9 +119,11 @@ public class ElementExtraction {
 			if( node.value().equalsIgnoreCase("VB") || node.value().equalsIgnoreCase("VBD") || node.value().equalsIgnoreCase("VBG") || node.value().equalsIgnoreCase("VBN") || node.value().equalsIgnoreCase("VBP") || node.value().equalsIgnoreCase("VBZ") ) {
 				System.out.println("\nChecking verbs");
 				node = it.next();
+				
+				//Check for attributes
 				if( possessionVerbs.contains(node.value()) ) {
 					//verb is present in list of possession verbs
-					System.out.println("Possession verb = \""+node.value()+"\" is present.\n");
+					System.out.println("Possession verb = \""+node.value()+"\" is present.");
 					
 					//now check if its an auxiliary verb
 					boolean auxVerb = false;
@@ -122,7 +134,7 @@ public class ElementExtraction {
 							//the possessive verb is an aux
 							//System.out.println("AUX FOUND AT = reln = "+tempDep.reln().toString()+" dep = "+tempDep.gov().value());
 							auxVerb = true; 
-							System.out.println("Found poss verb is an aux, hence discarded");
+							System.out.println("Found poss verb is an aux, hence object discarded as attribute");
 							break;
 						}
 					}
@@ -131,7 +143,9 @@ public class ElementExtraction {
 					//here the dobj is considered as attribute
 					//System.out.println(auxVerb);
 					if( !auxVerb ) {
-						potentialAttributes.add( getObject(tdl) );
+						String attribute = getObject(tdl);
+						potentialAttributes.add( attribute );
+						classList.get(classList.size()-classesFoundInSentence).addAttribute(attribute);
 					} else {
 						//the verb is an aux, ignore it
 					}
@@ -163,11 +177,14 @@ public class ElementExtraction {
 							if( tempDep.gov().value().equalsIgnoreCase(node.value()) && (tempDep.reln().toString().equalsIgnoreCase("aux") || tempDep.reln().toString().equalsIgnoreCase("auxpass")) ) {
 								temp = tempDep.dep().value() + "_" + node.value();
 								potentialMethods.add(temp);
+								classList.get(classList.size()-classesFoundInSentence).addMethod(temp);
 								break;
 							}
 						}
-						if( temp.equalsIgnoreCase("") )
+						if( temp.equalsIgnoreCase("") ) {
 							potentialMethods.add(node.value());
+							classList.get(classList.size()-classesFoundInSentence).addMethod(node.value());
+						}
 					}
 				}
 			}
@@ -179,8 +196,23 @@ public class ElementExtraction {
 		System.out.println(potentialMethods);
 		System.out.println("\nPotential attributes: ");
 		System.out.println(potentialAttributes);
+		System.out.println("\n============");
+		for(int j=0; j<classList.size(); j++) {
+			System.out.println("------------");
+			System.out.println(classList.get(j));
+		}
 		
 		outputPW.close();
+	}
+
+	private static int findClassInList(List<Classes> list, String className) {
+		// TODO Auto-generated method stub
+		for(int i=0; i<list.size(); i++) {
+			if( list.get(i).getClassName().equalsIgnoreCase(className) ) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	private static String getObject(List<TypedDependency> tdl) {
