@@ -1,15 +1,14 @@
 A library has issued loans to students.
 A player has a name.
-Neha has made cakes.
+The girl has made cakes.
 Hockey teams can make a hockey league.
 A library issues books to students.
 A user can search products.
 A user can add products to cart.
-A user has name and age.
+A user has age.
+A user has name.
 A credit card has a unique number.
-A man can have a pizza.
-The Spartans can have a bloodbath.
-Playing cards have colours.
+Playing cards have colors.
 A player gets game points.
 A dog gets bones from his master.
 A dog gets a ball for his master.

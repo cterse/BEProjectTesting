@@ -28,6 +28,8 @@ public class ElementExtraction {
 	
 	final static String parserModel = "edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz";
 	static LexicalizedParser lp = LexicalizedParser.loadModel(parserModel);
+	
+	static List<Classes> classList = new ArrayList<Classes>();
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -56,18 +58,6 @@ public class ElementExtraction {
 			sentences.add(inputFileScanner.nextLine());
 		}
 		
-		int i = 11;
-		Tree parse = parseSentence(sentences.get(i));
-		
-		//Get the dependencies
-		TreebankLanguagePack tlp = lp.treebankLanguagePack(); // PennTreebankLanguagePack for English
-	    GrammaticalStructureFactory gsf = tlp.grammaticalStructureFactory();
-	    GrammaticalStructure gs = gsf.newGrammaticalStructure(parse);
-	    List<TypedDependency> tdl = gs.typedDependenciesCCprocessed();
-		
-		System.out.println(sentences.get(i));
-		System.out.println(parse);
-		
 		//Create a list of possession verbs
 		List<String> possessionVerbs = new ArrayList<String>();
 		File possVerbsFile = new File("possessionVerbs.txt");
@@ -83,136 +73,161 @@ public class ElementExtraction {
 		}
 		//System.out.println("Possession verbs = "+possessionVerbs);
 		
-		Iterator<Tree> it = parse.iterator();
-		//Traverse the parse tree to find potential elements
-		List<Classes> classList = new ArrayList<Classes>();
-		List<String> potentialClasses = new ArrayList<String>();
-		List<String> potentialMethods = new ArrayList<String>();
-		List<String> potentialAttributes = new ArrayList<String>(); //!!!!!!!! check generics
-		Tree node = null;
-		
-		int classesFoundInSentence = 0;
-		while( it.hasNext() ) {
-			node = it.next();
+		for(int i=0; i<sentences.size(); i++) {
 			
-			int classFound = -1;
+			System.out.println("Analysing sentence "+(i+1));
 			
-			//Check for nouns i.e. Classes
-			if( node.value().equalsIgnoreCase("NN") || node.value().equalsIgnoreCase("NNS") ) {
-				String compound = it.next().value();
-				node = it.next();
-				if( node.value().equalsIgnoreCase("NN") || node.value().equalsIgnoreCase("NNS") ) {
-					//This means there are two nouns back to back i.e compound nouns
-					String className = it.next().value();
-					potentialClasses.add(compound+"_"+className);
-					classFound = findClassInList(classList, className);
-					classList.add(new Classes(compound, className));
-					classesFoundInSentence++;
-				} else {
-					potentialClasses.add(compound);
-					classList.add(new Classes(compound));
-					classesFoundInSentence++;
-				}
-			}
+			//int i = 2;
+			Tree parse = parseSentence(sentences.get(i));
 			
-			//Check for verbs
-			if( node.value().equalsIgnoreCase("VB") || node.value().equalsIgnoreCase("VBD") || node.value().equalsIgnoreCase("VBG") || node.value().equalsIgnoreCase("VBN") || node.value().equalsIgnoreCase("VBP") || node.value().equalsIgnoreCase("VBZ") ) {
-				System.out.println("\nChecking verbs");
+			//Get the dependencies
+			TreebankLanguagePack tlp = lp.treebankLanguagePack(); // PennTreebankLanguagePack for English
+		    GrammaticalStructureFactory gsf = tlp.grammaticalStructureFactory();
+		    GrammaticalStructure gs = gsf.newGrammaticalStructure(parse);
+		    List<TypedDependency> tdl = gs.typedDependenciesCCprocessed();
+			
+			//System.out.println(sentences.get(i));
+			//System.out.println(parse);
+			
+			Iterator<Tree> it = parse.iterator();
+			//Traverse the parse tree to find potential elements
+			
+			List<String> potentialClasses = new ArrayList<String>();
+			List<String> potentialMethods = new ArrayList<String>();
+			List<String> potentialAttributes = new ArrayList<String>(); //!!!!!!!! check generics
+			Tree node = null;
+			
+			int classesFoundInSentence = 0;
+			while( it.hasNext() ) {
 				node = it.next();
 				
-				//Check for attributes
-				if( possessionVerbs.contains(node.value()) ) {
-					//verb is present in list of possession verbs
-					System.out.println("Possession verb = \""+node.value()+"\" is present.");
-					
-					//now check if its an auxiliary verb
-					boolean auxVerb = false;
-					Iterator<TypedDependency> tdlTempIt = tdl.iterator();
-					while( tdlTempIt.hasNext() ) {
-						TypedDependency tempDep = tdlTempIt.next();
-						if( tempDep.dep().value().equalsIgnoreCase(node.value()) && tempDep.reln().toString().equalsIgnoreCase("aux") ) {
-							//the possessive verb is an aux
-							//System.out.println("AUX FOUND AT = reln = "+tempDep.reln().toString()+" dep = "+tempDep.gov().value());
-							auxVerb = true; 
-							System.out.println("Found poss verb is an aux, hence object discarded as attribute");
-							break;
-						}
-					}
-					
-					//if possessive verb is not aux, it is related to an attribute
-					//here the dobj is considered as attribute
-					//System.out.println(auxVerb);
-					if( !auxVerb ) {
-						String attribute = getObject(tdl);
-						potentialAttributes.add( attribute );
-						classList.get(classList.size()-classesFoundInSentence).addAttribute(attribute);
+				int classFound = -1;
+				
+				//Check for nouns i.e. Classes
+				if( node.value().equalsIgnoreCase("NN") || node.value().equalsIgnoreCase("NNS") ) {
+					String compound = it.next().value();
+					node = it.next();
+					if( node.value().equalsIgnoreCase("NN") || node.value().equalsIgnoreCase("NNS") ) {
+						//This means there are two nouns back to back i.e compound nouns
+						String className = it.next().value();
+						potentialClasses.add(compound+"_"+className);
+						//classFound = findClassInList(classList, className);
+						classList.add(new Classes(compound, className));
+						classesFoundInSentence++;
 					} else {
-						//the verb is an aux, ignore it
+						potentialClasses.add(compound);
+						classList.add(new Classes(compound));
+						classesFoundInSentence++;
 					}
-				} else {
-					//the verb is not possession verb
-					//check for aux/auxpass verbs and copulas
-					boolean isMethod = true;
-					Iterator<TypedDependency> tdlTempIt = tdl.iterator();
-					while( tdlTempIt.hasNext() ) {
-						TypedDependency tempDep = tdlTempIt.next();
-						if( tempDep.dep().value().equalsIgnoreCase(node.value()) && (tempDep.reln().toString().equalsIgnoreCase("aux") || tempDep.reln().toString().equalsIgnoreCase("auxpass")) ) {
-							//the present verb is an auxiliary hence ignore it
-							isMethod = false;
-							break;
-						}
-						if( tempDep.dep().value().equalsIgnoreCase(node.value()) && tempDep.reln().toString().equalsIgnoreCase("cop") ) {
-							//the verb is a copula hence not a method
-							//but determines a relationship!!!!
-							isMethod = false;
-							break;
-						}
-					}
-					if( isMethod ) {
-						//the verb is a method. Append it with its aux/auxpass (if present) and add to list
-						tdlTempIt = tdl.iterator();
-						String temp = "";
+				}
+				
+				//Check for verbs
+				if( node.value().equalsIgnoreCase("VB") || node.value().equalsIgnoreCase("VBD") || node.value().equalsIgnoreCase("VBG") || node.value().equalsIgnoreCase("VBN") || node.value().equalsIgnoreCase("VBP") || node.value().equalsIgnoreCase("VBZ") ) {
+					//System.out.println("\nChecking verbs");
+					node = it.next();
+					
+					//Check for attributes
+					if( possessionVerbs.contains(node.value()) ) {
+						//verb is present in list of possession verbs
+						//System.out.println("Possession verb = \""+node.value()+"\" is present.");
+						
+						//now check if its an auxiliary verb
+						boolean auxVerb = false;
+						Iterator<TypedDependency> tdlTempIt = tdl.iterator();
 						while( tdlTempIt.hasNext() ) {
 							TypedDependency tempDep = tdlTempIt.next();
-							if( tempDep.gov().value().equalsIgnoreCase(node.value()) && (tempDep.reln().toString().equalsIgnoreCase("aux") || tempDep.reln().toString().equalsIgnoreCase("auxpass")) ) {
-								temp = tempDep.dep().value() + "_" + node.value();
-								potentialMethods.add(temp);
-								classList.get(classList.size()-classesFoundInSentence).addMethod(temp);
+							if( tempDep.dep().value().equalsIgnoreCase(node.value()) && tempDep.reln().toString().equalsIgnoreCase("aux") ) {
+								//the possessive verb is an aux
+								//System.out.println("AUX FOUND AT = reln = "+tempDep.reln().toString()+" dep = "+tempDep.gov().value());
+								auxVerb = true; 
+								System.out.println("Found poss verb is an aux, hence object discarded as attribute");
 								break;
 							}
 						}
-						if( temp.equalsIgnoreCase("") ) {
-							potentialMethods.add(node.value());
-							classList.get(classList.size()-classesFoundInSentence).addMethod(node.value());
+						
+						//if possessive verb is not aux, it is related to an attribute
+						//here the dobj is considered as attribute
+						//System.out.println(auxVerb);
+						if( !auxVerb ) {
+							String attribute = getObject(tdl);
+							potentialAttributes.add( attribute );
+							classList.get(classList.size()-classesFoundInSentence).addAttribute(attribute);
+						} else {
+							//the verb is an aux, ignore it
+						}
+					} else {
+						//the verb is not possession verb
+						//check for aux/auxpass verbs and copulas
+						boolean isMethod = true;
+						Iterator<TypedDependency> tdlTempIt = tdl.iterator();
+						while( tdlTempIt.hasNext() ) {
+							TypedDependency tempDep = tdlTempIt.next();
+							if( tempDep.dep().value().equalsIgnoreCase(node.value()) && (tempDep.reln().toString().equalsIgnoreCase("aux") || tempDep.reln().toString().equalsIgnoreCase("auxpass")) ) {
+								//the present verb is an auxiliary hence ignore it
+								isMethod = false;
+								break;
+							}
+							if( tempDep.dep().value().equalsIgnoreCase(node.value()) && tempDep.reln().toString().equalsIgnoreCase("cop") ) {
+								//the verb is a copula hence not a method
+								//but determines a relationship!!!!
+								isMethod = false;
+								break;
+							}
+						}
+						if( isMethod ) {
+							//the verb is a method. Append it with its aux/auxpass (if present) and add to list
+							tdlTempIt = tdl.iterator();
+							String temp = "";
+							while( tdlTempIt.hasNext() ) {
+								TypedDependency tempDep = tdlTempIt.next();
+								if( tempDep.gov().value().equalsIgnoreCase(node.value()) && (tempDep.reln().toString().equalsIgnoreCase("aux") || tempDep.reln().toString().equalsIgnoreCase("auxpass")) ) {
+									temp = tempDep.dep().value() + "_" + node.value();
+									potentialMethods.add(temp);
+									classList.get(classList.size()-classesFoundInSentence).addMethod(temp);
+									break;
+								}
+							}
+							if( temp.equalsIgnoreCase("") ) {
+								potentialMethods.add(node.value());
+								classList.get(classList.size()-classesFoundInSentence).addMethod(node.value());
+							}
 						}
 					}
+				}
+			}
+			
+		}
+		
+		//Resolve duplicates in the classesList
+		for(int j=0; j<classList.size(); j++) {
+			for(int k=j+1; k<classList.size(); k++) {
+				if( classList.get(j).getClassFullName().equalsIgnoreCase(classList.get(k).getClassFullName()) ) {
+					List<String> temp = classList.get(k).getMethodsList();
+					for(int z=0; z<temp.size(); z++) {
+						classList.get(j).addMethod(temp.get(z));
+					}
+					
+					temp = classList.get(k).getAttributesList();
+					for(int z=0; z<temp.size(); z++) {
+						classList.get(j).addAttribute(temp.get(z));
+					}
+					
+					classList.remove(k);
 				}
 			}
 		}
 		
+		/*
 		System.out.println("\nPotential classes: ");
 		System.out.println(potentialClasses);
 		System.out.println("\nPotential methods: ");
 		System.out.println(potentialMethods);
 		System.out.println("\nPotential attributes: ");
 		System.out.println(potentialAttributes);
-		System.out.println("\n============");
-		for(int j=0; j<classList.size(); j++) {
-			System.out.println("------------");
-			System.out.println(classList.get(j));
-		}
+		*/
+		System.out.println(classList);
 		
 		outputPW.close();
-	}
-
-	private static int findClassInList(List<Classes> list, String className) {
-		// TODO Auto-generated method stub
-		for(int i=0; i<list.size(); i++) {
-			if( list.get(i).getClassName().equalsIgnoreCase(className) ) {
-				return i;
-			}
-		}
-		return -1;
 	}
 
 	private static String getObject(List<TypedDependency> tdl) {

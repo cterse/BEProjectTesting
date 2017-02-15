@@ -35,6 +35,22 @@ public class Classes {
 		} else return (compound+"_"+cname);
 	}
 	
+	public int numberOfAttributes() {
+		return attributes.size();
+	}
+	
+	public int numberOfMethods() {
+		return methods.size();
+	}
+	
+	public List<String> getAttributesList() {
+		return attributes;
+	}
+	
+	public List<String> getMethodsList() {
+		return methods;
+	}
+	
 	public String toString() {
 		if(compound == "")
 			System.out.println("Class full name = "+cname);
