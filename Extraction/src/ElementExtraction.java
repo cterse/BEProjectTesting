@@ -1,4 +1,9 @@
 /*
+ * Code to extract classes from the sentences generated after Syntactic Reconstruction phase.
+ * 
+ * Input File = TBD. Output file of SyntacticRecontruction.java class
+ * Output File = TBD.  
+ * 
  * For attribute extraction, a list of possession verbs is created.
  * Objects of sentences containing these verbs in non-auxiliary form are taken as attributes.
  */

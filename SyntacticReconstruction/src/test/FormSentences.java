@@ -1,5 +1,10 @@
 package test;
 
+/*
+ * Code to form proper sentences given a paragraph of text.
+ * Called by Test.java
+*/
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;

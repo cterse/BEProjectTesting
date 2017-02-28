@@ -14,7 +14,7 @@ has a level of accreditation and a number of years of experience, and can coach 
 
 
 Ward is a division of a hospital or a suite of rooms shared by patients who need a similar kind of care. In a hospital, there are a number of wards, each of which may be empty or have on it one or more patients. Each ward has a unique name.
-The doctors in the hospital are organised into teams (also called firms). Each team has a unique name or code (e.g. Orthopaedics or Pediatrics) and is headed by a consultant doctor or an attending physician.
+The doctors in the hospital are organized into teams (also called firms). Each team has a unique name or code (e.g. Orthopaedics or Pediatrics) and is headed by a consultant doctor or an attending physician.
 
 
 A customer can build shopping list by providing item details and the details will be stored in the shopping cart database. The warehouse database will also provide the item details required to complete the process. A customer can receive shopping list details from the view shopping list process and such details are provided by the shopping cart database. A customer can receive item details by performing the search items process. Customer provides and item name for searching and the item details are returned from the warehouse database after searched.

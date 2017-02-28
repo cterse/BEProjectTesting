@@ -1,5 +1,15 @@
 package test;
 
+/*
+ * Add sentence terminators to AND removed sentences.
+ * Check the sentence terminator at the end of the sentence and add it in required places.
+ * 
+ * Called by = SyntaxRecon.java => removeAnd()
+ * 
+ * Input file = andRemovedSentences.txt
+ * Output file = andRemovedSentences2.txt
+*/
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;

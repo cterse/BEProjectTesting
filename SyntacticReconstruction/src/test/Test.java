@@ -1,6 +1,10 @@
 package test;
 
-//Split a paragraph into sentences using the FormSentences class
+/*
+ * Split a paragraph into sentences using the FormSentences class.
+ * Input file = anotherTest.txt
+ * Output file = sentences.txt
+*/
 
 import java.io.File;
 import java.io.FileNotFoundException;

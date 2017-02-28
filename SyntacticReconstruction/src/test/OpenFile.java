@@ -1,5 +1,9 @@
 package test;
 
+/*
+Program to open a specified in Sublime Text
+*/
+
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;

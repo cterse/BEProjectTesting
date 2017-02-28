@@ -22,9 +22,13 @@ import edu.stanford.nlp.trees.TreebankLanguagePack;
 import edu.stanford.nlp.trees.TypedDependency;
 
 /*
-Take individual sentences and reconstruct them.
-See that the sentences follow the following 8 rules after the reconstruction is done.
+ * Take individual sentences and reconstruct them. 
+ * See that the sentences follow the following 8 rules after the reconstruction is done.
+ * 
+ * Input file = sentences.txt
+ * Output file = TBD
 */
+
 public class SyntaxRecon {
 	/*
 	Syntax reconstruction rules: 
@@ -130,6 +134,12 @@ public class SyntaxRecon {
 
 	private static void removeAnd(Tree parse, List<TypedDependency> tdl) {
 		// TODO Auto-generated method stub
+		
+		/*
+		 * Input file = sentences.txt 
+		 * Output file = andRemovedSentences.txt
+		 * THIS SHOULD BE A CLASS!!
+		*/
 		
 		//Create a file to store sentences after removing and from them
 		File file = new File("andRemovedSentences.txt");

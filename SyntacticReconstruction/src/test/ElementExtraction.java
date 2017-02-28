@@ -1,5 +1,10 @@
 package test;
 
+/*
+ * Obsolete code. No further development here.
+ * Refer to ElementExtraction code in the Extraction project.
+*/
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
