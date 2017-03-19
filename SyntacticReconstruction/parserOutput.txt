@@ -1,16 +1,19 @@
-Danny/NNP did/VBD a/DT double/JJ ./.
+A/DT library/NN can/MD issue/VB loan/NN items/NNS ./.
 
-(ROOT (S (NP (NNP Danny)) (VP (VBD did) (NP (DT a) (JJ double))) (. .)))
+(ROOT (S (NP (DT A) (NN library)) (VP (MD can) (VP (VB issue) (NP (NN loan) (NNS items)))) (. .)))
 
-nsubj(did-2, Danny-1)
-root(ROOT-0, did-2)
-det(double-4, a-3)
-dobj(did-2, double-4)
+det(library-2, A-1)
+nsubj(issue-4, library-2)
+aux(issue-4, can-3)
+root(ROOT-0, issue-4)
+compound(items-6, loan-5)
+dobj(issue-4, items-6)
 
 (ROOT
   (S
-    (NP (NNP Danny))
-    (VP (VBD did)
-      (NP (DT a) (JJ double)))
+    (NP (DT A) (NN library))
+    (VP (MD can)
+      (VP (VB issue)
+        (NP (NN loan) (NNS items))))
     (. .)))
 

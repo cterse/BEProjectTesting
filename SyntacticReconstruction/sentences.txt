@@ -1,6 +1,7 @@
 A library can issue loan items.
-It caters to the needs of customers.
+System shutdown in twenty minutes.
 A customer is termed as a member and is given a membership card.
+It caters to the needs of customers.
 Each membership card has a unique member number.
 The customer’s name, address, date of birth and other such details also need to be recorded.
 The library is divided into a number of sections for various subjects.

@@ -1,1 +1,1 @@
-Danny did a double.
+A library can issue loan items.

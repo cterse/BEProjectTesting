@@ -34,7 +34,7 @@ public class SyntaxRecon {
 	Syntax reconstruction rules: 
 	1. Discard prepositional phrase (PP), adjective phrase
 	(ADJP), determiner (DT) or adjective (JJ), if they
-	precedes the subject of the sentence. [no]
+	precede the subject of the sentence. [no]
 	
 	2. If NP and VP is preceded by “No”, then convert it
 	into “NP not VP”. [no]
@@ -70,7 +70,7 @@ public class SyntaxRecon {
 	sentences will contain word “be” which gives the
 	sense as passive voice form. This needs some user
 	interference to decide which sentence acts as
-	passive voice.
+	passive voice. [DONE]
 	
 	9. Resolve apostrophes 
 	*/
@@ -97,18 +97,6 @@ public class SyntaxRecon {
 		//First we need to parse the sentence.
 		Tree parse = parseSentence(sentence1);
 		
-		//If sentence has no verb, discard it
-		//For now, return. In loop, continue
-		Iterator<Tree> it = parse.iterator();
-		Tree node = null;
-		while( it.hasNext() ) {
-			node = it.next();
-			if( node.value().equalsIgnoreCase("PP") ) {
-				break;
-			}
-		}
-		System.out.println(node);
-		
 		//Get the dependencies
 		TreebankLanguagePack tlp = lp.treebankLanguagePack(); // PennTreebankLanguagePack for English
 	    GrammaticalStructureFactory gsf = tlp.grammaticalStructureFactory();
@@ -127,11 +115,90 @@ public class SyntaxRecon {
 			e.printStackTrace();
 		}
 		
+		//If sentence has no verb, discard it
+		//For now, return. In loop, continue
+		if(!checkVerbPresent(parse)) {
+			System.out.println("Verb not present.");
+			return;
+		}
+		
+		//Check voice of sentence
+		//1 = active, 0 = passive
+		if(getVoice(tdl) == 0) {
+			System.out.println("Passive sentence.");
+			return;
+		}
+		
+		//Discard the sentence after the semi colon
+		removeSemicolon(parse);
+		
 		//Method to remove and from sentence. Works for a single "and" for now
 		//Output in andRemovedSentences2.txt
-		removeAnd(parse, tdl);
+		if(checkAndPresent(parse))
+			removeAnd(parse, tdl);
+		else {
+			System.out.println("AND not present.");
+			return;
+		}
+		
+	}
+	
+	private static boolean checkVerbPresent(Tree parse) {
+		// TODO Auto-generated method stub
+		Iterator<Tree> it = parse.iterator();
+		while(it.hasNext()) {
+			Tree temp = it.next();
+			if(temp.value().toString().equalsIgnoreCase("VB"))
+				return true;
+			if(temp.value().toString().equalsIgnoreCase("VBD"))
+				return true;
+			if(temp.value().toString().equalsIgnoreCase("VBG"))
+				return true;
+			if(temp.value().toString().equalsIgnoreCase("VBN"))
+				return true;
+			if(temp.value().toString().equalsIgnoreCase("VBP"))
+				return true;
+			if(temp.value().toString().equalsIgnoreCase("VBZ"))
+				return true;
+		}
+		return false;
 	}
 
+	private static boolean checkAndPresent(Tree parse) {
+		// TODO Auto-generated method stub
+		//First, check if there is an "and" in the sentence
+		Iterator<Tree> treeIterator = parse.iterator();
+		Tree CCNode = null;		//this will point to the CC node
+		while( treeIterator.hasNext() ) {
+			Tree node = treeIterator.next();
+			if(node.value().equalsIgnoreCase("CC"))
+				if(node.firstChild().value().equalsIgnoreCase("and")) {
+					CCNode = node;
+					break;
+				}
+		}
+		if(CCNode!=null)
+			return true;
+		return false;
+	}
+
+	private static int getVoice(List<TypedDependency> tdl) {
+		//Check if the sentence is in active or passive voice
+		//Use the dependencies for checking the voice
+		//0 = Passive, 1 = Active
+		boolean sentencePassive = false;
+		for(int i=0; i<tdl.size(); i++) {
+			String relation = tdl.get(i).reln().toString();
+			if(relation.equalsIgnoreCase("auxpass") || relation.equalsIgnoreCase("nsubjpass")) {
+				sentencePassive = true;
+				break;
+			}
+		}
+		if(sentencePassive)	
+			return 0;
+		return 1;
+	}
+	
 	private static void removeAnd(Tree parse, List<TypedDependency> tdl) {
 		// TODO Auto-generated method stub
 		
@@ -380,4 +447,25 @@ public class SyntaxRecon {
 	    return parse;
 	}
 
+	private static Tree removeSemicolon(Tree parse) {
+		String temp = "";
+		Iterator<Tree> it = parse.iterator();
+		while(it.hasNext()) {
+			Tree node = it.next();
+			if(!node.value().toString().equalsIgnoreCase(";")) {
+				if(node.isLeaf()) {
+					temp = temp + node.value().toString();
+				}
+			} else {
+				//; is found
+				while( !(node.value().toString().equals(".") || node.value().toString().equals("?") || node.value().toString().equals("!")) ) {
+					node = it.next();
+				}
+				temp = temp + node.value().toString();
+			}
+		}
+		System.out.println(temp);
+		return parseSentence(temp);
+	}
+	
 }
