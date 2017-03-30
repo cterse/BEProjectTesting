@@ -234,9 +234,26 @@ public class ElementExtraction {
 		System.out.println("\nPotential attributes: ");
 		System.out.println(potentialAttributes);
 		*/
+		System.out.println("Classes List: ");
+		System.out.println(classList);
+		refineClasses(classList);
+		System.out.println();
+		System.out.println("---------------------------");
+		System.out.println("Refined Class List: ");
 		System.out.println(classList);
 		
 		outputPW.close();
+	}
+
+	private static void refineClasses(List<Classes> classList) {
+		// TODO Auto-generated method stub
+		for(int i=0; i<classList.size(); ) {
+			if(classList.get(i).numberOfAttributes() == 0 && classList.get(i).numberOfMethods() == 0) {
+				classList.remove(i);
+			} else {
+				i++;
+			}
+		}
 	}
 
 	private static String getObject(List<TypedDependency> tdl) {
