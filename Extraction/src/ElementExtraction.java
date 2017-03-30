@@ -40,7 +40,10 @@ public class ElementExtraction {
 		// TODO Auto-generated method stub
 	
 		//input file
-		File inputFile = new File("test.txt");
+		File inputFile = null;
+		if(args.length!=0)
+			inputFile = new File(args[0]);
+		else inputFile = new File("test.txt");
 		Scanner inputFileScanner = null;
 		try {
 			inputFileScanner = new Scanner(inputFile);

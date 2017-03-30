@@ -92,54 +92,62 @@ public class SyntaxRecon {
 		
 		//Now, scan each of the sentences and perform syntactic reconstruction.
 		//For now, we will test only the first sentence.
-		String sentence1 = sentencesFileScanner.nextLine();
-		
-		//First we need to parse the sentence.
-		Tree parse = parseSentence(sentence1);
-		
-		//Get the dependencies
-		TreebankLanguagePack tlp = lp.treebankLanguagePack(); // PennTreebankLanguagePack for English
-	    GrammaticalStructureFactory gsf = tlp.grammaticalStructureFactory();
-	    GrammaticalStructure gs = gsf.newGrammaticalStructure(parse);
-	    List<TypedDependency> tdl = gs.typedDependenciesCCprocessed();
-		//System.out.println(tdl);
-	    
-		//Now, we have the parser output for the sentence in the "parserOutput.txt" file
-		//a scanner to read the parserOutput.txt file
-		File parserOutput = new File("parserOutput.txt");
-		Scanner parserOutputFileScanner = null;
-		try {
-			parserOutputFileScanner = new Scanner(parserOutput);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		int count = 0;
+		while(sentencesFileScanner.hasNext()) {
+			System.out.println("Analysing sentence = "+(++count));
+			String sentence1 = sentencesFileScanner.nextLine();
+			
+			//First we need to parse the sentence.
+			Tree parse = parseSentence(sentence1);
+			
+			//Get the dependencies
+			TreebankLanguagePack tlp = lp.treebankLanguagePack(); // PennTreebankLanguagePack for English
+		    GrammaticalStructureFactory gsf = tlp.grammaticalStructureFactory();
+		    GrammaticalStructure gs = gsf.newGrammaticalStructure(parse);
+		    List<TypedDependency> tdl = gs.typedDependenciesCCprocessed();
+			//System.out.println(tdl);
+		    
+			//Now, we have the parser output for the sentence in the "parserOutput.txt" file
+			//a scanner to read the parserOutput.txt file
+			File parserOutput = new File("parserOutput.txt");
+			Scanner parserOutputFileScanner = null;
+			try {
+				parserOutputFileScanner = new Scanner(parserOutput);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			//If sentence has no verb, discard it
+			//For now, return. In loop, continue
+			if(!checkVerbPresent(parse)) {
+				System.out.println("Verb not present.");
+				System.out.println("-------------------------------------------------");
+				continue;
+			}
+			
+			//Check voice of sentence
+			//1 = active, 0 = passive
+			if(getVoice(tdl) == 0) {
+				System.out.println("Passive sentence.");
+				System.out.println("-------------------------------------------------");
+				continue;
+			}
+			
+			//Discard the sentence after the semi colon
+			parse = removeSemicolon(parse);
+			
+			//Method to remove and from sentence. Works for a single "and" for now
+			//Output in andRemovedSentences2.txt
+			//if(checkAndPresent(parse))
+				removeAnd(parse, tdl);
+			//else {
+			//	System.out.println("AND not present.");
+			//	return;
+			//}
+			System.out.println("-------------------------------------------------");
 		}
 		
-		//If sentence has no verb, discard it
-		//For now, return. In loop, continue
-		if(!checkVerbPresent(parse)) {
-			System.out.println("Verb not present.");
-			return;
-		}
-		
-		//Check voice of sentence
-		//1 = active, 0 = passive
-		if(getVoice(tdl) == 0) {
-			System.out.println("Passive sentence.");
-			return;
-		}
-		
-		//Discard the sentence after the semi colon
-		removeSemicolon(parse);
-		
-		//Method to remove and from sentence. Works for a single "and" for now
-		//Output in andRemovedSentences2.txt
-		if(checkAndPresent(parse))
-			removeAnd(parse, tdl);
-		else {
-			System.out.println("AND not present.");
-			return;
-		}
 		
 	}
 	
@@ -454,14 +462,14 @@ public class SyntaxRecon {
 			Tree node = it.next();
 			if(!node.value().toString().equalsIgnoreCase(";")) {
 				if(node.isLeaf()) {
-					temp = temp + node.value().toString();
+					temp = temp + node.value().toString()+" ";
 				}
 			} else {
 				//; is found
 				while( !(node.value().toString().equals(".") || node.value().toString().equals("?") || node.value().toString().equals("!")) ) {
 					node = it.next();
 				}
-				temp = temp + node.value().toString();
+				//temp = temp + node.value().toString();
 			}
 		}
 		System.out.println(temp);

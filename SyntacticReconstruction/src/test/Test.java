@@ -41,9 +41,11 @@ public class Test {
 			e.printStackTrace();
 		}
 		
-		//Open the sentences.txt file
-		OpenFile.open("sentences.txt");
 		
+		SyntaxRecon.main(null);
+		
+		String[] temp = {"andRemovedSentences2.txt"};
+		ElementExtraction.main(temp);
 	}
 
 }

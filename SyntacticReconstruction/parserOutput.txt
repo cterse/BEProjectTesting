@@ -1,19 +1,20 @@
-A/DT library/NN can/MD issue/VB loan/NN items/NNS ./.
+People/NNS have/VBP names/NNS and/CC addresses/NNS ./.
 
-(ROOT (S (NP (DT A) (NN library)) (VP (MD can) (VP (VB issue) (NP (NN loan) (NNS items)))) (. .)))
+(ROOT (S (NP (NNS People)) (VP (VBP have) (NP (NNS names) (CC and) (NNS addresses))) (. .)))
 
-det(library-2, A-1)
-nsubj(issue-4, library-2)
-aux(issue-4, can-3)
-root(ROOT-0, issue-4)
-compound(items-6, loan-5)
-dobj(issue-4, items-6)
+nsubj(have-2, People-1)
+root(ROOT-0, have-2)
+dobj(have-2, names-3)
+cc(names-3, and-4)
+dobj(have-2, addresses-5)
+conj:and(names-3, addresses-5)
 
 (ROOT
   (S
-    (NP (DT A) (NN library))
-    (VP (MD can)
-      (VP (VB issue)
-        (NP (NN loan) (NNS items))))
+    (NP (NNS People))
+    (VP (VBP have)
+      (NP (NNS names)
+        (CC and)
+        (NNS addresses)))
     (. .)))
 

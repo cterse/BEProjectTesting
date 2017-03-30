@@ -12,6 +12,8 @@ package test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +33,8 @@ public class AddTerminatorsToFile {
 		
 		PrintWriter pw = null;
 		try {
-			pw = new PrintWriter("andRemovedSentences2.txt");
-		} catch (FileNotFoundException e) {
+			pw = new PrintWriter(new FileWriter("andRemovedSentences2.txt", true));
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
