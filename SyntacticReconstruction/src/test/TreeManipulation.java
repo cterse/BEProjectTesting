@@ -1,7 +1,7 @@
 package test;
 
 /*
- * Tree Manipulation API by Chinmay Terse.
+ * Parse Tree Manipulation API by Chinmay Terse.
 */
 
 import java.util.ArrayList;
@@ -12,12 +12,12 @@ import edu.stanford.nlp.trees.Tree;
 
 public class TreeManipulation {
 	
-	public static List<Integer> searchNode(String searchNodeValue, Tree parse) {
+	public static List<Integer> searchNode(String key, Tree parse) {
 		List<Integer> nodeNumbers = new ArrayList<Integer>();
 		Iterator<Tree> it = parse.iterator();
 		while( it.hasNext() ) {
 			Tree node = it.next();
-			if( node.value().equalsIgnoreCase(searchNodeValue) ) {
+			if( node.value().equalsIgnoreCase(key) ) {
 				nodeNumbers.add(node.nodeNumber(parse));
 			}
 		}
@@ -60,7 +60,6 @@ public class TreeManipulation {
 	}
 	
 	public static String getSentence(Tree parse) {
-		//improve this method
 		String sentence = null;
 		if( parse != null ) {
 			sentence = "";
@@ -71,7 +70,34 @@ public class TreeManipulation {
 					sentence = sentence +" "+ node.value();
 			}
 		}
+		
+		//after the above processing, the terminator comes after a space.
+		//removing that space before the terminator
+		char temp = sentence.charAt(sentence.length()-1);
+		sentence = sentence.substring(0, sentence.length()-2) + temp;
+		
 		return sentence;
+	}
+	
+	public static boolean checkVerbPresent(Tree parse) {
+		// TODO Auto-generated method stub
+		Iterator<Tree> it = parse.iterator();
+		while(it.hasNext()) {
+			Tree temp = it.next();
+			if(temp.value().toString().equalsIgnoreCase("VB"))
+				return true;
+			if(temp.value().toString().equalsIgnoreCase("VBD"))
+				return true;
+			if(temp.value().toString().equalsIgnoreCase("VBG"))
+				return true;
+			if(temp.value().toString().equalsIgnoreCase("VBN"))
+				return true;
+			if(temp.value().toString().equalsIgnoreCase("VBP"))
+				return true;
+			if(temp.value().toString().equalsIgnoreCase("VBZ"))
+				return true;
+		}
+		return false;
 	}
 	
 }

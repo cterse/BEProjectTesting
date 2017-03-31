@@ -95,17 +95,13 @@ public class SyntaxRecon {
 		int count = 0;
 		while(sentencesFileScanner.hasNext()) {
 			System.out.println("Analysing sentence = "+(++count));
-			String sentence1 = sentencesFileScanner.nextLine();
+			String sentence = sentencesFileScanner.nextLine();
 			
 			//First we need to parse the sentence.
-			Tree parse = parseSentence(sentence1);
+			Tree parse = Parser.getParseTree(sentence);
 			
 			//Get the dependencies
-			TreebankLanguagePack tlp = lp.treebankLanguagePack(); // PennTreebankLanguagePack for English
-		    GrammaticalStructureFactory gsf = tlp.grammaticalStructureFactory();
-		    GrammaticalStructure gs = gsf.newGrammaticalStructure(parse);
-		    List<TypedDependency> tdl = gs.typedDependenciesCCprocessed();
-			//System.out.println(tdl);
+			List<TypedDependency> tdl = Parser.getTypedDependencies(parse);
 		    
 			//Now, we have the parser output for the sentence in the "parserOutput.txt" file
 			//a scanner to read the parserOutput.txt file
@@ -120,7 +116,7 @@ public class SyntaxRecon {
 			
 			//If sentence has no verb, discard it
 			//For now, return. In loop, continue
-			if(!checkVerbPresent(parse)) {
+			if(!TreeManipulation.checkVerbPresent(parse)) {
 				System.out.println("Verb not present.");
 				System.out.println("-------------------------------------------------");
 				continue;
@@ -147,47 +143,43 @@ public class SyntaxRecon {
 			//}
 			System.out.println("-------------------------------------------------");
 		}
-		
-		
 	}
 	
-	private static boolean checkVerbPresent(Tree parse) {
-		// TODO Auto-generated method stub
-		Iterator<Tree> it = parse.iterator();
-		while(it.hasNext()) {
-			Tree temp = it.next();
-			if(temp.value().toString().equalsIgnoreCase("VB"))
-				return true;
-			if(temp.value().toString().equalsIgnoreCase("VBD"))
-				return true;
-			if(temp.value().toString().equalsIgnoreCase("VBG"))
-				return true;
-			if(temp.value().toString().equalsIgnoreCase("VBN"))
-				return true;
-			if(temp.value().toString().equalsIgnoreCase("VBP"))
-				return true;
-			if(temp.value().toString().equalsIgnoreCase("VBZ"))
-				return true;
+	public static List<String> reconstructSentence(String sentence) {
+		List<String> simpleSentences = null;
+		//if sentence is null, something is wrong. Exit program.
+		if(sentence == null) {
+			System.out.println("SyntaxRecon.reconstructSentence() : sentence is null. Exiting.");
+			System.exit(1);
 		}
-		return false;
-	}
-
-	private static boolean checkAndPresent(Tree parse) {
-		// TODO Auto-generated method stub
-		//First, check if there is an "and" in the sentence
-		Iterator<Tree> treeIterator = parse.iterator();
-		Tree CCNode = null;		//this will point to the CC node
-		while( treeIterator.hasNext() ) {
-			Tree node = treeIterator.next();
-			if(node.value().equalsIgnoreCase("CC"))
-				if(node.firstChild().value().equalsIgnoreCase("and")) {
-					CCNode = node;
-					break;
-				}
+		
+		//First we need to parse the sentence.
+		Tree parse = Parser.getParseTree(sentence);
+		
+		//Get the dependencies
+		List<TypedDependency> tdl = Parser.getTypedDependencies(parse);
+		
+	    //If sentence has no verb, discard it
+		if(!TreeManipulation.checkVerbPresent(parse)) {
+			System.out.println("Verb not present.");
+			return null;
 		}
-		if(CCNode!=null)
-			return true;
-		return false;
+		
+		//Check voice of sentence
+		//1 = active, 0 = passive
+		if(getVoice(tdl) == 0) {
+			System.out.println("Passive sentence.");
+			return null;
+		}
+		
+		//Discard the sentence after the semi colon
+		parse = removeSemicolon(parse);
+		
+		//Method to remove and from sentence. Works for a single "and" for now
+		//Output in andRemovedSentences2.txt
+		removeAnd(parse, tdl);
+	    
+		return simpleSentences;
 	}
 
 	private static int getVoice(List<TypedDependency> tdl) {
@@ -390,71 +382,7 @@ public class SyntaxRecon {
 			}
 		}
 	}
-
-	private static Tree parseSentence(String sentence1) {
-		// TODO Auto-generated method stub
-		
-		//Already initialized a lexicalized parser above
-		//String parserModel = "edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz";
-		//LexicalizedParser lp = LexicalizedParser.loadModel(parserModel);
-		
-		//Think of this as a factory, that creates tokenizers... :P
-		TokenizerFactory<CoreLabel> tokenizerFactory = PTBTokenizer.factory(new CoreLabelTokenFactory(), "");
-				
-		//Get a tokenizer from the above created factory
-		Tokenizer<CoreLabel> tok = tokenizerFactory.getTokenizer(new StringReader(sentence1));
-		
-		//Use this tokenizer to tokenize the above String sent2
-		List<CoreLabel> rawWords = tok.tokenize();
-		
-		//Parse the above tokenized sentence
-		Tree parse = lp.apply(rawWords);
-		
-		//Create file "parserOutput.txt" and
-		//Print the collapsed dependencies and tagged sentence to file
-		File parserOutputFile = new File("parserOutput.txt");
-		PrintWriter printWriter = null;
-		try {
-			printWriter = new PrintWriter(parserOutputFile);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		TreePrint tp = null;
-		tp = new TreePrint("wordsAndTags");
-		tp.printTree(parse, printWriter);
-		tp = new TreePrint("oneline");
-		tp.printTree(parse, printWriter);
-		printWriter.println();
-	    tp = new TreePrint("typedDependenciesCollapsed");
-	    tp.printTree(parse, printWriter);
-	    tp = new TreePrint("penn");
-	    tp.printTree(parse, printWriter);
-	    //printWriter.println();
-	    
-	   /* TreebankLanguagePack tlp = lp.treebankLanguagePack(); // PennTreebankLanguagePack for English
-	    GrammaticalStructureFactory gsf = tlp.grammaticalStructureFactory();
-	    GrammaticalStructure gs = gsf.newGrammaticalStructure(parse);
-	    tdl = gs.typedDependenciesCCprocessed();
-	    System.out.println(tdl);*/
-	    /*String temp = tdl.get(3).toString();
-	    System.out.println(tdl.get(3));
-	    System.out.println(tdl.get(3).dep());
-	    System.out.println(tdl.get(3).gov());
-	    System.out.println(tdl.get(3).reln());
-	    System.out.println();*/
-	    
-	    printWriter.close();
-	    
-	    //OpenFile.open("parserOutput.txt");
-	    //System.out.print(parse.size()+" ");
-	    //System.out.print(parse.numChildren()+"\n");
-	    //System.out.println(parse.toString());
-	    //parse.pennPrint();
-	    //return tdl;
-	    return parse;
-	}
-
+	
 	private static Tree removeSemicolon(Tree parse) {
 		String temp = "";
 		Iterator<Tree> it = parse.iterator();
@@ -473,7 +401,7 @@ public class SyntaxRecon {
 			}
 		}
 		System.out.println(temp);
-		return parseSentence(temp);
+		return Parser.getParseTree(temp);
 	}
 	
 }
