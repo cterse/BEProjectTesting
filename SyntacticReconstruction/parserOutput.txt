@@ -1,17 +1,15 @@
-This/DT is/VBZ a/DT test/NN sentence/NN ./.
+People/NNS have/VBP names/NNS ./.
 
-(ROOT (S (NP (DT This)) (VP (VBZ is) (NP (DT a) (NN test) (NN sentence))) (. .)))
+(ROOT (S (NP (NNS People)) (VP (VBP have) (NP (NNS names))) (. .)))
 
-nsubj(sentence-5, This-1)
-cop(sentence-5, is-2)
-det(sentence-5, a-3)
-compound(sentence-5, test-4)
-root(ROOT-0, sentence-5)
+nsubj(have-2, People-1)
+root(ROOT-0, have-2)
+dobj(have-2, names-3)
 
 (ROOT
   (S
-    (NP (DT This))
-    (VP (VBZ is)
-      (NP (DT a) (NN test) (NN sentence)))
+    (NP (NNS People))
+    (VP (VBP have)
+      (NP (NNS names)))
     (. .)))
 

@@ -80,6 +80,7 @@ public class SyntaxRecon {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		
 		//Open the file containing individual sentences for reconstruction
 		File sentencesFile = new File("sentences.txt");
 		Scanner sentencesFileScanner = null;
@@ -96,7 +97,7 @@ public class SyntaxRecon {
 		while(sentencesFileScanner.hasNext()) {
 			System.out.println("Analysing sentence = "+(++count));
 			String sentence = sentencesFileScanner.nextLine();
-			
+			/*
 			//First we need to parse the sentence.
 			Tree parse = Parser.getParseTree(sentence);
 			
@@ -142,7 +143,12 @@ public class SyntaxRecon {
 			//	return;
 			//}
 			System.out.println("-------------------------------------------------");
+			*/
+			System.out.println(reconstructSentence(sentence));
+			System.out.println("-------------------------------------------------");
+		
 		}
+		
 	}
 	
 	public static List<String> reconstructSentence(String sentence) {
@@ -167,42 +173,25 @@ public class SyntaxRecon {
 		
 		//Check voice of sentence
 		//1 = active, 0 = passive
-		if(getVoice(tdl) == 0) {
+		if(MiscAPI.getVoice(tdl) == 0) {
 			System.out.println("Passive sentence.");
 			return null;
 		}
 		
-		//Discard the sentence after the semi colon
-		parse = removeSemicolon(parse);
+		//Discard the sentence after the semi-colon
+		String removedSemicolon = RemoveConjunction.removeSemicolon(sentence);
 		
 		//Method to remove and from sentence. Works for a single "and" for now
-		//Output in andRemovedSentences2.txt
-		removeAnd(parse, tdl);
+		simpleSentences = RemoveConjunction.removeAnd(removedSemicolon);
 	    
 		return simpleSentences;
-	}
-
-	private static int getVoice(List<TypedDependency> tdl) {
-		//Check if the sentence is in active or passive voice
-		//Use the dependencies for checking the voice
-		//0 = Passive, 1 = Active
-		boolean sentencePassive = false;
-		for(int i=0; i<tdl.size(); i++) {
-			String relation = tdl.get(i).reln().toString();
-			if(relation.equalsIgnoreCase("auxpass") || relation.equalsIgnoreCase("nsubjpass")) {
-				sentencePassive = true;
-				break;
-			}
-		}
-		if(sentencePassive)	
-			return 0;
-		return 1;
 	}
 	
 	private static void removeAnd(Tree parse, List<TypedDependency> tdl) {
 		// TODO Auto-generated method stub
 		
 		/*
+		 * OLD CODE!!! NO FURTHER DEVELOPMENT HERE!!! REFER TO RemoveConjunction.removeAnd() for updated code.
 		 * Input file = sentences.txt 
 		 * Output file = andRemovedSentences.txt
 		 * THIS SHOULD BE A CLASS!!
@@ -263,7 +252,7 @@ public class SyntaxRecon {
 				
 				//Store parent of the CC node
 				Tree CCParent = CCNode.ancestor(1, parse);
-				System.out.println("CC parent = "+CCParent.value());
+				//System.out.println("CC parent = "+CCParent.value());
 				
 				//Get the words in the relation of AND!!!!!!!!!
 				//Considering only one "and" in the sentence....For now, this isn't needed
@@ -383,25 +372,6 @@ public class SyntaxRecon {
 		}
 	}
 	
-	private static Tree removeSemicolon(Tree parse) {
-		String temp = "";
-		Iterator<Tree> it = parse.iterator();
-		while(it.hasNext()) {
-			Tree node = it.next();
-			if(!node.value().toString().equalsIgnoreCase(";")) {
-				if(node.isLeaf()) {
-					temp = temp + node.value().toString()+" ";
-				}
-			} else {
-				//; is found
-				while( !(node.value().toString().equals(".") || node.value().toString().equals("?") || node.value().toString().equals("!")) ) {
-					node = it.next();
-				}
-				//temp = temp + node.value().toString();
-			}
-		}
-		System.out.println(temp);
-		return Parser.getParseTree(temp);
-	}
+	
 	
 }

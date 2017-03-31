@@ -9,16 +9,17 @@ import java.util.Iterator;
 import java.util.List;
 
 import edu.stanford.nlp.trees.Tree;
+import edu.stanford.nlp.trees.TypedDependency;
 
 public class TreeManipulation {
 	
-	public static List<Integer> searchNode(String key, Tree parse) {
-		List<Integer> nodeNumbers = new ArrayList<Integer>();
+	public static List<Tree> searchNode(String key, Tree parse) {
+		List<Tree> nodeNumbers = new ArrayList<Tree>();
 		Iterator<Tree> it = parse.iterator();
 		while( it.hasNext() ) {
 			Tree node = it.next();
 			if( node.value().equalsIgnoreCase(key) ) {
-				nodeNumbers.add(node.nodeNumber(parse));
+				nodeNumbers.add(node);
 			}
 		}
 		return nodeNumbers;
@@ -100,4 +101,19 @@ public class TreeManipulation {
 		return false;
 	}
 	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		//For testing
+		String sentence = "This is a test sentence and and something else.";
+		
+		Tree parse = Parser.getParseTree(sentence);
+		List<TypedDependency> tdl = Parser.getTypedDependencies(parse);
+		System.out.println(parse);
+		System.out.println(tdl);
+		
+		System.out.println("Sentence from parse tree = "+TreeManipulation.getSentence(parse));
+		System.out.println("Number of ands = "+TreeManipulation.searchNode("and", parse).size());
+	}
+
 }

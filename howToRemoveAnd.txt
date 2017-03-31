@@ -95,6 +95,8 @@ NOTE: For the sentence "A library issues books to students and loans to teachers
 
 == Since "and" is followed by a noun phrase, directly split the above sentence.
 
+6. Coaches and players are people.
+
 Steps:
 1. Check if there is a 'cc' reln or a 'conj'. Do this by using a list of TypedDependencies which can be produced using a GrammaticalStructure.
 Use the method reln() to get the GrammaticalRelation and check if it's shortName() equals "cc" (or "conj").
