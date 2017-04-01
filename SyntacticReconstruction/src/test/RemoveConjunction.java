@@ -54,13 +54,20 @@ public class RemoveConjunction {
 				while( CCIterator.hasNext() ) {
 					Tree node = CCIterator.next();
 					if( node.equals(CCNode) ) {
+						if(TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("S")) {
+							//i.e. if there is a completely independent sentence after "and", directly jump to terminator.
+							firstSentence += TreeManipulation.searchNode(".", parse).get(0).firstChild();
+							break;
+						}
 						Tree CCParentNextSibling = TreeManipulation.getNextSibling(CCParent, parse);
 						if(CCParentNextSibling == null) {
+							Tree tempNode = CCParent;
 							while(CCParentNextSibling == null) {
-								CCParentNextSibling = TreeManipulation.getNextSibling(CCParent.ancestor(1,parse), parse);
+								tempNode = tempNode.ancestor(1,parse);
+								CCParentNextSibling = TreeManipulation.getNextSibling(tempNode, parse);
 							}
 						}
-						while(!node.equals(CCParentNextSibling)) {
+						while(!(node.equals(CCParentNextSibling) && node.nodeNumber(parse)==CCParentNextSibling.nodeNumber(parse) )) {
 							node = CCIterator.next();
 						}
 					}
@@ -68,6 +75,7 @@ public class RemoveConjunction {
 						firstSentence += node.value() + " ";
 					}
 				}
+				
 				//Remove space between terminator and sentence
 				firstSentence = MiscAPI.placeTerminator(firstSentence);
 				andRemovedSentences.add(firstSentence);
@@ -166,9 +174,21 @@ public class RemoveConjunction {
 	}
 	
 	public static void main(String[] args) {
-		String sentence = "A coach has a level of accreditation; a number of years of experience.";
+		String[] sentence = {"We had sums and writing and I went home.",
+								"Library issues books and loans to students.",
+								"Library issues books and issues loans to students."};
 		
-		String ars = removeSemicolon(sentence);
+		String scrs = removeSemicolon(sentence[0]);
+		
+		List<String> ars = removeAnd(sentence[0]);
+		
+		for(int i=0; i<ars.size(); ) {
+			if( !TreeManipulation.searchNode("and", Parser.getParseTree(ars.get(i))).isEmpty() ) {
+				List<String> temp = removeAnd(ars.remove(i));
+				ars.addAll(temp);
+			} else i++;
+		}
 		System.out.println(ars);
+		
 	}
 }

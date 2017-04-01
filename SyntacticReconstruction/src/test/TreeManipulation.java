@@ -14,32 +14,36 @@ import edu.stanford.nlp.trees.TypedDependency;
 public class TreeManipulation {
 	
 	public static List<Tree> searchNode(String key, Tree parse) {
-		List<Tree> nodeNumbers = new ArrayList<Tree>();
+		List<Tree> nodes = new ArrayList<Tree>();
 		Iterator<Tree> it = parse.iterator();
 		while( it.hasNext() ) {
 			Tree node = it.next();
 			if( node.value().equalsIgnoreCase(key) ) {
-				nodeNumbers.add(node);
+				nodes.add(node);
 			}
 		}
-		return nodeNumbers;
+		return nodes;
 	}
 	
 	public static Tree getNextSibling(Tree node, Tree root) {
 		Tree nextSibling = null;
-		Iterator<Tree> it = root.iterator();
-		List<Tree> children = node.ancestor(1, root).getChildrenAsList();
+		List<Tree> children = node.ancestor(1, root).getChildrenAsList();	//contains children of parent of node
 		int i = 0;
 		for(i=0; i<children.size(); i++)
 			if( children.get(i).equals(node) )
 				break;
 		i++;
 		//System.out.println("index = "+i+" size = "+children.size());
+		/*
+		Iterator<Tree> it = root.iterator();
 		while( it.hasNext() && i<children.size() ) {
 			nextSibling = it.next();
 			if( nextSibling.equals(children.get(i)) )
 				return nextSibling;
 		}
+		*/
+		if(i<children.size())
+			return children.get(i);
 		return null;
 	}
 	
@@ -105,15 +109,19 @@ public class TreeManipulation {
 		// TODO Auto-generated method stub
 		
 		//For testing
-		String sentence = "This is a test sentence and and something else.";
+		String sentence = "We had sums and writing and I went home.";
 		
 		Tree parse = Parser.getParseTree(sentence);
 		List<TypedDependency> tdl = Parser.getTypedDependencies(parse);
 		System.out.println(parse);
-		System.out.println(tdl);
+		//System.out.println(tdl);
 		
-		System.out.println("Sentence from parse tree = "+TreeManipulation.getSentence(parse));
-		System.out.println("Number of ands = "+TreeManipulation.searchNode("and", parse).size());
+		//System.out.println("Sentence from parse tree = "+TreeManipulation.getSentence(parse));
+		//System.out.println("Number of ands = "+TreeManipulation.searchNode("and", parse).size());
+		System.out.println(parse.getNodeNumber(3));
+		System.out.println("next sib of node number 3 = "+TreeManipulation.getNextSibling(parse.getNodeNumber(3), parse).nodeNumber(parse));
+		System.out.println(parse.getNodeNumber(14).equals(parse.getNodeNumber(19)));
+	
 	}
 
 }

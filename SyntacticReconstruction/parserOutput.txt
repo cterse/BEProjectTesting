@@ -1,15 +1,15 @@
-People/NNS have/VBP names/NNS ./.
+I/PRP went/VBD home/NN ./.
 
-(ROOT (S (NP (NNS People)) (VP (VBP have) (NP (NNS names))) (. .)))
+(ROOT (S (NP (PRP I)) (VP (VBD went) (NP (NN home))) (. .)))
 
-nsubj(have-2, People-1)
-root(ROOT-0, have-2)
-dobj(have-2, names-3)
+nsubj(went-2, I-1)
+root(ROOT-0, went-2)
+dobj(went-2, home-3)
 
 (ROOT
   (S
-    (NP (NNS People))
-    (VP (VBP have)
-      (NP (NNS names)))
+    (NP (PRP I))
+    (VP (VBD went)
+      (NP (NN home)))
     (. .)))
 
