@@ -53,17 +53,17 @@ public class SyntaxRecon {
 	{sentence1} {sentence2}. [done for single and]
 	
 	5. If a sentence has no verbs (VP) then discard that
-	sentence.
+	sentence. [DONE]
 	
 	6. If a sentence is of the form {{NP1} {VP1 {NP2}
 	{VP2 {NP3}}}}, then convert it into two sentences
 	like {{NP1} {VP1 {NP2}}} and {{NP2} {VP2
-	{NP3}}}.
+	{NP3}}}. 
 	
 	7. In the Sentences which are having a semicolon, treat
 	the sentence after the semicolon as extra
 	information for the preceding sentence and so
-	discard sentence after semicolon.
+	discard sentence after semicolon. [DONE]
 	
 	8. If a sentence is in passive voice, ask user to convert
 	it into active voice. Normally passive voice
