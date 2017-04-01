@@ -109,19 +109,15 @@ public class TreeManipulation {
 		// TODO Auto-generated method stub
 		
 		//For testing
-		String sentence = "We had sums and writing and I went home.";
+		String sentence = "We had sums and then I went home.";
 		
 		Tree parse = Parser.getParseTree(sentence);
 		List<TypedDependency> tdl = Parser.getTypedDependencies(parse);
-		System.out.println(parse);
+		//System.out.println(parse);
 		//System.out.println(tdl);
 		
-		//System.out.println("Sentence from parse tree = "+TreeManipulation.getSentence(parse));
-		//System.out.println("Number of ands = "+TreeManipulation.searchNode("and", parse).size());
-		System.out.println(parse.getNodeNumber(3));
-		System.out.println("next sib of node number 3 = "+TreeManipulation.getNextSibling(parse.getNodeNumber(3), parse).nodeNumber(parse));
-		System.out.println(parse.getNodeNumber(14).equals(parse.getNodeNumber(19)));
-	
+		System.out.println(getNextSibling(parse.getNodeNumber(10), parse));
+		
 	}
 
 }

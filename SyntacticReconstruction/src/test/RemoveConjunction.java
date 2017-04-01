@@ -5,8 +5,10 @@ package test;
  */
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TypedDependency;
@@ -53,8 +55,8 @@ public class RemoveConjunction {
 				String firstSentence = "";
 				while( CCIterator.hasNext() ) {
 					Tree node = CCIterator.next();
-					if( node.equals(CCNode) ) {
-						if(TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("S")) {
+					if( node.equals(CCNode) && node.nodeNumber(parse)==CCNode.nodeNumber(parse) ) {
+						if(TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("S") || CCNode.ancestor(1, parse).value().equalsIgnoreCase("S") ) {
 							//i.e. if there is a completely independent sentence after "and", directly jump to terminator.
 							firstSentence += TreeManipulation.searchNode(".", parse).get(0).firstChild();
 							break;
@@ -91,9 +93,9 @@ public class RemoveConjunction {
 						Tree node = CCParentIterator.next();
 						//if( node.value().equals(".") )
 							//break;
-						if( node.equals(CCParent) ) {
+						if( node.equals(CCParent) && node.nodeNumber(parse)==CCParent.nodeNumber(parse) ) {
 							//break;
-							while( !node.equals(CCNode) ) {
+							while( !(node.equals(CCNode) && node.nodeNumber(parse)==CCNode.nodeNumber(parse) )) {
 								node = CCParentIterator.next();
 							}
 							//System.out.println(node.value());
@@ -174,21 +176,27 @@ public class RemoveConjunction {
 	}
 	
 	public static void main(String[] args) {
-		String[] sentence = {"We had sums and writing and I went home.",
+		String[] sentence = {"We had sums and then I went home.",
 								"Library issues books and loans to students.",
-								"Library issues books and issues loans to students."};
+								"Library issues books and issues loans to students.",
+								"Ajay and Rahul are playing and dancing.",
+								"We had sums and writing and play and dinner and a story and a prayer and then I came home."};
 		
 		String scrs = removeSemicolon(sentence[0]);
 		
-		List<String> ars = removeAnd(sentence[0]);
+		List<String> ars = removeAnd(sentence[4]);
 		
 		for(int i=0; i<ars.size(); ) {
 			if( !TreeManipulation.searchNode("and", Parser.getParseTree(ars.get(i))).isEmpty() ) {
+				//System.out.println(ars);
 				List<String> temp = removeAnd(ars.remove(i));
 				ars.addAll(temp);
 			} else i++;
 		}
-		System.out.println(ars);
+		Set<String> arSet = new HashSet<String>();
+		arSet.addAll(ars);
+		
+		System.out.println(arSet);
 		
 	}
 }

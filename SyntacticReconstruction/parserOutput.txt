@@ -1,15 +1,17 @@
-I/PRP went/VBD home/NN ./.
+then/RB I/PRP came/VBD home/NN ./.
 
-(ROOT (S (NP (PRP I)) (VP (VBD went) (NP (NN home))) (. .)))
+(ROOT (S (ADVP (RB then)) (NP (PRP I)) (VP (VBD came) (NP (NN home))) (. .)))
 
-nsubj(went-2, I-1)
-root(ROOT-0, went-2)
-dobj(went-2, home-3)
+advmod(came-3, then-1)
+nsubj(came-3, I-2)
+root(ROOT-0, came-3)
+dobj(came-3, home-4)
 
 (ROOT
   (S
+    (ADVP (RB then))
     (NP (PRP I))
-    (VP (VBD went)
+    (VP (VBD came)
       (NP (NN home)))
     (. .)))
 
