@@ -211,14 +211,14 @@ public class ElementExtraction {
 		for(int j=0; j<classList.size(); j++) {
 			for(int k=j+1; k<classList.size(); k++) {
 				if( classList.get(j).getClassFullName().equalsIgnoreCase(classList.get(k).getClassFullName()) ) {
-					List<String> temp = classList.get(k).getMethodsList();
+					List<Method> temp = classList.get(k).getMethodsList();
 					for(int z=0; z<temp.size(); z++) {
 						classList.get(j).addMethod(temp.get(z));
 					}
 					
-					temp = classList.get(k).getAttributesList();
-					for(int z=0; z<temp.size(); z++) {
-						classList.get(j).addAttribute(temp.get(z));
+					List<Attribute> temp2 = classList.get(k).getAttributesList();
+					for(int z=0; z<temp2.size(); z++) {
+						classList.get(j).addAttribute(temp2.get(z));
 					}
 					
 					classList.remove(k);

@@ -11,8 +11,8 @@ public class Classes {
 	private String cname = "";
 	private String compound = "";
 	
-	private List<String> methods = new ArrayList<String>();
-	private List<String> attributes = new ArrayList<String>();
+	private List<Method> methods = new ArrayList<Method>();
+	private List<Attribute> attributes = new ArrayList<Attribute>();
 	
 	Classes(String cname) {
 		this.cname = cname;
@@ -24,11 +24,19 @@ public class Classes {
 	}
 	
 	public void addMethod(String name) {
-		methods.add(name);
+		methods.add(new Method(name));
+	}
+	
+	public void addMethod(Method m) {
+		methods.add(m);
 	}
 	
 	public void addAttribute(String name) {
-		attributes.add(name);
+		attributes.add(new Attribute(name));
+	}
+	
+	public void addAttribute(Attribute a) {
+		attributes.add(a);
 	}
 	
 	public String getClassName() {
@@ -49,11 +57,11 @@ public class Classes {
 		return methods.size();
 	}
 	
-	public List<String> getAttributesList() {
+	public List<Attribute> getAttributesList() {
 		return attributes;
 	}
 	
-	public List<String> getMethodsList() {
+	public List<Method> getMethodsList() {
 		return methods;
 	}
 	
