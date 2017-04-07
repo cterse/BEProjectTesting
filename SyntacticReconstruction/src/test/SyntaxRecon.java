@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
@@ -94,6 +95,7 @@ public class SyntaxRecon {
 		//Now, scan each of the sentences and perform syntactic reconstruction.
 		//For now, we will test only the first sentence.
 		int count = 0;
+		List<String> result = new ArrayList<String>();
 		while(sentencesFileScanner.hasNext()) {
 			System.out.println("Analysing sentence = "+(++count));
 			String sentence = sentencesFileScanner.nextLine();
@@ -144,9 +146,21 @@ public class SyntaxRecon {
 			//}
 			System.out.println("-------------------------------------------------");
 			*/
-			System.out.println(reconstructSentence(sentence));
+			List<String> temp = reconstructSentence(sentence);
+			if(temp!=null)
+				result.addAll(temp);
+			System.out.println(temp);
 			System.out.println("-------------------------------------------------");
-		
+			
+		}
+		try {
+			PrintWriter pw = new PrintWriter(new File("andRemovedSentences2.txt"));
+			for(int i=0; i<result.size(); i++)
+				pw.println(result.get(i));
+			pw.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}
@@ -182,7 +196,7 @@ public class SyntaxRecon {
 		String removedSemicolon = RemoveConjunction.removeSemicolon(sentence);
 		
 		//Method to remove and from sentence. Works for a single "and" for now
-		simpleSentences = RemoveConjunction.removeAnd(removedSemicolon);
+		simpleSentences = RemoveConjunction.removeAllConjunctions(removedSemicolon);
 	    
 		return simpleSentences;
 	}

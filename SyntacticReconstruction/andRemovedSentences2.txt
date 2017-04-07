@@ -1,50 +1,12 @@
 A team has a name.
 A team has a record.
-Players have a number.
 Players have a position.
-Hockey teams play games against each other.
+Players have a number.
+Teams play games against each other.
 Each game has a score.
 Each game has a location.
-A coach has a level of accreditation.
 A coach has a number of years of experience.
+A coach has a level of accreditation.
 A coach can teach multiple teams.
 Players are people.
 People have names.
-A team has a name.
-A team has a record.
-A team has a name.
-A team has a record.
-Players have a number.
-Players have a position.
-Hockey teams play games against each othe.
-Each game has a score.
-Each game has a location.
-A coach has a level of accreditation.
-A coach has a number of years of experience.
-A coach can teach multiple team.
-Players are peopl.
-People have name.
-A team has a name.
-A team has a record.
-Players have a number.
-Players have a position.
-Hockey teams play games against each othe.
-Each game has a score.
-Each game has a location.
-A coach has a level of accreditation.
-A coach has a number of years of experience.
-A coach can teach multiple team.
-Players are peopl.
-People have name.
-A team has a name.
-A team has a record.
-Players have a number.
-Players have a position.
-Hockey teams play games against each othe.
-Each game has a score.
-Each game has a location.
-A coach has a level of accreditation.
-A coach has a number of years of experience.
-A coach can teach multiple team.
-Players are peopl.
-People have name.

@@ -108,30 +108,7 @@ public class RemoveConjunction {
 				//Get the second sentence
 				String secondSentence = "";
 				Iterator<Tree> CCParentIterator = parse.iterator();
-				if( !TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("VP") ) {
-					//There is no VP after CC
-					//E.g. library issues books and loans to students
-					//Take NP+VBZ from the VP before the CC
-					while(CCParentIterator.hasNext()) {
-						Tree node = CCParentIterator.next();
-						//if( node.value().equals(".") )
-							//break;
-						if( node.equals(CCParent) && node.nodeNumber(parse)==CCParent.nodeNumber(parse) ) {
-							//break;
-							while( !(node.equals(CCNode) && node.nodeNumber(parse)==CCNode.nodeNumber(parse) )) {
-								node = CCParentIterator.next();
-							}
-							//System.out.println(node.value());
-							node = CCParentIterator.next();
-							node = CCParentIterator.next();
-							//System.out.println(node.value());
-						} else if(node.isLeaf()) {
-							secondSentence += node.value() + " ";
-							//System.out.print(node.value()+" ");
-						}
-					}
-				}
-				else if ( TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("VP") ) {
+				if ( TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("VP") ) {
 					//There is a VP after CC
 					//E.g. The library issues books to students and issues loans to teachers.
 					//Take NP from before CC and the rest after CC
@@ -151,17 +128,42 @@ public class RemoveConjunction {
 						}
 					}
 				}
-				else if ( TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("NP") ) {
+				else if ( TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("NP") || TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("NN") || TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("S") ) {
 					//THere is NP after CC
 					//E.g. Library issues books to students and school is a building. 
 					//Directly split at the CC
-					Tree node = TreeManipulation.getNextSibling(CCParent, parse);
-					CCParentIterator = node.iterator();
+					Tree node = TreeManipulation.getNextSibling(CCNode, parse);
+					Tree temp = CCParentIterator.next();
+					while(!(temp.equals(node) && temp.nodeNumber(parse)==node.nodeNumber(parse) )) {
+						temp = CCParentIterator.next();
+					}
 					while( CCParentIterator.hasNext() ) {
 						node = CCParentIterator.next();
+						if( node.isLeaf() ) {
+							secondSentence += node.value() + " ";
+							System.out.println(node.value());
+							//System.out.print(node.value()+" ");
+						}
+					}
+				}
+				else if( !TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("VP") ) {
+					//There is no VP after CC
+					//E.g. library issues books and loans to students
+					//Take NP+VBZ from the VP before the CC
+					while(CCParentIterator.hasNext()) {
+						Tree node = CCParentIterator.next();
 						//if( node.value().equals(".") )
 							//break;
-						if( node.isLeaf() ) {
+						if( node.equals(CCParent) && node.nodeNumber(parse)==CCParent.nodeNumber(parse) ) {
+							//break;
+							while( !(node.equals(CCNode) && node.nodeNumber(parse)==CCNode.nodeNumber(parse) )) {
+								node = CCParentIterator.next();
+							}
+							//System.out.println(node.value());
+							node = CCParentIterator.next();
+							node = CCParentIterator.next();
+							//System.out.println(node.value());
+						} else if(node.isLeaf()) {
 							secondSentence += node.value() + " ";
 							//System.out.print(node.value()+" ");
 						}
@@ -283,30 +285,7 @@ public class RemoveConjunction {
 				//Get the second sentence
 				String secondSentence = "";
 				Iterator<Tree> CCParentIterator = parse.iterator();
-				if( !TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("VP") ) {
-					//There is no VP after CC
-					//E.g. library issues books and loans to students
-					//Take NP+VBZ from the VP before the CC
-					while(CCParentIterator.hasNext()) {
-						Tree node = CCParentIterator.next();
-						//if( node.value().equals(".") )
-							//break;
-						if( node.equals(CCParent) && node.nodeNumber(parse)==CCParent.nodeNumber(parse) ) {
-							//break;
-							while( !(node.equals(CCNode) && node.nodeNumber(parse)==CCNode.nodeNumber(parse) )) {
-								node = CCParentIterator.next();
-							}
-							//System.out.println(node.value());
-							node = CCParentIterator.next();
-							node = CCParentIterator.next();
-							//System.out.println(node.value());
-						} else if(node.isLeaf()) {
-							secondSentence += node.value() + " ";
-							//System.out.print(node.value()+" ");
-						}
-					}
-				}
-				else if ( TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("VP") ) {
+				if ( TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("VP") ) {
 					//There is a VP after CC
 					//E.g. The library issues books to students and issues loans to teachers.
 					//Take NP from before CC and the rest after CC
@@ -326,17 +305,42 @@ public class RemoveConjunction {
 						}
 					}
 				}
-				else if ( TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("NP") ) {
+				else if ( TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("NP") || TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("NN") || TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("S") ) {
 					//THere is NP after CC
 					//E.g. Library issues books to students and school is a building. 
 					//Directly split at the CC
-					Tree node = TreeManipulation.getNextSibling(CCParent, parse);
-					CCParentIterator = node.iterator();
+					Tree node = TreeManipulation.getNextSibling(CCNode, parse);
+					Tree temp = CCParentIterator.next();
+					while(!(temp.equals(node) && temp.nodeNumber(parse)==node.nodeNumber(parse) )) {
+						temp = CCParentIterator.next();
+					}
 					while( CCParentIterator.hasNext() ) {
 						node = CCParentIterator.next();
+						if( node.isLeaf() ) {
+							secondSentence += node.value() + " ";
+							System.out.println(node.value());
+							//System.out.print(node.value()+" ");
+						}
+					}
+				}
+				else if( !TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("VP") ) {
+					//There is no VP after CC
+					//E.g. library issues books and loans to students
+					//Take NP+VBZ from the VP before the CC
+					while(CCParentIterator.hasNext()) {
+						Tree node = CCParentIterator.next();
 						//if( node.value().equals(".") )
 							//break;
-						if( node.isLeaf() ) {
+						if( node.equals(CCParent) && node.nodeNumber(parse)==CCParent.nodeNumber(parse) ) {
+							//break;
+							while( !(node.equals(CCNode) && node.nodeNumber(parse)==CCNode.nodeNumber(parse) )) {
+								node = CCParentIterator.next();
+							}
+							//System.out.println(node.value());
+							node = CCParentIterator.next();
+							node = CCParentIterator.next();
+							//System.out.println(node.value());
+						} else if(node.isLeaf()) {
 							secondSentence += node.value() + " ";
 							//System.out.print(node.value()+" ");
 						}
@@ -384,6 +388,7 @@ public class RemoveConjunction {
 		//get the parse tree and dependencies
 		Tree parse = Parser.getParseTree(sentence);
 		List<TypedDependency> tdl = Parser.getTypedDependencies(parse);
+		//System.out.println(parse);
 		
 		//check if conj is present
 		List<Tree> conjNodes = TreeManipulation.searchNode(conj, parse);
@@ -440,37 +445,14 @@ public class RemoveConjunction {
 					}
 				}
 				
-				//Remove space between terminator and sentence
+				//Remove space between terminator and first sentence
 				firstSentence = MiscAPI.placeTerminator(firstSentence);
 				conjRemovedSentences.add(firstSentence);
 				
 				//Get the second sentence
 				String secondSentence = "";
 				Iterator<Tree> CCParentIterator = parse.iterator();
-				if( !TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("VP") ) {
-					//There is no VP after CC
-					//E.g. library issues books and loans to students
-					//Take NP+VBZ from the VP before the CC
-					while(CCParentIterator.hasNext()) {
-						Tree node = CCParentIterator.next();
-						//if( node.value().equals(".") )
-							//break;
-						if( node.equals(CCParent) && node.nodeNumber(parse)==CCParent.nodeNumber(parse) ) {
-							//break;
-							while( !(node.equals(CCNode) && node.nodeNumber(parse)==CCNode.nodeNumber(parse) )) {
-								node = CCParentIterator.next();
-							}
-							//System.out.println(node.value());
-							node = CCParentIterator.next();
-							node = CCParentIterator.next();
-							//System.out.println(node.value());
-						} else if(node.isLeaf()) {
-							secondSentence += node.value() + " ";
-							//System.out.print(node.value()+" ");
-						}
-					}
-				}
-				else if ( TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("VP") ) {
+				if ( TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("VP") ) {
 					//There is a VP after CC
 					//E.g. The library issues books to students and issues loans to teachers.
 					//Take NP from before CC and the rest after CC
@@ -490,17 +472,42 @@ public class RemoveConjunction {
 						}
 					}
 				}
-				else if ( TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("NP") ) {
+				else if ( TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("NP") || TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("NN") || TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("S") ) {
 					//THere is NP after CC
 					//E.g. Library issues books to students and school is a building. 
 					//Directly split at the CC
-					Tree node = TreeManipulation.getNextSibling(CCParent, parse);
-					CCParentIterator = node.iterator();
+					Tree node = TreeManipulation.getNextSibling(CCNode, parse);
+					Tree temp = CCParentIterator.next();
+					while(!(temp.equals(node) && temp.nodeNumber(parse)==node.nodeNumber(parse) )) {
+						temp = CCParentIterator.next();
+					}
 					while( CCParentIterator.hasNext() ) {
 						node = CCParentIterator.next();
+						if( node.isLeaf() ) {
+							secondSentence += node.value() + " ";
+							System.out.println(node.value());
+							//System.out.print(node.value()+" ");
+						}
+					}
+				}
+				else if( !TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("VP") ) {
+					//There is no VP after CC
+					//E.g. library issues books and loans to students
+					//Take NP+VBZ from the VP before the CC
+					while(CCParentIterator.hasNext()) {
+						Tree node = CCParentIterator.next();
 						//if( node.value().equals(".") )
 							//break;
-						if( node.isLeaf() ) {
+						if( node.equals(CCParent) && node.nodeNumber(parse)==CCParent.nodeNumber(parse) ) {
+							//break;
+							while( !(node.equals(CCNode) && node.nodeNumber(parse)==CCNode.nodeNumber(parse) )) {
+								node = CCParentIterator.next();
+							}
+							//System.out.println(node.value());
+							node = CCParentIterator.next();
+							node = CCParentIterator.next();
+							//System.out.println(node.value());
+						} else if(node.isLeaf()) {
 							secondSentence += node.value() + " ";
 							//System.out.print(node.value()+" ");
 						}
@@ -549,16 +556,29 @@ public class RemoveConjunction {
 		return conjRemovedSentences;
 	}
 	
+	public static List<String> removeAllConjunctions(List<String> sentences) {
+		List<String> conjRemovedSentences = new ArrayList<String>();
+		
+		for(int sentenceCount=0; sentenceCount<sentences.size(); sentenceCount++) {
+			conjRemovedSentences.addAll(removeAllConjunctions(sentences.get(sentenceCount)));
+		}
+		
+		return conjRemovedSentences;
+	}
+	
 	public static void main(String[] args) {
 		String[] sentence = {"We had sums but it started raining.",
 								"Library issues books and loans to students.",
-								"Library issues books and issues loans to students.",
+								"Library issues books and gives loans to students.",
 								"Ajay and Rahul are playing and dancing.",
-								"We had sums or writing and play or dinner and a story or a prayer and then I came home."};
+								"We had sums or writing and play or dinner and a story or a prayer and then I came home.",
+								"I really want to go to work but I am too sick to drive.",
+								"Library issues books to students and school is a building.",
+								"This is a sentence and this is another sentence."};
 		
 		String scrs = removeSemicolon(sentence[0]);
 		
-		System.out.println(removeAllConjunctions(sentence[4]));
+		System.out.println(removeAllConjunctions(sentence[2]));
 		/*
 		List<String> ars = removeAnd(sentence[4]);
 		for(int i=0; i<ars.size(); ) {

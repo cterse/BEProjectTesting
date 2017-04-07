@@ -1,17 +1,19 @@
-then/RB I/PRP came/VBD home/NN ./.
+Library/NNP gives/VBZ loans/NNS to/TO students/NNS ./.
 
-(ROOT (S (ADVP (RB then)) (NP (PRP I)) (VP (VBD came) (NP (NN home))) (. .)))
+(ROOT (S (NP (NNP Library)) (VP (VBZ gives) (NP (NNS loans)) (PP (TO to) (NP (NNS students)))) (. .)))
 
-advmod(came-3, then-1)
-nsubj(came-3, I-2)
-root(ROOT-0, came-3)
-dobj(came-3, home-4)
+nsubj(gives-2, Library-1)
+root(ROOT-0, gives-2)
+dobj(gives-2, loans-3)
+case(students-5, to-4)
+nmod:to(gives-2, students-5)
 
 (ROOT
   (S
-    (ADVP (RB then))
-    (NP (PRP I))
-    (VP (VBD came)
-      (NP (NN home)))
+    (NP (NNP Library))
+    (VP (VBZ gives)
+      (NP (NNS loans))
+      (PP (TO to)
+        (NP (NNS students))))
     (. .)))
 

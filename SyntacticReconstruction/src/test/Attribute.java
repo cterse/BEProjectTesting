@@ -26,4 +26,8 @@ public class Attribute {
 	public void setAttributeClass(Classes c1) {
 		ofClass = c1;
 	}
+	
+	public String toString() {
+		return attributeName;
+	}
 }

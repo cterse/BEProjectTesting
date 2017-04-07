@@ -94,6 +94,8 @@ NOTE: For the sentence "A library issues books to students and loans to teachers
     (. .)))
 
 == Since "and" is followed by a noun phrase, directly split the above sentence.
+** NOTE: The above output of parser is also wrong, as there should be cconj relation between issues and has, but the parser shows relation between "students" and "the school". However, there is a code written for this.
+
 
 6. Coaches and players are people.
 

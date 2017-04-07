@@ -24,7 +24,7 @@ public class Classes {
 	}
 	
 	public void addMethod(String name) {
-		methods.add(new Method(name));
+		methods.add(new Method(name, this, null));
 	}
 	
 	public void addMethod(Method m) {
@@ -32,7 +32,7 @@ public class Classes {
 	}
 	
 	public void addAttribute(String name) {
-		attributes.add(new Attribute(name));
+		attributes.add(new Attribute(name, this));
 	}
 	
 	public void addAttribute(Attribute a) {
@@ -72,6 +72,13 @@ public class Classes {
 		System.out.println("Methods = "+methods);
 		System.out.println("Attributes = "+attributes);
 		return "";
+	}
+	
+	public static void main(String[] args) {
+		Classes c = new Classes("testClass");
+		c.addAttribute("testAttr");
+		c.addMethod("testMethod");
+		System.out.println(c);
 	}
 	
 }

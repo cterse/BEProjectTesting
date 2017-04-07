@@ -35,4 +35,8 @@ public class Method {
 	public void setOnClass(Classes c1) {
 		onClass = c1;
 	}
+	
+	public String toString() {
+		return methodName+"("+(ofClass==null?"null":ofClass.getClassFullName())+","+(onClass==null?"null":onClass.getClassFullName())+")";
+	}
 }

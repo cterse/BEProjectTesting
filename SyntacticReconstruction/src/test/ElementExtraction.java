@@ -44,7 +44,7 @@ public class ElementExtraction {
 		File inputFile = null;
 		if(args.length!=0)
 			inputFile = new File(args[0]);
-		else inputFile = new File("test.txt");
+		else inputFile = new File("andRemovedSentences2.txt");
 		Scanner inputFileScanner = null;
 		try {
 			inputFileScanner = new Scanner(inputFile);
@@ -86,20 +86,14 @@ public class ElementExtraction {
 			
 			System.out.println("Analysing sentence "+(i+1));
 			
-			//int i = 2;
-			Tree parse = parseSentence(sentences.get(i));
-			
-			//Get the dependencies
+			//Get the parse tree and dependencies
+			Tree parse = Parser.getParseTree(sentences.get(i));
 			TreebankLanguagePack tlp = lp.treebankLanguagePack(); // PennTreebankLanguagePack for English
 		    GrammaticalStructureFactory gsf = tlp.grammaticalStructureFactory();
 		    GrammaticalStructure gs = gsf.newGrammaticalStructure(parse);
 		    List<TypedDependency> tdl = gs.typedDependenciesCCprocessed();
 			
-			//System.out.println(sentences.get(i));
-			//System.out.println(parse);
-			
 			Iterator<Tree> it = parse.iterator();
-			//Traverse the parse tree to find potential elements
 			
 			List<String> potentialClasses = new ArrayList<String>();
 			List<String> potentialMethods = new ArrayList<String>();
@@ -109,8 +103,6 @@ public class ElementExtraction {
 			int classesFoundInSentence = 0;
 			while( it.hasNext() ) {
 				node = it.next();
-				
-				int classFound = -1;
 				
 				//Check for nouns i.e. Classes
 				if( node.value().equalsIgnoreCase("NN") || node.value().equalsIgnoreCase("NNS") ) {
@@ -131,7 +123,7 @@ public class ElementExtraction {
 				}
 				
 				//Check for verbs
-				if( node.value().equalsIgnoreCase("VB") || node.value().equalsIgnoreCase("VBD") || node.value().equalsIgnoreCase("VBG") || node.value().equalsIgnoreCase("VBN") || node.value().equalsIgnoreCase("VBP") || node.value().equalsIgnoreCase("VBZ") ) {
+				if(isVerb(node)) {
 					//System.out.println("\nChecking verbs");
 					node = it.next();
 					
@@ -184,7 +176,7 @@ public class ElementExtraction {
 							}
 						}
 						if( isMethod ) {
-							//the verb is a method. Append it with its aux/auxpass (if present) and add to list
+							//the verb is a method. Append it with its aux/auxpass(if present) and add to list
 							tdlTempIt = tdl.iterator();
 							String temp = "";
 							while( tdlTempIt.hasNext() ) {
@@ -247,6 +239,7 @@ public class ElementExtraction {
 
 	private static void refineClasses(List<Classes> classList) {
 		// TODO Auto-generated method stub
+		//remove those nouns from class list who have no attributes and methods.
 		for(int i=0; i<classList.size(); ) {
 			if(classList.get(i).numberOfAttributes() == 0 && classList.get(i).numberOfMethods() == 0) {
 				classList.remove(i);
@@ -275,13 +268,10 @@ public class ElementExtraction {
 		return null;
 	}
 
-	private static Tree parseSentence(String sentence) {
-		// TODO Auto-generated method stub
-		TokenizerFactory<CoreLabel> tokenizerFactory = PTBTokenizer.factory(new CoreLabelTokenFactory(), "");
-		Tokenizer<CoreLabel> tok = tokenizerFactory.getTokenizer(new StringReader(sentence));
-		List<CoreLabel> rawWords = tok.tokenize();
-		Tree parse = lp.apply(rawWords);
-		return parse;
+	public static boolean isVerb(Tree node) {
+		if( node.value().equalsIgnoreCase("VB") || node.value().equalsIgnoreCase("VBD") || node.value().equalsIgnoreCase("VBG") || node.value().equalsIgnoreCase("VBN") || node.value().equalsIgnoreCase("VBP") || node.value().equalsIgnoreCase("VBZ") )
+			return true;
+		return false;
 	}
-
+	
 }
