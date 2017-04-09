@@ -74,4 +74,14 @@ public class Parser {
 	    List<TypedDependency> tdl = gs.typedDependenciesCCprocessed();
 	    return tdl;
 	}
+
+	public static void main(String[] args) {
+		String sentence = "Some research departments play with research heads.";
+		Tree parse = Parser.getParseTree(sentence);
+		List<TypedDependency> tdl = Parser.getTypedDependencies(parse);
+		
+		for(int i=0; i<tdl.size(); i++) {
+			System.out.println(tdl.get(i));
+		}
+	}
 }

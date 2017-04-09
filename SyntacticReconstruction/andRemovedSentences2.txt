@@ -1,4 +1,4 @@
 Courses can be lectures or lab classes.
-A coach can team multiple teams.
+A coach can teach multiple teams.
 A research department holds each course.
 Research department has a department head.

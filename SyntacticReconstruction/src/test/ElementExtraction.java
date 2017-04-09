@@ -231,6 +231,10 @@ public class ElementExtraction {
 		System.out.println("Refined Class List: ");
 		System.out.println(classList);
 		
+		System.out.println("---------------------------");
+		System.out.println("---------------------------");
+		System.out.println(ElementExtractionAPI.extractEntities(sentences));
+		
 		outputPW.close();
 	}
 

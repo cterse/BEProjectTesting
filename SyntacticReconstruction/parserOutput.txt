@@ -1,18 +1,18 @@
-A/DT research/NN departments/NNS hold/VBP a/DT course/NN ./.
+Research/NNP department/NN has/VBZ a/DT department/NN head/NN ./.
 
-(ROOT (S (NP (DT A) (NN research) (NNS departments)) (VP (VBP hold) (NP (DT a) (NN course))) (. .)))
+(ROOT (S (NP (NNP Research) (NN department)) (VP (VBZ has) (NP (DT a) (NN department) (NN head))) (. .)))
 
-det(departments-3, A-1)
-compound(departments-3, research-2)
-nsubj(hold-4, departments-3)
-root(ROOT-0, hold-4)
-det(course-6, a-5)
-dobj(hold-4, course-6)
+compound(department-2, Research-1)
+nsubj(has-3, department-2)
+root(ROOT-0, has-3)
+det(head-6, a-4)
+compound(head-6, department-5)
+dobj(has-3, head-6)
 
 (ROOT
   (S
-    (NP (DT A) (NN research) (NNS departments))
-    (VP (VBP hold)
-      (NP (DT a) (NN course)))
+    (NP (NNP Research) (NN department))
+    (VP (VBZ has)
+      (NP (DT a) (NN department) (NN head)))
     (. .)))
 

@@ -544,11 +544,11 @@ public class Stemmer implements Function<Word,Word> {
     k = i - 1;
     if (k > 1) {
       step1();
-      step2();
-      step3();
-      step4();
-      step5();
-      step6();
+      //step2();
+      //step3();
+      //step4();
+      //step5();
+      //step6();
     }
     i_end = k + 1;
     i = 0;
@@ -572,7 +572,8 @@ public class Stemmer implements Function<Word,Word> {
       }
     } else {
       for (String arg : args) {
-        System.out.print(s.stem(arg));
+        //System.out.print(s.stem(arg));
+    	  System.out.print(s.getSingular(arg));
         System.out.print(' ');
       }
     }
@@ -609,5 +610,15 @@ public class Stemmer implements Function<Word,Word> {
   public Word apply(Word word) {
     return stem(word);
   }
-
+ 
+  public static String getSingular(String s) {
+	Stemmer stemmer = new Stemmer();
+    char[] characters = s.toCharArray();
+    for (char character : characters) {
+      stemmer.add(character);
+    }
+    stemmer.stem();
+    return stemmer.toString();
+  }
+  
 }
