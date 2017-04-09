@@ -156,7 +156,7 @@ public class ElementExtractionAPI {
 					if(!auxVerb) {
 						String attrName = getObject(tdl);
 						String ofClassName = getSubject(tdl);
-						attrList.add(new Attribute(attrName, Stemmer.getSingular(ofClassName)));
+						attrList.add(new Attribute(attrName, Stemmer.getSingular(ofClassName).toLowerCase()));
 					} else {
 						//the verb is an aux, ignore it
 					}
@@ -239,7 +239,7 @@ public class ElementExtractionAPI {
 						String object = getObject(tdl);
 						String nmodOfSubject = getNmodOfNsubj(tdl);
 						String onClass = (object==null)?((nmodOfSubject==null)?(null):nmodOfSubject):(object); 
-						methodsList.add(new Method(temp, Stemmer.getSingular(ofClass), Stemmer.getSingular(onClass)));
+						methodsList.add(new Method(temp, Stemmer.getSingular(ofClass).toLowerCase(), Stemmer.getSingular(onClass).toLowerCase()));
 					}
 				}
 			}
@@ -339,6 +339,8 @@ public class ElementExtractionAPI {
 	
 	public static void main(String[] args) {
 		String sentence = "Some research departments play with research heads.";
+		List<String> sentences = new ArrayList<String>();
+		/*
 		System.out.println(extractClasses(sentence));
 		System.out.println("--------------------");
 		System.out.println(extractMethods(sentence));
@@ -348,9 +350,28 @@ public class ElementExtractionAPI {
 		System.out.println(extractEntities(sentence));
 		
 		System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-		List<String> sentences = new ArrayList<String>();
 		sentences.add("Some research departments play with research heads.");
 		sentences.add("Some research departments have research heads.");
 		System.out.println(extractEntities(sentences));
+		*/
+		File inputFile = null;
+		if(args.length!=0)
+			inputFile = new File(args[0]);
+		else inputFile = new File("andRemovedSentences2.txt");
+		Scanner inputFileScanner = null;
+		try {
+			inputFileScanner = new Scanner(inputFile);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		sentences = new ArrayList<String>();
+		while( inputFileScanner.hasNextLine() ) {
+			sentences.add(inputFileScanner.nextLine());
+		}
+		
+		System.out.println(extractEntities(sentences));
+		
 	}
 }

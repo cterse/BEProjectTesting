@@ -128,7 +128,7 @@ public class RemoveConjunction {
 						}
 					}
 				}
-				else if ( TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("NP") || TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("NN") || TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("S") ) {
+				else if ( TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("NN") || TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("S") ) {
 					//THere is NP after CC
 					//E.g. Library issues books to students and school is a building. 
 					//Directly split at the CC
@@ -305,7 +305,7 @@ public class RemoveConjunction {
 						}
 					}
 				}
-				else if ( TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("NP") || TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("NN") || TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("S") ) {
+				else if ( TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("NN") || TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("S") ) {
 					//THere is NP after CC
 					//E.g. Library issues books to students and school is a building. 
 					//Directly split at the CC
@@ -472,7 +472,7 @@ public class RemoveConjunction {
 						}
 					}
 				}
-				else if ( TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("NP") || TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("NN") || TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("S") ) {
+				else if ( TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("NN") || TreeManipulation.getNextSibling(CCNode, parse).value().equalsIgnoreCase("S") ) {
 					//THere is NP after CC
 					//E.g. Library issues books to students and school is a building. 
 					//Directly split at the CC
@@ -567,7 +567,7 @@ public class RemoveConjunction {
 	}
 	
 	public static void main(String[] args) {
-		String[] sentence = {"We had sums but it started raining.",
+		String[] sentence = {"A player has a name and a record.",
 								"Library issues books and loans to students.",
 								"Library issues books and gives loans to students.",
 								"Ajay and Rahul are playing and dancing.",
@@ -578,7 +578,7 @@ public class RemoveConjunction {
 		
 		String scrs = removeSemicolon(sentence[0]);
 		
-		System.out.println(removeAllConjunctions(sentence[2]));
+		System.out.println(removeAllConjunctions(sentence[0]));
 		/*
 		List<String> ars = removeAnd(sentence[4]);
 		for(int i=0; i<ars.size(); ) {

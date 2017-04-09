@@ -1,18 +1,15 @@
-Research/NNP department/NN has/VBZ a/DT department/NN head/NN ./.
+People/NNS have/VBP names/NNS ./.
 
-(ROOT (S (NP (NNP Research) (NN department)) (VP (VBZ has) (NP (DT a) (NN department) (NN head))) (. .)))
+(ROOT (S (NP (NNS People)) (VP (VBP have) (NP (NNS names))) (. .)))
 
-compound(department-2, Research-1)
-nsubj(has-3, department-2)
-root(ROOT-0, has-3)
-det(head-6, a-4)
-compound(head-6, department-5)
-dobj(has-3, head-6)
+nsubj(have-2, People-1)
+root(ROOT-0, have-2)
+dobj(have-2, names-3)
 
 (ROOT
   (S
-    (NP (NNP Research) (NN department))
-    (VP (VBZ has)
-      (NP (DT a) (NN department) (NN head)))
+    (NP (NNS People))
+    (VP (VBP have)
+      (NP (NNS names)))
     (. .)))
 

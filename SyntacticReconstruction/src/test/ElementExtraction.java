@@ -53,6 +53,11 @@ public class ElementExtraction {
 			e1.printStackTrace();
 		}
 		
+		List<String> sentences = new ArrayList<String>();
+		while( inputFileScanner.hasNextLine() ) {
+			sentences.add(inputFileScanner.nextLine());
+		}
+		
 		//output file
 		PrintWriter outputPW = null;
 		try {
@@ -60,11 +65,6 @@ public class ElementExtraction {
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-		List<String> sentences = new ArrayList<String>();
-		while( inputFileScanner.hasNextLine() ) {
-			sentences.add(inputFileScanner.nextLine());
 		}
 		
 		//Create a list of possession verbs
