@@ -141,7 +141,7 @@ public class ElementExtraction {
 								//the possessive verb is an aux
 								//System.out.println("AUX FOUND AT = reln = "+tempDep.reln().toString()+" dep = "+tempDep.gov().value());
 								auxVerb = true; 
-								System.out.println("Found poss verb is an aux, hence object discarded as attribute");
+								System.out.println("Found poss verb is an aux, hence object cannot be attribute");
 								break;
 							}
 						}
@@ -184,13 +184,13 @@ public class ElementExtraction {
 								if( tempDep.gov().value().equalsIgnoreCase(node.value()) && (tempDep.reln().toString().equalsIgnoreCase("aux") || tempDep.reln().toString().equalsIgnoreCase("auxpass")) ) {
 									temp = tempDep.dep().value() + "_" + node.value();
 									potentialMethods.add(temp);
-									classList.get(classList.size()-classesFoundInSentence).addMethod(temp);
+									classList.get(classList.size()-classesFoundInSentence).addMethod(temp, getObject(tdl));
 									break;
 								}
 							}
 							if( temp.equalsIgnoreCase("") ) {
 								potentialMethods.add(node.value());
-								classList.get(classList.size()-classesFoundInSentence).addMethod(node.value());
+								classList.get(classList.size()-classesFoundInSentence).addMethod(node.value(), getObject(tdl));
 							}
 						}
 					}
@@ -237,7 +237,7 @@ public class ElementExtraction {
 		outputPW.close();
 	}
 
-	private static void refineClasses(List<Classes> classList) {
+	public static void refineClasses(List<Classes> classList) {
 		// TODO Auto-generated method stub
 		//remove those nouns from class list who have no attributes and methods.
 		for(int i=0; i<classList.size(); ) {
@@ -249,7 +249,25 @@ public class ElementExtraction {
 		}
 	}
 
-	private static String getObject(List<TypedDependency> tdl) {
+	public static String getSubject(List<TypedDependency> tdl) {
+		Iterator<TypedDependency> tdlIt = tdl.iterator();
+		while( tdlIt.hasNext() ) {
+			TypedDependency temp1 = tdlIt.next();
+			if( temp1.reln().toString().equalsIgnoreCase("nsubj") ) {
+				Iterator<TypedDependency> it2 = tdl.iterator();
+				while( it2.hasNext() ) {
+					TypedDependency temp2 = it2.next();
+					if( temp2.gov().value().equalsIgnoreCase(temp1.dep().value()) && temp2.reln().toString().equalsIgnoreCase("compound") ) {
+						return temp2.dep().value()+"_"+temp1.dep().value();
+					}
+				}
+				return temp1.dep().value();
+			}
+		}
+		return null;
+	}
+	
+	public static String getObject(List<TypedDependency> tdl) {
 		// TODO Auto-generated method stub
 		Iterator<TypedDependency> tdlIt = tdl.iterator();
 		while( tdlIt.hasNext() ) {
@@ -273,5 +291,6 @@ public class ElementExtraction {
 			return true;
 		return false;
 	}
+	
 	
 }

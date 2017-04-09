@@ -1,19 +1,15 @@
-Library/NNP gives/VBZ loans/NNS to/TO students/NNS ./.
+People/NNS have/VBP names/NNS ./.
 
-(ROOT (S (NP (NNP Library)) (VP (VBZ gives) (NP (NNS loans)) (PP (TO to) (NP (NNS students)))) (. .)))
+(ROOT (S (NP (NNS People)) (VP (VBP have) (NP (NNS names))) (. .)))
 
-nsubj(gives-2, Library-1)
-root(ROOT-0, gives-2)
-dobj(gives-2, loans-3)
-case(students-5, to-4)
-nmod:to(gives-2, students-5)
+nsubj(have-2, People-1)
+root(ROOT-0, have-2)
+dobj(have-2, names-3)
 
 (ROOT
   (S
-    (NP (NNP Library))
-    (VP (VBZ gives)
-      (NP (NNS loans))
-      (PP (TO to)
-        (NP (NNS students))))
+    (NP (NNS People))
+    (VP (VBP have)
+      (NP (NNS names)))
     (. .)))
 

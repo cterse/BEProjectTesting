@@ -2,15 +2,15 @@ package test;
 
 public class Method {
 	private String methodName;
-	private Classes ofClass;
-	private Classes onClass;
+	private String ofClass;
+	private String onClass;
 	
 	public Method(String name) {
 		methodName = name;
-		ofClass = onClass = null;
+		ofClass = onClass = "";
 	}
 	
-	public Method(String name, Classes c1, Classes c2) {
+	public Method(String name, String c1, String c2) {
 		methodName = name;
 		ofClass = c1;
 		onClass = c2;
@@ -20,23 +20,24 @@ public class Method {
 		return methodName;
 	}
 	
-	public Classes getOfClass() {
+	public String getOfClass() {
 		return ofClass;
 	}
 	
-	public Classes getOnClass() {
+	public String getOnClass() {
 		return onClass;
 	}
 	
-	public void setOfClass(Classes c1) {
+	public void setOfClass(String c1) {
 		ofClass = c1;
 	}
 	
-	public void setOnClass(Classes c1) {
+	public void setOnClass(String c1) {
 		onClass = c1;
 	}
 	
 	public String toString() {
-		return methodName+"("+(ofClass==null?"null":ofClass.getClassFullName())+","+(onClass==null?"null":onClass.getClassFullName())+")";
+		String toReturn = methodName+"("+ofClass+", "+onClass+")";
+		return toReturn;
 	}
 }
