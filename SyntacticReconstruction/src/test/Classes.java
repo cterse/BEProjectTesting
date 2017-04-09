@@ -36,7 +36,7 @@ public class Classes {
 	}
 	
 	public void addAttribute(String name) {
-		attributes.add(new Attribute(name, this));
+		attributes.add(new Attribute(name, this.getClassFullName()));
 	}
 	
 	public void addAttribute(Attribute a) {

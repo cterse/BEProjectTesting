@@ -1,15 +1,18 @@
-People/NNS have/VBP names/NNS ./.
+A/DT research/NN departments/NNS hold/VBP a/DT course/NN ./.
 
-(ROOT (S (NP (NNS People)) (VP (VBP have) (NP (NNS names))) (. .)))
+(ROOT (S (NP (DT A) (NN research) (NNS departments)) (VP (VBP hold) (NP (DT a) (NN course))) (. .)))
 
-nsubj(have-2, People-1)
-root(ROOT-0, have-2)
-dobj(have-2, names-3)
+det(departments-3, A-1)
+compound(departments-3, research-2)
+nsubj(hold-4, departments-3)
+root(ROOT-0, hold-4)
+det(course-6, a-5)
+dobj(hold-4, course-6)
 
 (ROOT
   (S
-    (NP (NNS People))
-    (VP (VBP have)
-      (NP (NNS names)))
+    (NP (DT A) (NN research) (NNS departments))
+    (VP (VBP hold)
+      (NP (DT a) (NN course)))
     (. .)))
 

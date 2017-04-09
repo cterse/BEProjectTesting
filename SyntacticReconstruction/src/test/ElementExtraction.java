@@ -88,10 +88,7 @@ public class ElementExtraction {
 			
 			//Get the parse tree and dependencies
 			Tree parse = Parser.getParseTree(sentences.get(i));
-			TreebankLanguagePack tlp = lp.treebankLanguagePack(); // PennTreebankLanguagePack for English
-		    GrammaticalStructureFactory gsf = tlp.grammaticalStructureFactory();
-		    GrammaticalStructure gs = gsf.newGrammaticalStructure(parse);
-		    List<TypedDependency> tdl = gs.typedDependenciesCCprocessed();
+		    List<TypedDependency> tdl = Parser.getTypedDependencies(parse);
 			
 			Iterator<Tree> it = parse.iterator();
 			
