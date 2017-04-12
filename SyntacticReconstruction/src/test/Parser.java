@@ -76,12 +76,15 @@ public class Parser {
 	}
 
 	public static void main(String[] args) {
-		String sentence = "Some research departments play with research heads.";
+		String sentence = "Cats and dogs are animals.";
 		Tree parse = Parser.getParseTree(sentence);
 		List<TypedDependency> tdl = Parser.getTypedDependencies(parse);
 		
+		System.out.println(parse);
 		for(int i=0; i<tdl.size(); i++) {
 			System.out.println(tdl.get(i));
 		}
+		System.out.println(tdl.get(2).extra());
+		//System.out.println(tdl.get(1).gov().toString());
 	}
 }

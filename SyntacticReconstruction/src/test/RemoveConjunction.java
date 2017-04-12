@@ -485,7 +485,7 @@ public class RemoveConjunction {
 						node = CCParentIterator.next();
 						if( node.isLeaf() ) {
 							secondSentence += node.value() + " ";
-							System.out.println(node.value());
+							//System.out.println(node.value());
 							//System.out.print(node.value()+" ");
 						}
 					}
@@ -567,7 +567,7 @@ public class RemoveConjunction {
 	}
 	
 	public static void main(String[] args) {
-		String[] sentence = {"A player has a name and a record.",
+		String[] sentence = {"Each hockey team consists of six to twelve players and one player is the team captain.",
 								"Library issues books and loans to students.",
 								"Library issues books and gives loans to students.",
 								"Ajay and Rahul are playing and dancing.",

@@ -1,0 +1,26 @@
+Complex sentences contain one independent clause and one or more dependent (subordinate) clauses.
+
+Dependent clasuses:
+1. Noun clause (answers WHAT?) : Acts as a noun. Can be used as subject, subject complement as well as an object.
+	** The conjunction 'what' can only be used in noun clause.
+	Examples:
+	as Subject : What you do in your free time is your business.
+	as subj complement : Tom isn't what you call friendly.
+	as obj : 	She said (that) she was sorry.
+				I don't worry about what others think.
+				I really want to believe that tomorrow is better.
+
+2. Adjective clause (Relative clause) (answers WHO, WHICH) : acts as adjective.
+	Examples: 
+	The girl, who sold me the car, said it was hers.
+	My high school English teacher, who is retired, sent me a postcard.
+	I bought myself a motorcycle for my birthday, which made my wife crazy.
+
+3. Adverb clause (answers CONTRAST, WHEN, WHERE, WHY, HOW, HOW MUCH and UNDER WHAT CONDITION)
+	Examples:
+	Although he practised everyday, he didn't win. (Contrast)
+	If you help me pass this test, I'll buy you lunch. (Condition)
+	I lent my notes to her because she missed too many classes. (Reason, why)
+
+
+4. That clause

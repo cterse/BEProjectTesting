@@ -10,3 +10,5 @@ A coach has a level of accreditation.
 A coach can teach multiple teams.
 Players are people.
 People have names.
+Cats are animals.
+Dogs are animals.

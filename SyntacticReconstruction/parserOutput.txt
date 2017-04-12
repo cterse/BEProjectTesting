@@ -1,15 +1,15 @@
-People/NNS have/VBP names/NNS ./.
+Dogs/NNS are/VBP animals/NNS ./.
 
-(ROOT (S (NP (NNS People)) (VP (VBP have) (NP (NNS names))) (. .)))
+(ROOT (S (NP (NNS Dogs)) (VP (VBP are) (NP (NNS animals))) (. .)))
 
-nsubj(have-2, People-1)
-root(ROOT-0, have-2)
-dobj(have-2, names-3)
+nsubj(animals-3, Dogs-1)
+cop(animals-3, are-2)
+root(ROOT-0, animals-3)
 
 (ROOT
   (S
-    (NP (NNS People))
-    (VP (VBP have)
-      (NP (NNS names)))
+    (NP (NNS Dogs))
+    (VP (VBP are)
+      (NP (NNS animals)))
     (. .)))
 

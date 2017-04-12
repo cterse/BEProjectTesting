@@ -216,6 +216,31 @@ public class ElementExtractionAPI {
 						if( tempDep.dep().value().equalsIgnoreCase(node.value()) && tempDep.reln().toString().equalsIgnoreCase("cop") ) {
 							//the verb is a copula hence not a method
 							//but determines a relationship!!!!
+							System.out.println("COPULA FOUND: "+node.value());
+							
+							String methodName = node.value();
+							//using tdl, the copula relation's dep is the copula verb, gov is the word to which the cop is linking the nsubj to.
+							//if gov of cop relation is a noun, store it as onClass. Check for compound
+							for(int i=0; i<tdl.size(); i++) {
+								if(tdl.get(i).reln().toString().equalsIgnoreCase("cop")) {
+									String[] copGov = tdl.get(i).gov().toString().split("/");
+									if(copGov[1].equalsIgnoreCase("NN") || copGov[1].equalsIgnoreCase("NNS")) {
+										//the copula links to a noun. Add it(with its compound) as onClass
+										String onClass = copGov[0].toLowerCase();
+										for(int j=0; j<tdl.size(); j++) {
+											if(tdl.get(j).reln().toString().equalsIgnoreCase("compound") && tdl.get(j).gov().value().equalsIgnoreCase(copGov[0])) {
+												onClass = tdl.get(j).dep().value() + "_" + copGov[0].toLowerCase();
+												break;
+											}
+										}
+										onClass = Stemmer.getSingular(onClass);
+										String ofClass = Stemmer.getSingular(getSubject(tdl)).toLowerCase();
+										methodsList.add(new Method(methodName, ofClass, onClass));
+										break;
+									}
+								}
+							}
+							
 							isMethod = false;
 							break;
 						}
@@ -238,8 +263,8 @@ public class ElementExtractionAPI {
 						String ofClass = getSubject(tdl);
 						String object = getObject(tdl);
 						String nmodOfSubject = getNmodOfNsubj(tdl);
-						String onClass = (object==null)?((nmodOfSubject==null)?(null):nmodOfSubject):(object); 
-						methodsList.add(new Method(temp, Stemmer.getSingular(ofClass).toLowerCase(), Stemmer.getSingular(onClass).toLowerCase()));
+						String onClass = (object==null)?((nmodOfSubject==null)?(null):nmodOfSubject.toLowerCase()):(object.toLowerCase()); 
+						methodsList.add(new Method(temp, Stemmer.getSingular(ofClass), Stemmer.getSingular(onClass)));
 					}
 				}
 			}
@@ -290,6 +315,7 @@ public class ElementExtractionAPI {
 		List<Method> methodsList = new ArrayList<Method>();
 		List<Attribute> attributesList = new ArrayList<Attribute>();
 		for(int i=0; i<sentences.size(); i++) {
+			System.out.println("ANALYSING SENTENCE "+(i+1));
 			classList.addAll(extractClasses(sentences.get(i)));
 			methodsList.addAll(extractMethods(sentences.get(i)));
 			attributesList.addAll(extractAttributes(sentences.get(i)));
