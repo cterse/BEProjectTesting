@@ -6,22 +6,38 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.FileChooserUI;
+
+import common.sentenceSplitting.FormSentences;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.List;
+import java.util.Scanner;
+import java.awt.event.ActionEvent;
 
 public class InputFrame extends JFrame {
 
 	private JPanel contentPane;
+	private JTextArea txtrInput;
+	private JTextArea txtrSentences;
 	private JButton btnImportFile;
+	private JButton btnClearTextArea;
 	private JButton btnGo;
 	private JButton btnNext;
-	private JTextArea txtrCopyOrImport;
-	private JTextArea textArea;
+	private JScrollPane inputScrollPane;
 
 	/**
 	 * Launch the application.
@@ -56,71 +72,82 @@ public class InputFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		txtrCopyOrImport = new JTextArea();
+		JLabel lblInputFile = new JLabel("Input File");
+		
+		txtrInput = new JTextArea();
+		txtrInput.setWrapStyleWord(true);
+		txtrInput.setLineWrap(true);
+		
+		JLabel lblSentences = new JLabel("Sentences");
+		
+		txtrSentences = new JTextArea();
+		txtrSentences.setWrapStyleWord(true);
+		txtrSentences.setLineWrap(true);
 		
 		btnImportFile = new JButton("Import File");
 		
-		JLabel lblInputField = new JLabel("Input Field:");
+		btnClearTextArea = new JButton("Clear Text Area");
 		
 		btnGo = new JButton("Go");
 		
-		JLabel lblGeneratedSentences = new JLabel("Generated Sentences:");
-		
-		textArea = new JTextArea();
-		
-		JScrollBar scrollBar = new JScrollBar();
-		
-		JScrollBar scrollBar_1 = new JScrollBar();
-		
 		btnNext = new JButton("Next");
+		
+		inputScrollPane = new JScrollPane(txtrInput, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblInputField)
-						.addComponent(lblGeneratedSentences)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addComponent(textArea, GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
-								.addComponent(txtrCopyOrImport, GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE))
-							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblSentences)
+							.addContainerGap(440, Short.MAX_VALUE))
+						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(scrollBar_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(scrollBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(41)
+								.addComponent(txtrSentences)
+								.addComponent(lblInputFile)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(txtrInput)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(inputScrollPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addGap(50)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
 								.addComponent(btnNext, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(btnGo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(btnImportFile, GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE))))
-					.addGap(43))
+								.addComponent(btnImportFile, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(btnClearTextArea, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addGap(35))))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblInputField)
-					.addGap(14)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(scrollBar_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-							.addComponent(txtrCopyOrImport, GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addComponent(btnImportFile)
-								.addGap(14)
-								.addComponent(btnGo))))
-					.addGap(18)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(btnNext)
-						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-							.addComponent(lblGeneratedSentences)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(scrollBar, GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
-								.addComponent(textArea, GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE))))
-					.addGap(19))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addContainerGap()
+									.addComponent(lblInputFile)
+									.addGap(11)
+									.addComponent(txtrInput, GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGap(57)
+									.addComponent(btnImportFile)
+									.addGap(18)
+									.addComponent(btnClearTextArea)
+									.addPreferredGap(ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+									.addComponent(btnGo)))
+							.addGap(18)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(lblSentences)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(txtrSentences, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE))
+								.addComponent(btnNext)))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(129)
+							.addComponent(inputScrollPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
 		);
 		gl_contentPane.setAutoCreateGaps(true);
 		gl_contentPane.setAutoCreateContainerGaps(true);
@@ -129,7 +156,44 @@ public class InputFrame extends JFrame {
 	}
 
 	private void createEvents() {
-		// TODO Auto-generated method stub
+		btnImportFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.showOpenDialog(null);
+				File inputFile = fileChooser.getSelectedFile();
+				Scanner t = null;
+				try {
+					t = new Scanner(inputFile);
+					String temp = "";
+					while(t.hasNext()) {
+						temp += t.next() + " ";
+					}
+					txtrInput.setText(temp);
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		
+		btnClearTextArea.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtrInput.setText("");
+			}
+		});
+		
+		btnGo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					List<String> sentences = FormSentences.getSentences(txtrInput.getText());
+					for(int i=0; i<sentences.size(); i++) {
+						txtrSentences.append(sentences.get(i)+"\n");
+					}
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 	}
 }
