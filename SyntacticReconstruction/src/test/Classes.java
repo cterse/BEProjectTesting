@@ -7,7 +7,7 @@ package test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Classes {
+public class Classes implements Comparable<Classes> {
 	private String cname = "";
 	private String compound = "";
 	
@@ -15,12 +15,16 @@ public class Classes {
 	private List<Attribute> attributes = new ArrayList<Attribute>();
 	
 	Classes(String cname) {
-		this.cname = cname;
+		this.cname = cname.toLowerCase();
 	}
 	
 	Classes(String compound, String cname) {
-		this.compound = compound;
-		this.cname = cname;
+		this.compound = compound.toLowerCase();
+		this.cname = cname.toLowerCase();
+	}
+	
+	public int compareTo(Classes c) {
+		return this.getClassFullName().compareTo(c.getClassFullName());
 	}
 	
 	public void addMethod(String name) {
@@ -86,7 +90,8 @@ public class Classes {
 		Classes c = new Classes("testClass");
 		c.addAttribute("testAttr");
 		c.addMethod("testMethod");
-		System.out.println(c);
+		Classes d = new Classes("testClass");
+		System.out.println(d.compareTo(c));
 	}
 	
 }

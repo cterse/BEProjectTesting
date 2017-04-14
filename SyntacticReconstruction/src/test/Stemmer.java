@@ -236,7 +236,9 @@ public class Stemmer implements Function<Word,Word> {
       if (m() > 0) {
         k--;
       }
-    } else if ((ends("ed") || ends("ing")) && vowelinstem()) {
+    } 
+    /*
+    else if ((ends("ed") || ends("ing")) && vowelinstem()) {
       k = j;
       if (ends("at")) {
         setto("ate");
@@ -256,6 +258,7 @@ public class Stemmer implements Function<Word,Word> {
         setto("e");
       }
     }
+    */
   }
 
   /* step2() turns terminal y to i when there is another vowel in the stem. */
@@ -561,24 +564,6 @@ public class Stemmer implements Function<Word,Word> {
    * forcing lower case must be done outside the Stemmer class.
    * Usage: Stemmer file-name file-name ...
    */
-  public static void main(String[] args) throws IOException {
-    Stemmer s = new Stemmer();
-    if (args[0].equals("-file")) {
-      Iterator<Word> it = PTBTokenizer.newPTBTokenizer(new InputStreamReader(new FileInputStream(args[1]), "utf-8"));
-      while (it.hasNext()) {
-        Word token = it.next();
-        System.out.print(s.stem(token.word()));
-        System.out.print(' ');
-      }
-    } else {
-      for (String arg : args) {
-        //System.out.print(s.stem(arg));
-    	  System.out.print(s.getSingular(arg));
-        System.out.print(' ');
-      }
-    }
-    System.out.println();
-  }
 
   /**
    * Stems <code>s</code> and returns stemmed <code>String</code>.
@@ -615,13 +600,37 @@ public class Stemmer implements Function<Word,Word> {
 	  if(s == null) {
 		  return null;
 	  }
-	Stemmer stemmer = new Stemmer();
-    char[] characters = s.toCharArray();
-    for (char character : characters) {
-      stemmer.add(character);
-    }
-    stemmer.stem();
-    return stemmer.toString();
+	  Stemmer stemmer = new Stemmer();
+	  char[] characters = s.toCharArray();
+	  for (char character : characters) {
+		  stemmer.add(character);
+	  }
+	  stemmer.stem();
+	  return stemmer.toString();
   }
+  
+  public static void main(String[] args) throws IOException {
+	  /*
+	  Stemmer s = new Stemmer();
+		if (args[0].equals("-file")) {
+		  Iterator<Word> it = PTBTokenizer.newPTBTokenizer(new InputStreamReader(new FileInputStream(args[1]), "utf-8"));
+		  while (it.hasNext()) {
+		    Word token = it.next();
+		    System.out.print(s.stem(token.word()));
+		    System.out.print(' ');
+		  }
+		} else {
+		  for (String arg : args) {
+		    //System.out.print(s.stem(arg));
+			  System.out.print(s.getSingular(arg));
+		    System.out.print(' ');
+		      }
+		    }
+		    System.out.println();
+		*/
+	  System.out.println(Stemmer.getSingular("weddings"));
+	}
+	
+	  
   
 }

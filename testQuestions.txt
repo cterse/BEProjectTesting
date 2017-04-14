@@ -1,8 +1,4 @@
-A master student can take courses at the TUHH. Courses can be lectures or lab
-classes. Each master student must take at least one course. Each course is held by a
-research department. Each research department has at least one professor and 0 to 30
-research assistants. Students, professors and research assistants have a lot in common:
-They have a name, a first name and a date of birth. 
+A master student can take courses at the TUHH. Courses can be lectures or lab classes. Each master student must take at least one course. Each course is held by a research department. Each research department has at least one professor and 0 to 30 research assistants. Students, professors and research assistants have a lot in common: They have a name, a first name and a date of birth. 
 Which diagram type should be used to describe this? Draw such a diagram for this
 
 

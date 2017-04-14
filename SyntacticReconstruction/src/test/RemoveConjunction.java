@@ -567,7 +567,8 @@ public class RemoveConjunction {
 	}
 	
 	public static void main(String[] args) {
-		String[] sentence = {"Each hockey team consists of six to twelve players and one player is the team captain.",
+		String[] sentence = {"Each research department has at least one professor and 0 to 30 research assistants.",
+								"Each hockey team consists of six to twelve players and one player is the team captain.",
 								"Library issues books and loans to students.",
 								"Library issues books and gives loans to students.",
 								"Ajay and Rahul are playing and dancing.",

@@ -63,6 +63,16 @@ public class ElementExtractionAPI {
 			}
 		}
 		
+		//remove duplicates from classList
+		for(int i=0; i<classList.size(); i++) {
+			for(int j=i+1; j<classList.size(); ) {
+				if(classList.get(i).getClassFullName().equalsIgnoreCase(classList.get(j).getClassFullName())) {
+					classList.remove(j);
+				}
+				else j++;
+			}
+		}
+		
 		return classList;
 	}
 	
@@ -84,6 +94,16 @@ public class ElementExtractionAPI {
 				} else {
 					classList.add(new Classes(Stemmer.getSingular(compound)));
 				}
+			}
+		}
+		
+		//remove duplicates from classList
+		for(int i=0; i<classList.size(); i++) {
+			for(int j=i+1; j<classList.size(); ) {
+				if(classList.get(i).getClassFullName().equalsIgnoreCase(classList.get(j).getClassFullName())) {
+					classList.remove(j);
+				}
+				else j++;
 			}
 		}
 		
@@ -282,15 +302,16 @@ public class ElementExtractionAPI {
 	static List<Method> extractMethods(Tree parse) {
 		List<Method> methodsList = new ArrayList<Method>();
 		List<TypedDependency> tdl = Parser.getTypedDependencies(parse);
-		//System.out.println(parse);
-		String ofClass = null, onClass = null, dObject = null, methodName = null;
+		//Parser.printDependencyList(tdl);
 		
 		for(int i=0; i<tdl.size(); i++) {
+			String ofClass = null, onClass = null, dObject = null, methodName = null;
 			if(tdl.get(i).reln().toString().equalsIgnoreCase("nsubj") || tdl.get(i).reln().toString().equalsIgnoreCase("nsubjpass")) {
 				ofClass = tdl.get(i).dep().value();
 				String[] nsubGov = tdl.get(i).gov().toString().split("/");
 				if(!isVerbTag(nsubGov[1])) {
 					//a copula is linking the nsubj not a verb
+					//System.out.println("copula found");
 					for(int j=0; j<tdl.size(); j++) {
 						if(tdl.get(j).reln().toString().equalsIgnoreCase("cop")) {
 							String[] temp = tdl.get(j).gov().toString().split("/");
@@ -416,6 +437,7 @@ public class ElementExtractionAPI {
 			for(int j=i+1; j<classList.size(); j++) {
 				if(classList.get(i).getClassFullName().equalsIgnoreCase(classList.get(j).getClassFullName())) {
 					classList.remove(j);
+					j--;
 				}
 			}
 		}
@@ -457,8 +479,8 @@ public class ElementExtractionAPI {
 		String sentence = "Hockey teams play games against each other.";
 		List<String> sentences = new ArrayList<String>();
 		
-		//System.out.println(extractClasses(sentence));
-		//System.out.println("--------------------");
+		System.out.println(extractClasses(sentence));
+		System.out.println("--------------------");
 		
 		System.out.println(extractMethods(Parser.getParseTree(sentence)));
 		System.out.println("--------------------");
