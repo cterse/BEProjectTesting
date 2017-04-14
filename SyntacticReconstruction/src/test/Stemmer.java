@@ -612,6 +612,9 @@ public class Stemmer implements Function<Word,Word> {
   }
  
   public static String getSingular(String s) {
+	  if(s == null) {
+		  return null;
+	  }
 	Stemmer stemmer = new Stemmer();
     char[] characters = s.toCharArray();
     for (char character : characters) {

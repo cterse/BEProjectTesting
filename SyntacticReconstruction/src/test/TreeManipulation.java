@@ -105,18 +105,37 @@ public class TreeManipulation {
 		return false;
 	}
 	
+	public static int getLeafNumber(Tree leaf, Tree parse) {
+		int leafNumber = 0;
+		if(leaf.isLeaf()) {
+			Iterator<Tree> it = parse.iterator();
+			while(it.hasNext()) {
+				Tree node = it.next();
+				if(node.isLeaf()) {
+					leafNumber++;
+					if(node.equals(leaf) && node.nodeNumber(parse)==leaf.nodeNumber(parse)) {
+						return leafNumber;
+					}
+				}
+			}
+		}
+		return leafNumber;
+	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
 		//For testing
-		String sentence = "We had sums and then I went home.";
+		String sentence = "The girl, who sold the boy the car, said it was hers.";
 		
 		Tree parse = Parser.getParseTree(sentence);
 		List<TypedDependency> tdl = Parser.getTypedDependencies(parse);
+		for(TypedDependency z:tdl)
+			System.out.println(z);
 		//System.out.println(parse);
 		//System.out.println(tdl);
 		
-		System.out.println(getNextSibling(parse.getNodeNumber(10), parse));
+		System.out.println(getLeafNumber(parse.getNodeNumber(18), parse));
 		
 	}
 

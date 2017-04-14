@@ -1,0 +1,112 @@
+WHAT IS nmod?
+The "nominal modifier" grammatical relation. The nmod relation is used for nominal modifiers of nouns or clausal predicates. nmod is a noun functioning as a non-core (oblique) argument or adjunct. In English, nmod is used for prepositional complements.
+(The preposition in turn may be modifying a noun, verb, etc.) We here define cases of VBG quasi-prepositions like "including", "concerning", etc. as instances of pobj (unlike the Penn Treebank).
+
+Example: 
+"I sat on the chair" → nmod(sat, chair)
+
+(The preposition can be called a FW for pace, versus, etc. It can also be called a CC - but we don't currently handle that and would need to distinguish from conjoined PPs. Jan 2010 update: We now insist that the NP must follow the preposition. This prevents a preceding NP measure phrase being matched as a nmod. We do allow a preposition tagged RB followed by an NP pobj, as happens in the Penn Treebank for adverbial uses of PP like "up 19%")
+
+EXAMPLES:
+
+1. Mothers often cry during the weddings of their children.
+
+nsubj(cry-3, Mothers-1)
+advmod(cry-3, often-2)
+root(ROOT-0, cry-3)
+case(weddings-6, during-4)
+det(weddings-6, the-5)
+nmod:during(cry-3, weddings-6)
+case(children-9, of-7)
+nmod:poss(children-9, their-8)
+nmod:of(weddings-6, children-9)
+
+2. My children ran into the house.
+
+nmod:poss(children-2, My-1)
+nsubj(ran-3, children-2)
+root(ROOT-0, ran-3)
+case(house-6, into-4)
+det(house-6, the-5)
+nmod:into(ran-3, house-6)
+
+3.1. We will focus the investigation on whomever you identify as the perpetrator.
+
+nsubj(focus-3, We-1)
+aux(focus-3, will-2)
+dep(identify-9, focus-3)
+det(investigation-5, the-4)
+dobj(focus-3, investigation-5)
+case(whomever-7, on-6)
+nmod:on(focus-3, whomever-7)
+nsubj(identify-9, you-8)
+root(ROOT-0, identify-9)
+case(perpetrator-12, as-10)
+det(perpetrator-12, the-11)
+nmod:as(identify-9, perpetrator-12)
+
+3.2. Hockey teams play games against each other.
+
+compound(teams-2, Hockey-1)
+nsubj(play-3, teams-2)
+root(ROOT-0, play-3)
+dobj(play-3, games-4)
+case(other-7, against-5)
+det(other-7, each-6)
+nmod:against(games-4, other-7)
+
+4. My mother thought about under the bed.
+
+nmod:poss(mother-2, My-1)
+nsubj(thought-3, mother-2)
+root(ROOT-0, thought-3)
+compound:prt(thought-3, about-4)
+case(bed-7, under-5)
+det(bed-7, the-6)
+nmod:under(thought-3, bed-7)
+
+5. She is worrying about in the morning.
+
+nsubj(worrying-3, She-1)
+aux(worrying-3, is-2)
+root(ROOT-0, worrying-3)
+dep(worrying-3, about-4)
+case(morning-7, in-5)
+det(morning-7, the-6)
+nmod:in(worrying-3, morning-7)
+
+6. The maid gawked at behind the refrigerator.
+
+det(maid-2, The-1)
+nsubj(gawked-3, maid-2)
+root(ROOT-0, gawked-3)
+case(refrigerator-7, at-4)
+case(refrigerator-7, behind-5)
+det(refrigerator-7, the-6)
+nmod:behind(gawked-3, refrigerator-7)
+
+NOTE: The nmod relation basically works on prepositions. 
+It gov() is the word occuring before the preposition to which the preposition acts upon or provides info to.
+E.g. in sentence 1, prep = of, acting on the word "weddings" i.e. weddings of
+in sentence 2, ran into.
+In 3, focus on | identify as
+In 4, thought_about under
+In 5, worrying about
+In 6, gawked_at behind
+So these words become the gov() of the nmod relation.
+
+The dep() of nmod relation are essentially NOUNS. Note the gov() can be anything. But dep() only NOUNS.
+The dep() of nmod are the nouns that represent the extra info about the gov() in the relation.
+
+NOTE: Look at sentences 3.1. and 3.2.
+in 3.1., the nmod relations is focus-on-whomever (which looks correct).
+In 3.2., the nmod relation is games-against-teams (which as per above relation should be play-against-teams).
+
+
+EXECUTION:
+So in order to extract the methods in which there is no iobj and there is an nmod present, do the following steps:
+1. Get to the nmod relation.
+2. If the gov() of reln() is the methodName, OR the gov() is the dep() of direct object of the methodName(i.e. in dobj reln() with gov() = methodName, if dep() = gov() of nmod reln()) 
+	then add the dep() as the onClass.
+
+

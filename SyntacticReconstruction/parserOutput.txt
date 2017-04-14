@@ -1,15 +1,22 @@
-Dogs/NNS are/VBP animals/NNS ./.
+Hockey/NN teams/NNS play/VBP games/NNS against/IN each/DT other/JJ ./.
 
-(ROOT (S (NP (NNS Dogs)) (VP (VBP are) (NP (NNS animals))) (. .)))
+(ROOT (S (NP (NN Hockey) (NNS teams)) (VP (VBP play) (NP (NP (NNS games)) (PP (IN against) (NP (DT each) (JJ other))))) (. .)))
 
-nsubj(animals-3, Dogs-1)
-cop(animals-3, are-2)
-root(ROOT-0, animals-3)
+compound(teams-2, Hockey-1)
+nsubj(play-3, teams-2)
+root(ROOT-0, play-3)
+dobj(play-3, games-4)
+case(other-7, against-5)
+det(other-7, each-6)
+nmod:against(games-4, other-7)
 
 (ROOT
   (S
-    (NP (NNS Dogs))
-    (VP (VBP are)
-      (NP (NNS animals)))
+    (NP (NN Hockey) (NNS teams))
+    (VP (VBP play)
+      (NP
+        (NP (NNS games))
+        (PP (IN against)
+          (NP (DT each) (JJ other)))))
     (. .)))
 

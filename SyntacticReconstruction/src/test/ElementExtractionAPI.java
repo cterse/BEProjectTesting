@@ -21,6 +21,12 @@ public class ElementExtractionAPI {
 		return false;
 	}
 	
+	public static boolean isVerbTag(String tag) {
+		if(tag.equalsIgnoreCase("VB") || tag.equalsIgnoreCase("VBD") || tag.equalsIgnoreCase("VBG") || tag.equalsIgnoreCase("VBN") || tag.equalsIgnoreCase("VBP") || tag.equalsIgnoreCase("VBZ") )
+			return true;
+		return false;
+	}
+	
 	static void fillPossessionVerbsList() {
 		File possVerbsFile = new File("possessionVerbs.txt");
 		Scanner possVerbsFileScanner = null;
@@ -235,7 +241,7 @@ public class ElementExtractionAPI {
 										}
 										onClass = Stemmer.getSingular(onClass);
 										String ofClass = Stemmer.getSingular(getSubject(tdl)).toLowerCase();
-										methodsList.add(new Method(methodName, ofClass, onClass));
+										methodsList.add(new Method(methodName, ofClass, "", onClass));
 										break;
 									}
 								}
@@ -263,10 +269,94 @@ public class ElementExtractionAPI {
 						String ofClass = getSubject(tdl);
 						String object = getObject(tdl);
 						String nmodOfSubject = getNmodOfNsubj(tdl);
-						String onClass = (object==null)?((nmodOfSubject==null)?(null):nmodOfSubject.toLowerCase()):(object.toLowerCase()); 
-						methodsList.add(new Method(temp, Stemmer.getSingular(ofClass), Stemmer.getSingular(onClass)));
+						String onClass = (nmodOfSubject==null)?((object==null)?(null):object.toLowerCase()):(nmodOfSubject.toLowerCase()); 
+						methodsList.add(new Method(temp, Stemmer.getSingular(ofClass), "", Stemmer.getSingular(onClass)));
 					}
 				}
+			}
+		}
+		
+		return methodsList;
+	}
+	
+	static List<Method> extractMethods(Tree parse) {
+		List<Method> methodsList = new ArrayList<Method>();
+		List<TypedDependency> tdl = Parser.getTypedDependencies(parse);
+		//System.out.println(parse);
+		String ofClass = null, onClass = null, dObject = null, methodName = null;
+		
+		for(int i=0; i<tdl.size(); i++) {
+			if(tdl.get(i).reln().toString().equalsIgnoreCase("nsubj") || tdl.get(i).reln().toString().equalsIgnoreCase("nsubjpass")) {
+				ofClass = tdl.get(i).dep().value();
+				String[] nsubGov = tdl.get(i).gov().toString().split("/");
+				if(!isVerbTag(nsubGov[1])) {
+					//a copula is linking the nsubj not a verb
+					for(int j=0; j<tdl.size(); j++) {
+						if(tdl.get(j).reln().toString().equalsIgnoreCase("cop")) {
+							String[] temp = tdl.get(j).gov().toString().split("/");
+							if(temp[1].equalsIgnoreCase("NN") || temp[1].equalsIgnoreCase("NNS")) {
+								onClass = tdl.get(j).gov().value();
+								methodName = tdl.get(j).dep().value();
+							}
+						}
+					}
+				}
+				else {
+					methodName = tdl.get(i).gov().value();
+					for(int j=0; j<tdl.size(); j++) {
+						if(tdl.get(j).gov().value().equalsIgnoreCase(methodName)) {
+							if(tdl.get(j).reln().toString().equalsIgnoreCase("dobj")) {
+								dObject = tdl.get(j).dep().value();
+								continue;
+							}
+							if(tdl.get(j).reln().toString().equalsIgnoreCase("iobj") || tdl.get(j).reln().toString().contains("nmod")) {
+								onClass = tdl.get(j).dep().value();
+								continue;
+							}
+						}
+					}
+					if(onClass==null) {
+						//NOT SURE ABOUT THIS CODE!!!
+						for(int j=0; j<tdl.size(); j++) {
+							if(tdl.get(j).reln().toString().contains("nmod")) {
+								if(tdl.get(j).gov().value().equalsIgnoreCase(dObject)) {
+									onClass = tdl.get(j).dep().value();
+								}
+							}
+						}
+					}
+				}
+				
+				//get compounds and aux/auxpass of the above entitites, if any
+				for(int j=0; j<tdl.size(); j++) {
+					if(tdl.get(j).reln().toString().contains("compound")) {
+						if(tdl.get(j).gov().value().equalsIgnoreCase(ofClass)) {
+							ofClass = tdl.get(j).dep().value() + "_" + ofClass;
+							continue;
+						}
+						if(tdl.get(j).gov().value().equalsIgnoreCase(onClass)) {
+							onClass = tdl.get(j).dep().value() + "_" + onClass;
+							continue;
+						}
+						if(tdl.get(j).gov().value().equalsIgnoreCase(methodName)) {
+							methodName = tdl.get(j).dep().value() + "_" + methodName;
+							continue;
+						}
+						if(tdl.get(j).gov().value().equalsIgnoreCase(dObject)) {
+							dObject = tdl.get(j).dep().value() + "_" + dObject;
+							continue;
+						}
+					}
+					
+					if(tdl.get(j).reln().toString().equalsIgnoreCase("aux") || tdl.get(j).reln().toString().equalsIgnoreCase("auxpass")) {
+						if(tdl.get(j).gov().value().equalsIgnoreCase(methodName)) {
+							methodName = tdl.get(j).dep().value() + "_" + methodName;
+							continue;
+						}
+					}
+				}
+				Method newMethod = new Method(methodName, Stemmer.getSingular(ofClass), Stemmer.getSingular(dObject), Stemmer.getSingular(onClass));
+				methodsList.add(newMethod);
 			}
 		}
 		
@@ -364,22 +454,24 @@ public class ElementExtractionAPI {
 	}
 	
 	public static void main(String[] args) {
-		String sentence = "Some research departments play with research heads.";
+		String sentence = "Hockey teams play games against each other.";
 		List<String> sentences = new ArrayList<String>();
+		
+		//System.out.println(extractClasses(sentence));
+		//System.out.println("--------------------");
+		
+		System.out.println(extractMethods(Parser.getParseTree(sentence)));
+		System.out.println("--------------------");
 		/*
-		System.out.println(extractClasses(sentence));
-		System.out.println("--------------------");
-		System.out.println(extractMethods(sentence));
-		System.out.println("--------------------");
 		System.out.println(extractAttributes(sentence));
 		System.out.println("--------------------");
 		System.out.println(extractEntities(sentence));
-		
+		/*
 		System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 		sentences.add("Some research departments play with research heads.");
 		sentences.add("Some research departments have research heads.");
 		System.out.println(extractEntities(sentences));
-		*/
+		
 		File inputFile = null;
 		if(args.length!=0)
 			inputFile = new File(args[0]);
@@ -398,6 +490,6 @@ public class ElementExtractionAPI {
 		}
 		
 		System.out.println(extractEntities(sentences));
-		
+		*/
 	}
 }

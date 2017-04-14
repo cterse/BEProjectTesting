@@ -24,11 +24,15 @@ public class Classes {
 	}
 	
 	public void addMethod(String name) {
-		methods.add(new Method(name, this.getClassFullName(), ""));
+		methods.add(new Method(name, this.getClassFullName(), "", ""));
 	}
 	
 	public void addMethod(String methName, String onClassName) {
-		methods.add(new Method(methName, this.getClassFullName(), onClassName));
+		methods.add(new Method(methName, this.getClassFullName(), "", onClassName));
+	}
+	
+	public void addMethod(String methName, String ofClassName, String dobj, String onClassName) {
+		methods.add(new Method(methName, this.getClassFullName(), dobj, onClassName));
 	}
 	
 	public void addMethod(Method m) {

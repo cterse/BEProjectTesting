@@ -75,6 +75,12 @@ public class Parser {
 	    return tdl;
 	}
 
+	public static void printDependencyList(List<TypedDependency> tdl) {
+		for(int i=0; i<tdl.size(); i++) {
+			System.out.println(tdl.get(i));
+		}
+	}
+	
 	public static void main(String[] args) {
 		String sentence = "Cats and dogs are animals.";
 		Tree parse = Parser.getParseTree(sentence);

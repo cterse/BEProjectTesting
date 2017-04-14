@@ -1,0 +1,33 @@
+Firstle, identify all the nouns and create them as classes.
+Then, identify the attributes and store them too.
+For methods and relations detection, we will develop the foll. rules:
+
+A hockey league is made up of at least four hockey teams.
+
+det(league-3, A-1)
+compound(league-3, hockey-2)
+nsubjpass(made-5, league-3)
+auxpass(made-5, is-4)
+root(ROOT-0, made-5)
+compound:prt(made-5, up-6)
+case(teams-12, of-7)
+case(least-9, at-8)
+nmod:npmod(four-10, least-9)
+nummod(teams-12, four-10)
+compound(teams-12, hockey-11)
+nmod:of(made-5, teams-12)
+
+Rules:
+det = Ignore
+
+Go to first nsubj or nsubjpass, and get its gov() which is a verb. Store the nsubj or nsubjpass, this gives the ofClass param of Method class.
+
+Now, we want to check the following tags which has the above extracted verb as gov() 
+dobj, iobj, nmod,  
+dobj = gives direct object (dobject param of Method class) of the method.
+iobj = gives indirect object (onClass param of Method class) of the method.
+nmod = gives onClass param of the method.
+
+Now, check for any compounds of the subject, method, dobject and iobject, and for any aux/auxpass of method.
+
+Save the method.
