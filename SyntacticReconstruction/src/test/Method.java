@@ -5,6 +5,9 @@ public class Method {
 	private String ofClass;
 	private String dobject;
 	private String onClass;
+	private String ofClassQuantity;
+	private String onClassQuantity;
+	private String dObjectQuantity;
 	
 	public Method(String name) {
 		methodName = name;

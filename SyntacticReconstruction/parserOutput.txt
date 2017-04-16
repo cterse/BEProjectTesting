@@ -1,22 +1,22 @@
-Hockey/NN teams/NNS play/VBP games/NNS against/IN each/DT other/JJ ./.
+Teams/NNS are/VBP sometimes/RB led/VBN by/IN a/DT coach/NN ./.
 
-(ROOT (S (NP (NN Hockey) (NNS teams)) (VP (VBP play) (NP (NP (NNS games)) (PP (IN against) (NP (DT each) (JJ other))))) (. .)))
+(ROOT (S (NP (NNS Teams)) (VP (VBP are) (ADVP (RB sometimes)) (VP (VBN led) (PP (IN by) (NP (DT a) (NN coach))))) (. .)))
 
-compound(teams-2, Hockey-1)
-nsubj(play-3, teams-2)
-root(ROOT-0, play-3)
-dobj(play-3, games-4)
-case(other-7, against-5)
-det(other-7, each-6)
-nmod:against(games-4, other-7)
+nsubjpass(led-4, Teams-1)
+auxpass(led-4, are-2)
+advmod(led-4, sometimes-3)
+root(ROOT-0, led-4)
+case(coach-7, by-5)
+det(coach-7, a-6)
+nmod:by(led-4, coach-7)
 
 (ROOT
   (S
-    (NP (NN Hockey) (NNS teams))
-    (VP (VBP play)
-      (NP
-        (NP (NNS games))
-        (PP (IN against)
-          (NP (DT each) (JJ other)))))
+    (NP (NNS Teams))
+    (VP (VBP are)
+      (ADVP (RB sometimes))
+      (VP (VBN led)
+        (PP (IN by)
+          (NP (DT a) (NN coach)))))
     (. .)))
 

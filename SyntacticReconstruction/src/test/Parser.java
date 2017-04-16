@@ -82,7 +82,7 @@ public class Parser {
 	}
 	
 	public static void main(String[] args) {
-		String sentence = "Cats and dogs are animals.";
+		String sentence = "Teams are led by coaches.";
 		Tree parse = Parser.getParseTree(sentence);
 		List<TypedDependency> tdl = Parser.getTypedDependencies(parse);
 		
@@ -90,7 +90,13 @@ public class Parser {
 		for(int i=0; i<tdl.size(); i++) {
 			System.out.println(tdl.get(i));
 		}
-		System.out.println(tdl.get(2).extra());
+		//System.out.println(tdl.get(2).dep().index());
+		//System.out.println(tdl.get(2).dep().tag());
+		//System.out.println(tdl.get(6).gov().equals(tdl.get(6).dep()));
 		//System.out.println(tdl.get(1).gov().toString());
+		System.out.println(tdl.get(4).extra());
+	
+	
+	
 	}
 }

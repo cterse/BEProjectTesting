@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
+import edu.stanford.nlp.ie.NumberNormalizer;
+import edu.stanford.nlp.ling.IndexedWord;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TypedDependency;
 
@@ -305,33 +307,45 @@ public class ElementExtractionAPI {
 		//Parser.printDependencyList(tdl);
 		
 		for(int i=0; i<tdl.size(); i++) {
-			String ofClass = null, onClass = null, dObject = null, methodName = null;
+			IndexedWord ofClass = null, onClass = null, dObject = null, methodName = null;
 			if(tdl.get(i).reln().toString().equalsIgnoreCase("nsubj") || tdl.get(i).reln().toString().equalsIgnoreCase("nsubjpass")) {
-				ofClass = tdl.get(i).dep().value();
-				String[] nsubGov = tdl.get(i).gov().toString().split("/");
-				if(!isVerbTag(nsubGov[1])) {
+				ofClass = tdl.get(i).dep();
+				if(!isVerbTag(tdl.get(i).gov().tag())) {
 					//a copula is linking the nsubj not a verb
 					//System.out.println("copula found");
 					for(int j=0; j<tdl.size(); j++) {
 						if(tdl.get(j).reln().toString().equalsIgnoreCase("cop")) {
-							String[] temp = tdl.get(j).gov().toString().split("/");
-							if(temp[1].equalsIgnoreCase("NN") || temp[1].equalsIgnoreCase("NNS")) {
-								onClass = tdl.get(j).gov().value();
-								methodName = tdl.get(j).dep().value();
+							if(tdl.get(j).gov().tag().equalsIgnoreCase("NN") || tdl.get(j).gov().tag().equalsIgnoreCase("NNS")) {
+								onClass = tdl.get(j).gov();
+								methodName = tdl.get(j).dep();
 							}
 						}
 					}
 				}
 				else {
-					methodName = tdl.get(i).gov().value();
+					methodName = tdl.get(i).gov();
+					
+					//if there is a neg relation for the current methodName, it means there is no such method.
+					//hence, if for a neg relation gov = methodName, then continue.
+					boolean negativeMethod = false;
 					for(int j=0; j<tdl.size(); j++) {
-						if(tdl.get(j).gov().value().equalsIgnoreCase(methodName)) {
+						if(tdl.get(j).reln().toString().equalsIgnoreCase("neg")) {
+							if(tdl.get(j).gov().equals(methodName)) {
+								negativeMethod = true; break;
+							}
+						}
+					}
+					if(negativeMethod)
+						continue;
+					
+					for(int j=0; j<tdl.size(); j++) {
+						if(tdl.get(j).gov().equals(methodName)) {
 							if(tdl.get(j).reln().toString().equalsIgnoreCase("dobj")) {
-								dObject = tdl.get(j).dep().value();
+								dObject = tdl.get(j).dep();
 								continue;
 							}
 							if(tdl.get(j).reln().toString().equalsIgnoreCase("iobj") || tdl.get(j).reln().toString().contains("nmod")) {
-								onClass = tdl.get(j).dep().value();
+								onClass = tdl.get(j).dep();
 								continue;
 							}
 						}
@@ -340,43 +354,63 @@ public class ElementExtractionAPI {
 						//NOT SURE ABOUT THIS CODE!!!
 						for(int j=0; j<tdl.size(); j++) {
 							if(tdl.get(j).reln().toString().contains("nmod")) {
-								if(tdl.get(j).gov().value().equalsIgnoreCase(dObject)) {
-									onClass = tdl.get(j).dep().value();
+								if(tdl.get(j).gov().equals(dObject)) {
+									onClass = tdl.get(j).dep();
 								}
 							}
 						}
 					}
 				}
 				
+				String toReturnMethodName = methodName==null?null:methodName.value();
+				String toReturnOfClass = ofClass==null?null:ofClass.value();
+				String toReturnOnClass = onClass==null?null:onClass.value();
+				String toReturnDObject = dObject==null?null:dObject.value();
+				
 				//get compounds and aux/auxpass of the above entitites, if any
 				for(int j=0; j<tdl.size(); j++) {
 					if(tdl.get(j).reln().toString().contains("compound")) {
-						if(tdl.get(j).gov().value().equalsIgnoreCase(ofClass)) {
-							ofClass = tdl.get(j).dep().value() + "_" + ofClass;
+						if(tdl.get(j).gov().equals(ofClass)) {
+							toReturnOfClass = tdl.get(j).dep().value() + "_" + toReturnOfClass;
 							continue;
 						}
-						if(tdl.get(j).gov().value().equalsIgnoreCase(onClass)) {
-							onClass = tdl.get(j).dep().value() + "_" + onClass;
+						if(tdl.get(j).gov().equals(onClass)) {
+							toReturnOnClass = tdl.get(j).dep().value() + "_" + toReturnOnClass;
 							continue;
 						}
-						if(tdl.get(j).gov().value().equalsIgnoreCase(methodName)) {
-							methodName = tdl.get(j).dep().value() + "_" + methodName;
+						if(tdl.get(j).gov().equals(methodName)) {
+							toReturnMethodName = toReturnMethodName+ "_" + tdl.get(j).dep().value();
 							continue;
 						}
-						if(tdl.get(j).gov().value().equalsIgnoreCase(dObject)) {
-							dObject = tdl.get(j).dep().value() + "_" + dObject;
+						if(tdl.get(j).gov().equals(dObject)) {
+							toReturnDObject = tdl.get(j).dep().value() + "_" + toReturnDObject;
 							continue;
 						}
 					}
-					
+					if(tdl.get(j).reln().toString().equalsIgnoreCase("case")) {
+						if(tdl.get(j).gov().equals(onClass)) {
+							toReturnMethodName = toReturnMethodName + "_" + tdl.get(j).dep().value();
+							continue;
+						}
+					}
+					/*
 					if(tdl.get(j).reln().toString().equalsIgnoreCase("aux") || tdl.get(j).reln().toString().equalsIgnoreCase("auxpass")) {
-						if(tdl.get(j).gov().value().equalsIgnoreCase(methodName)) {
-							methodName = tdl.get(j).dep().value() + "_" + methodName;
+						if(tdl.get(j).gov().equals(methodName)) {
+							toReturnMethodName = tdl.get(j).dep().value() + "_" + toReturnMethodName;
 							continue;
 						}
 					}
+					*/
 				}
-				Method newMethod = new Method(methodName, Stemmer.getSingular(ofClass), Stemmer.getSingular(dObject), Stemmer.getSingular(onClass));
+				/*
+				String ofClassQuantity = extractMulitplicity(ofClass, tdl);
+				String onClassQuantity = extractMulitplicity(onClass, tdl);
+				String dObjectQuantity = extractMulitplicity(dObject, tdl);
+				System.out.println(ofClass+" mulitplicity = "+ofClassQuantity);
+				System.out.println(onClass+" mulitplicity = "+onClassQuantity);
+				System.out.println(dObject+" mulitplicity = "+dObjectQuantity);
+				*/
+				Method newMethod = new Method(toReturnMethodName, Stemmer.getSingular(toReturnOfClass), Stemmer.getSingular(toReturnDObject), Stemmer.getSingular(toReturnOnClass));
 				methodsList.add(newMethod);
 			}
 		}
@@ -475,15 +509,38 @@ public class ElementExtractionAPI {
 		return classList;
 	}
 	
+	static String extractMulitplicity(IndexedWord entity, List<TypedDependency> tdl) {
+		String multi = null;
+		for(int i=0; i<tdl.size(); i++) {
+			if(tdl.get(i).reln().toString().equalsIgnoreCase("nummod")) {
+				if(tdl.get(i).gov().equals(entity)) {
+					multi = NumberNormalizer.wordToNumber(tdl.get(i).dep().value()).toString();
+				}
+			}
+			
+			if(tdl.get(i).reln().toString().equalsIgnoreCase("det")) {
+				if(tdl.get(i).gov().equals(entity)) {
+					String relnDep = tdl.get(i).dep().value();
+					if(relnDep.equalsIgnoreCase("some")) {
+						multi = "0...*";
+					}
+				}
+			}
+		}
+		
+		return multi;
+	}
+	
 	public static void main(String[] args) {
-		String sentence = "Hockey teams play games against each other.";
+		String sentence = "Teams are sometimes led by a coach.";
 		List<String> sentences = new ArrayList<String>();
 		
-		System.out.println(extractClasses(sentence));
+		//System.out.println(extractClasses(sentence));
+		//System.out.println("--------------------");
+		
+		System.out.println(sentence+"\n"+extractMethods(Parser.getParseTree(sentence)));
 		System.out.println("--------------------");
 		
-		System.out.println(extractMethods(Parser.getParseTree(sentence)));
-		System.out.println("--------------------");
 		/*
 		System.out.println(extractAttributes(sentence));
 		System.out.println("--------------------");
