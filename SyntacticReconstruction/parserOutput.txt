@@ -1,22 +1,15 @@
-Teams/NNS are/VBP sometimes/RB led/VBN by/IN a/DT coach/NN ./.
+People/NNS have/VBP names/NNS ./.
 
-(ROOT (S (NP (NNS Teams)) (VP (VBP are) (ADVP (RB sometimes)) (VP (VBN led) (PP (IN by) (NP (DT a) (NN coach))))) (. .)))
+(ROOT (S (NP (NNS People)) (VP (VBP have) (NP (NNS names))) (. .)))
 
-nsubjpass(led-4, Teams-1)
-auxpass(led-4, are-2)
-advmod(led-4, sometimes-3)
-root(ROOT-0, led-4)
-case(coach-7, by-5)
-det(coach-7, a-6)
-nmod:by(led-4, coach-7)
+nsubj(have-2, People-1)
+root(ROOT-0, have-2)
+dobj(have-2, names-3)
 
 (ROOT
   (S
-    (NP (NNS Teams))
-    (VP (VBP are)
-      (ADVP (RB sometimes))
-      (VP (VBN led)
-        (PP (IN by)
-          (NP (DT a) (NN coach)))))
+    (NP (NNS People))
+    (VP (VBP have)
+      (NP (NNS names)))
     (. .)))
 

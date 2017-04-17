@@ -2,7 +2,7 @@ A master student can take courses at the TUHH. Courses can be lectures or lab cl
 Which diagram type should be used to describe this? Draw such a diagram for this
 
 
-A hockey league is made up of at least four hockey teams. Each hockey team is composed of six to twelve players and one player is the team captain. A team has a name and a record. Players have a number and a position. Hockey teams play games against each other. Each game has a score and a location. Teams are sometimes led by a coach. A coach has a level of accreditation and a number of years of experience, and can coach multiple teams. Coaches and players are people, and people have names and addresses. 
+A hockey league is made up of at least four hockey teams. Each hockey team is composed of 6 to 12 players and one player is the team captain. A team has a name and a record. Players have a number and a position. Hockey teams play games against each other. Each game has a score and a location. Teams are sometimes led by a coach. A coach has a level of accreditation and a number of years of experience, and can coach multiple teams. Coaches and players are people, and people have names and addresses. 
 Draw a class diagram for this information, and be sure to label all associations with appropriate multiplicities.
 
 

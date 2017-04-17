@@ -99,53 +99,7 @@ public class SyntaxRecon {
 		while(sentencesFileScanner.hasNext()) {
 			System.out.println("Analysing sentence = "+(++count));
 			String sentence = sentencesFileScanner.nextLine();
-			/*
-			//First we need to parse the sentence.
-			Tree parse = Parser.getParseTree(sentence);
-			
-			//Get the dependencies
-			List<TypedDependency> tdl = Parser.getTypedDependencies(parse);
-		    
-			//Now, we have the parser output for the sentence in the "parserOutput.txt" file
-			//a scanner to read the parserOutput.txt file
-			File parserOutput = new File("parserOutput.txt");
-			Scanner parserOutputFileScanner = null;
-			try {
-				parserOutputFileScanner = new Scanner(parserOutput);
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			//If sentence has no verb, discard it
-			//For now, return. In loop, continue
-			if(!TreeManipulation.checkVerbPresent(parse)) {
-				System.out.println("Verb not present.");
-				System.out.println("-------------------------------------------------");
-				continue;
-			}
-			
-			//Check voice of sentence
-			//1 = active, 0 = passive
-			if(getVoice(tdl) == 0) {
-				System.out.println("Passive sentence.");
-				System.out.println("-------------------------------------------------");
-				continue;
-			}
-			
-			//Discard the sentence after the semi colon
-			parse = removeSemicolon(parse);
-			
-			//Method to remove and from sentence. Works for a single "and" for now
-			//Output in andRemovedSentences2.txt
-			//if(checkAndPresent(parse))
-				removeAnd(parse, tdl);
-			//else {
-			//	System.out.println("AND not present.");
-			//	return;
-			//}
-			System.out.println("-------------------------------------------------");
-			*/
+		
 			List<String> temp = reconstructSentence(sentence);
 			if(temp!=null)
 				result.addAll(temp);
@@ -189,7 +143,10 @@ public class SyntaxRecon {
 		//1 = active, 0 = passive
 		if(MiscAPI.getVoice(tdl) == 0) {
 			System.out.println("Passive sentence.");
-			return null;
+			//return null;
+			ArrayList<String> temp = new ArrayList<String>();
+			temp.add(sentence);
+			return temp;
 		}
 		
 		//Discard the sentence after the semi-colon

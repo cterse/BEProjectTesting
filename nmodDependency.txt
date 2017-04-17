@@ -104,9 +104,7 @@ In 3.2., the nmod relation is games-against-teams (which as per above relation s
 
 
 EXECUTION:
-So in order to extract the methods in which there is no iobj and there is an nmod present, do the following steps:
+So in order to extract the methods in which there is no iobj/dobj and there is an nmod present, do the following steps:
 1. Get to the nmod relation.
 2. If the gov() of reln() is the methodName, OR the gov() is the dep() of direct object of the methodName(i.e. in dobj reln() with gov() = methodName, if dep() = gov() of nmod reln()) 
 	then add the dep() as the onClass.
-
-
