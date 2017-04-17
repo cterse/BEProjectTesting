@@ -127,10 +127,7 @@ public class SyntaxRecon {
 			System.exit(1);
 		}
 		
-		//First we need to parse the sentence.
 		Tree parse = Parser.getParseTree(sentence);
-		
-		//Get the dependencies
 		List<TypedDependency> tdl = Parser.getTypedDependencies(parse);
 		
 	    //If sentence has no verb, discard it
@@ -143,10 +140,10 @@ public class SyntaxRecon {
 		//1 = active, 0 = passive
 		if(MiscAPI.getVoice(tdl) == 0) {
 			System.out.println("Passive sentence.");
-			//return null;
-			ArrayList<String> temp = new ArrayList<String>();
-			temp.add(sentence);
-			return temp;
+			return null;
+			//ArrayList<String> temp = new ArrayList<String>();
+			//temp.add(sentence);
+			//return temp;
 		}
 		
 		//Discard the sentence after the semi-colon
@@ -155,6 +152,21 @@ public class SyntaxRecon {
 		//Method to remove and from sentence. Works for a single "and" for now
 		simpleSentences = RemoveConjunction.removeAllConjunctions(removedSemicolon);
 	    
+		return simpleSentences;
+	}
+	
+	public static List<String> reconstructSentences(List<String> sentences) {
+		List<String> simpleSentences = new ArrayList<String>();
+		
+		if(sentences==null || sentences.isEmpty()) {
+			System.out.println("SyntaxRecon.reconstructSentences() : sentences are null/empty. Exiting.");
+			System.exit(1);
+		}
+		
+		for(int i=0; i<sentences.size(); i++) {
+			simpleSentences.addAll(reconstructSentence(sentences.get(i)));
+		}
+		
 		return simpleSentences;
 	}
 	

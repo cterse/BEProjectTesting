@@ -1,0 +1,15 @@
+People/NNS have/VBP name/NN ./.
+
+(ROOT (S (NP (NNS People)) (VP (VBP have) (NP (NN name))) (. .)))
+
+nsubj(have-2, People-1)
+root(ROOT-0, have-2)
+dobj(have-2, name-3)
+
+(ROOT
+  (S
+    (NP (NNS People))
+    (VP (VBP have)
+      (NP (NN name)))
+    (. .)))
+

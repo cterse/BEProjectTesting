@@ -1,0 +1,13 @@
+A library can issue loan items.
+It caters to the needs of customers.
+Each membership card has a unique member number.
+Each such section has a classification mark.
+A loan item is distinguished by a bar code.
+This bar code is unique to the loan item.
+The loan items can be of two types namely books.
+The loan items can be of two types namely language tapes.
+Each language tape has a title language -LRB- e.g. French -RRB- ,.
+Each language tape has level -LRB- e.g. beginner -RRB-.
+A customer may borrow up to a maximum of 8 items at one time.
+The library also supports the facility for an item to be searched.
+The library database is updated on daily basis.

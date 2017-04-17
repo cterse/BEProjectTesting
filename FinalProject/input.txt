@@ -1,15 +1,6 @@
-A library can issue loan items. It caters to the needs of customers. A customer is
-termed as a member and is given a membership card. Each membership card has a unique
-member number. The customer’s name, address, date of birth and other such details also
-need to be recorded. The library is divided into a number of sections for various subjects.
-Each such section has a classification mark. A loan item is distinguished by a bar code. This
-bar code is unique to the loan item. The loan items can be of two types namely language
-tapes and books. Each language tape has a title language (e.g. French), and level (e.g.
-beginner). Similarly a book can be identified by a title, and author(s). A customer may
-borrow up to a maximum of 8 items at one time. An item can be borrowed, reserved or
-renewed to extend a current loan. While issuing an item, the customer's membership number
-is scanned via a bar code reader. If membership validation succeeds and the no of loan items
-is less than 8, the book bar code is read, either via the bar code reader. If the item can be
-issued (e.g. not reserved) the item is stamped and then issued. The library also
-supports the facility for an item to be searched. The library database is updated on daily
-basis.
+A hockey league is made up of at least four hockey teams. Each hockey team is 
+composed of six to twelve players and one player captains the team. A team has 
+a name and a record. Players have a number and a position. Hockey teams play 
+games against each other. Each game has a score and a location. Teams are taught by a coach. 
+A coach has a level of accreditation and a number of years of experience. 
+A coach can teach multiple teams. Players are people. People have name.
