@@ -583,16 +583,16 @@ public class ElementExtractionAPI {
 		while( inputFileScanner.hasNextLine() ) {
 			sentences.add(inputFileScanner.nextLine());
 		}
-		
+		/*
 		for(int i=0; i<sentences.size(); i++) {
 			System.out.println(sentences.get(i));
 			Parser.printDependencyList(Parser.getTypedDependencies(Parser.getParseTree(sentences.get(i))));
 			System.out.println(extractMethods(Parser.getParseTree(sentences.get(i))));
 			System.out.println("---------------------------------------");
 		}
-		
-		//System.out.println(extractEntities(sentence));
-		//System.out.println("--------------------");
+		*/
+		System.out.println(extractEntities(sentences));
+		System.out.println("--------------------");
 		
 		/*
 		System.out.println(extractEntities(sentence));
