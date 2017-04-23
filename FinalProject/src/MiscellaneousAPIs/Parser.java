@@ -82,7 +82,7 @@ public class Parser {
 	}
 	
 	public static void main(String[] args) {
-		String sentence = "People have a last name.";
+		String sentence = "Each hockey team is  composed of six to twelve players and one player captains the team.";
 		Tree parse = Parser.getParseTree(sentence);
 		List<TypedDependency> tdl = Parser.getTypedDependencies(parse);
 		

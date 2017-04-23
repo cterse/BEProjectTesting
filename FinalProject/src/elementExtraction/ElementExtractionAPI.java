@@ -316,7 +316,7 @@ public class ElementExtractionAPI {
 	public static List<Method> extractMethods(Tree parse) {
 		List<Method> methodsList = new ArrayList<Method>();
 		List<TypedDependency> tdl = Parser.getTypedDependencies(parse);
-		Parser.printDependencyList(tdl);
+		//Parser.printDependencyList(tdl);
 		
 		for(int i=0; i<tdl.size(); i++) {
 			IndexedWord ofClass = null, iObject = null, dObject = null, methodName = null;
@@ -447,9 +447,10 @@ public class ElementExtractionAPI {
 				}
 				
 				Method newMethod = new Method(toReturnMethodName, Stemmer.getSingular(toReturnOfClass), Stemmer.getSingular(toReturnDObject), Stemmer.getSingular(toReturnIObject));
-				System.out.println("analysing = "+newMethod);
+				//System.out.println("analysing = "+newMethod);
 				newMethod.findAndSetMethodType();
-				methodsList.add(newMethod);
+				if(!newMethod.getMethodType().equalsIgnoreCase("poss_association"))
+					methodsList.add(newMethod);
 			}
 		}
 		

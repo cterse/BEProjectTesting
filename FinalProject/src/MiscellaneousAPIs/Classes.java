@@ -23,6 +23,12 @@ public class Classes implements Comparable<Classes> {
 		this.cname = cname.toLowerCase();
 	}
 	
+	public boolean isEmpty() {
+		if(this.methods.isEmpty() && this.attributes.isEmpty()) 
+			return true;
+		return false;
+	}
+	
 	public int compareTo(Classes c) {
 		return this.getClassFullName().compareTo(c.getClassFullName());
 	}

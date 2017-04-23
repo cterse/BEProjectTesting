@@ -1,46 +1,6 @@
-Class full name = master_student
-Relations = [can_take(master_student, course, null, method), must_take(master_student, course, null, method)]
+Class full name = hockey_team
+Relations = [has(hockey_team, name, null, association), has(hockey_team, record, null, association), play(hockey_team, game, null, association)]
 Attributes = []
-
-
-Class full name = course
-Relations = [be(course, lab, null, generalization), be(course, lecture, null, generalization)]
-Attributes = []
-
-
-Class full name = lab
-Relations = []
-Attributes = []
-
-
-Class full name = lecture
-Relations = []
-Attributes = []
-
-
-Class full name = research_department
-Relations = [holds(research_department, course, null, method), has(research_department, professor, null, association), has_0(research_department, null, research_assistant, method)]
-Attributes = [professor(research_department)]
-
-
-Class full name = professor
-Relations = [are(professor, people, null, generalization)]
-Attributes = []
-
-
-Class full name = research_assistant
-Relations = [are(research_assistant, people, null, generalization)]
-Attributes = []
-
-
-Class full name = student
-Relations = [are(student, people, null, generalization)]
-Attributes = []
-
-
-Class full name = people
-Relations = [have(people, name, null, association), have(people, date, null, association), have(people, name, null, association)]
-Attributes = [last_name(people), first_name(people)]
 
 
 Class full name = name
@@ -48,13 +8,73 @@ Relations = []
 Attributes = []
 
 
-Class full name = date
+Class full name = record
 Relations = []
 Attributes = []
 
 
-Class full name = birth
+Class full name = player
+Relations = [have(player, position, null, association), have(player, number, null, association), are(player, people, null, generalization)]
+Attributes = []
+
+
+Class full name = position
 Relations = []
+Attributes = []
+
+
+Class full name = number
+Relations = []
+Attributes = []
+
+
+Class full name = game
+Relations = [has(game, score, null, association), has(game, location, null, association)]
+Attributes = []
+
+
+Class full name = score
+Relations = []
+Attributes = []
+
+
+Class full name = location
+Relations = []
+Attributes = []
+
+
+Class full name = coach
+Relations = [has(coach, number, null, association), has(coach, level, null, association), can_teach(coach, team, null, association)]
+Attributes = []
+
+
+Class full name = year
+Relations = []
+Attributes = []
+
+
+Class full name = experience
+Relations = []
+Attributes = []
+
+
+Class full name = level
+Relations = []
+Attributes = []
+
+
+Class full name = accreditation
+Relations = []
+Attributes = []
+
+
+Class full name = team
+Relations = []
+Attributes = []
+
+
+Class full name = people
+Relations = [have(people, name, null, association)]
 Attributes = []
 
 

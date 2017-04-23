@@ -29,6 +29,7 @@ public class FinalProject {
 		List<String> sentences = null;
 		try {
 			sentences = FormSentences.getSentences(pathToInputFile);
+			System.out.println("-------------------------");
 			System.out.println("\nEXTRACTED SENTENCES:");
 			MiscAPI.printListPerLine(sentences);
 			pw = new PrintWriter("results/extractedSentences.txt");
@@ -45,6 +46,7 @@ public class FinalProject {
 		
 		//Step 3: Syntactic Reconstruction
 		List<String> simplifiedSentences = SyntaxRecon.reconstructSentences(sentences);
+		System.out.println("-------------------------");
 		System.out.println("\nSIMPLIFIED SENTENCES:");
 		MiscAPI.printListPerLine(simplifiedSentences);
 		System.out.print("\n\nPRESS ANY KEY TO CONTINUE...\n");
@@ -62,8 +64,11 @@ public class FinalProject {
 		
 		//Step 4: Entities Extraction
 		List<Classes> classList = ElementExtractionAPI.extractEntities(simplifiedSentences);
+		System.out.println("-------------------------");
+		System.out.println("OUTPUT:");
 		System.out.println(classList);
 		
+		/*
 		//Refining classList
 		//get empty classes
 		List<Classes> emptyClassList = new ArrayList<Classes>();
@@ -83,6 +88,7 @@ public class FinalProject {
 		int choice = t.nextInt();
 		
 		if(choice==1) {
+			//Keep all classes, so that physical associations can be drawn.
 			for(int i=0; i<classList.size(); i++) {
 				List<Attribute> tempAttrList = classList.get(i).getAttributesList();
 				for(int j=0; j<emptyClassList.size(); j++) {
@@ -95,6 +101,7 @@ public class FinalProject {
 			}
 		}
 		else if(choice==2) {
+			//Delete all empty classes, so that some associations are included as attributes
 			for(int i=0; i<classList.size(); ) {
 				List<Method> tempMethodList = classList.get(i).getMethodsList();
 				for(int j=0; j<tempMethodList.size(); ) {
@@ -123,7 +130,7 @@ public class FinalProject {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		*/
 		
 		//Relations in a separate ArrayList in (class1, class2, type, name) format.
 		//Class is below
@@ -132,6 +139,7 @@ public class FinalProject {
 			if(classList.get(i).numberOfMethods()!=0) {
 				List<Method> tempMethodList = classList.get(i).getMethodsList();
 				for(int j=0; j<tempMethodList.size(); j++) {
+					//System.out.println(tempMethodList.get(j));
 					if(tempMethodList.get(j).getMethodType().equalsIgnoreCase("method"))
 						continue;
 					String ofclass = tempMethodList.get(j).getOfClass();
@@ -145,7 +153,7 @@ public class FinalProject {
 				}
 			}
 		}
-		System.out.println(methodPlotFormatList);
+		MethodPlotFormat.printMethodPlotFormat(methodPlotFormatList);
 	}	
 }
 
@@ -161,6 +169,12 @@ class MethodPlotFormat {
 		onClass = b;
 		type = c;
 		name = d;
+	}
+	
+	public static void printMethodPlotFormat(List<MethodPlotFormat> list) {
+		for(int i=0; i<list.size(); i++) {
+			System.out.println(list.get(i));
+		}
 	}
 	
 	public String toString() {

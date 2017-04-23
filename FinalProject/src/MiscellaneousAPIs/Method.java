@@ -79,13 +79,14 @@ public class Method {
 			e.printStackTrace();
 		}
 		if(possVerbs.contains(this.getMethodName())) {
-			foundType = "association";
+			foundType = "poss_association";
 		}
 		else if(this.getMethodName().equalsIgnoreCase("is") || this.getMethodName().equalsIgnoreCase("are") || this.getMethodName().equalsIgnoreCase("be")) {
 			foundType = "generalization";
 		}
 		else {
-			foundType = "method";
+			if(this.getIndirectObject()!=null || this.getDirectObject()!=null)
+				foundType = "association";
 		}
 		this.setMethodType(foundType);
 		return foundType;
