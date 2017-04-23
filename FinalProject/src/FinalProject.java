@@ -21,7 +21,7 @@ public class FinalProject {
 		if(args!=null && args.length != 0) {
 			pathToInputFile = args[0];
 		} else {
-			pathToInputFile = "inputs/inputUniversity.txt";
+			pathToInputFile = "inputs/inputHockey.txt";
 		}
 		//System.out.println(pathToInputFile);
 		
@@ -153,8 +153,18 @@ public class FinalProject {
 				}
 			}
 		}
-		MethodPlotFormat.printMethodPlotFormat(methodPlotFormatList);
+		System.out.println(methodPlotFormatList);
+		
+		//MethodPlotFormat.printMethodPlotFormat(methodPlotFormatList);
 	}	
+	
+	static Classes getClassByName(String classFullName, List<Classes> list) {
+		for(int i=0; i<list.size(); i++) {
+			if(list.get(i).getClassFullName().equalsIgnoreCase(classFullName))
+				return list.get(i);
+		}
+		return null;
+	}
 }
 
 class MethodPlotFormat {
@@ -180,5 +190,13 @@ class MethodPlotFormat {
 	public String toString() {
 		String toReturn = ofClass+" "+onClass+" "+type+" "+name;
 		return toReturn;
+	}
+	
+	public String getOfClass() {
+		return ofClass;
+	}
+	
+	public String getOnClass() {
+		return onClass;
 	}
 }

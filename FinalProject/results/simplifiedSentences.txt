@@ -1,13 +1,13 @@
-A master student can take courses at the TUHH.
-Courses can be labs.
-Courses can be lecture.
-Each master student must take at least one course.
-A research department holds each course.
-Each research department has at least one professor.
-Each research department has 0 to 30 research assistants.
-Students are people.
-professors are people.
-research assistants are people.
-People have a last name.
-People have a date of birth.
-People have a first name.
+A hockey team has a name.
+A hockey team has a record.
+Players have a position.
+Players have a number.
+Hockey teams play games against each other.
+Each game has a score.
+Each game has a location.
+A coach has a number of years of experience.
+A coach has a level of accreditation.
+A coach can teach multiple teams.
+a coach are people.
+A player are people.
+People have name.
