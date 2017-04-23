@@ -1,30 +1,35 @@
-Class full name = team
-Relations = []
-Attributes = [name(team), record(team)]
-
-
-Class full name = player
-Relations = [are(player, people, null, generalization)]
-Attributes = [position(player), number(player)]
-
-
-Class full name = hockey_team
-Relations = [play(hockey_team, game, null, method)]
+Class full name = master_student
+Relations = [can_take(master_student, course, null, method), must_take(master_student, course, null, method)]
 Attributes = []
 
 
-Class full name = game
-Relations = []
-Attributes = [score(game), location(game)]
+Class full name = course
+Relations = [be(course, lab, null, generalization), be(course, lecture, null, generalization)]
+Attributes = []
 
 
-Class full name = coach
-Relations = [can_teach(coach, team, null, method)]
-Attributes = [number(coach), level(coach)]
+Class full name = research_department
+Relations = [holds(research_department, course, null, method), has_0(research_department, null, research_assistant, method)]
+Attributes = [professor(research_department)]
+
+
+Class full name = professor
+Relations = [are(professor, people, null, generalization)]
+Attributes = []
+
+
+Class full name = research_assistant
+Relations = [are(research_assistant, people, null, generalization)]
+Attributes = []
+
+
+Class full name = student
+Relations = [are(student, people, null, generalization)]
+Attributes = []
 
 
 Class full name = people
 Relations = []
-Attributes = [name(people)]
+Attributes = [last_name(people), date(people), first_name(people)]
 
 

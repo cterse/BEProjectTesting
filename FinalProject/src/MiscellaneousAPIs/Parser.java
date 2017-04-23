@@ -82,10 +82,11 @@ public class Parser {
 	}
 	
 	public static void main(String[] args) {
-		String sentence = "Ram gave Sita a raise.";
+		String sentence = "People have a last name.";
 		Tree parse = Parser.getParseTree(sentence);
 		List<TypedDependency> tdl = Parser.getTypedDependencies(parse);
 		
+		System.out.println(parse);
 		Parser.printDependencyList(tdl);
 		//System.out.println(tdl.get(2).dep().index());
 		//System.out.println(tdl.get(2).dep().tag());

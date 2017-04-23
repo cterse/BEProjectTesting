@@ -429,8 +429,6 @@ public class RemoveConjunction {
 					CCNode = conjNodes.get(1).ancestor(1, parse);
 				Tree CCParent = CCNode.ancestor(1, parse);
 				
-				System.out.println(CCNode.nodeNumber(parse));
-				
 				//Get the 1st sentence
 				Iterator<Tree> CCIterator = parse.iterator();
 				//get the first sentence

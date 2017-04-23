@@ -189,6 +189,13 @@ public class ElementExtractionAPI {
 					if(!auxVerb) {
 						String attrName = getObject(tdl);
 						String ofClassName = getSubject(tdl);
+						
+						//check for amod, if present, add before the attribute name
+						for(int i=0; i<tdl.size(); i++) {
+							if(tdl.get(i).reln().toString().equalsIgnoreCase("amod") && tdl.get(i).gov().value().equalsIgnoreCase(attrName)) {
+								attrName = tdl.get(i).dep().value() + "_" + attrName;
+							}
+						}
 						attrList.add(new Attribute(attrName, Stemmer.getSingular(ofClassName).toLowerCase()));
 					} else {
 						//the verb is an aux, ignore it
@@ -309,7 +316,7 @@ public class ElementExtractionAPI {
 	public static List<Method> extractMethods(Tree parse) {
 		List<Method> methodsList = new ArrayList<Method>();
 		List<TypedDependency> tdl = Parser.getTypedDependencies(parse);
-		//Parser.printDependencyList(tdl);
+		Parser.printDependencyList(tdl);
 		
 		for(int i=0; i<tdl.size(); i++) {
 			IndexedWord ofClass = null, iObject = null, dObject = null, methodName = null;
@@ -440,6 +447,7 @@ public class ElementExtractionAPI {
 				}
 				
 				Method newMethod = new Method(toReturnMethodName, Stemmer.getSingular(toReturnOfClass), Stemmer.getSingular(toReturnDObject), Stemmer.getSingular(toReturnIObject));
+				System.out.println("analysing = "+newMethod);
 				newMethod.findAndSetMethodType();
 				methodsList.add(newMethod);
 			}
@@ -566,7 +574,7 @@ public class ElementExtractionAPI {
 	}
 	
 	public static void main(String[] args) {
-		String sentence = "A coach can coach multiple teams.";
+		String sentence = "People have a last name.";
 		List<String> sentences = new ArrayList<String>();
 		File inputFile = null;
 		if(args.length!=0)
@@ -612,7 +620,7 @@ public class ElementExtractionAPI {
 		sentences.add("Some research departments have research heads.");
 		System.out.println(extractEntities(sentences));
 		*/
-		System.out.println(extractEntities(sentences));
+		System.out.println(extractAttributes(sentence));
 		
 	}
 }

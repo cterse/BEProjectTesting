@@ -111,6 +111,7 @@ public class FinalProject {
 			System.out.println("Wrong choice. Exiting.");
 			System.exit(0);
 		}
+		System.out.println("\nOUTPUT:");
 		System.out.println(classList);
 		try {
 			pw = new PrintWriter("results/classList.txt");

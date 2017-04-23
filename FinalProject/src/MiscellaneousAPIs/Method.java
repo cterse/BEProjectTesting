@@ -81,7 +81,7 @@ public class Method {
 		if(possVerbs.contains(this.getMethodName())) {
 			foundType = "association";
 		}
-		else if(this.getMethodName().equalsIgnoreCase("is") || this.getMethodName().equalsIgnoreCase("are")) {
+		else if(this.getMethodName().equalsIgnoreCase("is") || this.getMethodName().equalsIgnoreCase("are") || this.getMethodName().equalsIgnoreCase("be")) {
 			foundType = "generalization";
 		}
 		else {
