@@ -8,8 +8,18 @@ Relations = [be(course, lab, null, generalization), be(course, lecture, null, ge
 Attributes = []
 
 
+Class full name = lab
+Relations = []
+Attributes = []
+
+
+Class full name = lecture
+Relations = []
+Attributes = []
+
+
 Class full name = research_department
-Relations = [holds(research_department, course, null, method), has_0(research_department, null, research_assistant, method)]
+Relations = [holds(research_department, course, null, method), has(research_department, professor, null, association), has_0(research_department, null, research_assistant, method)]
 Attributes = [professor(research_department)]
 
 
@@ -29,7 +39,22 @@ Attributes = []
 
 
 Class full name = people
+Relations = [have(people, name, null, association), have(people, date, null, association), have(people, name, null, association)]
+Attributes = [last_name(people), first_name(people)]
+
+
+Class full name = name
 Relations = []
-Attributes = [last_name(people), date(people), first_name(people)]
+Attributes = []
+
+
+Class full name = date
+Relations = []
+Attributes = []
+
+
+Class full name = birth
+Relations = []
+Attributes = []
 
 

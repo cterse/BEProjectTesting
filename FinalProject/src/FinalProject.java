@@ -112,7 +112,7 @@ public class FinalProject {
 			System.exit(0);
 		}
 		System.out.println("\nOUTPUT:");
-		System.out.println(classList);
+		System.out.println(classList);			//FINAL CLASSLIST. OUTPUT
 		try {
 			pw = new PrintWriter("results/classList.txt");
 			for(int i=0; i<classList.size(); i++) {
@@ -123,5 +123,48 @@ public class FinalProject {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		
+		//Relations in a separate ArrayList in (class1, class2, type, name) format.
+		//Class is below
+		List<MethodPlotFormat> methodPlotFormatList = new ArrayList<MethodPlotFormat>(); //final list
+		for(int i=0; i<classList.size(); i++) {
+			if(classList.get(i).numberOfMethods()!=0) {
+				List<Method> tempMethodList = classList.get(i).getMethodsList();
+				for(int j=0; j<tempMethodList.size(); j++) {
+					if(tempMethodList.get(j).getMethodType().equalsIgnoreCase("method"))
+						continue;
+					String ofclass = tempMethodList.get(j).getOfClass();
+					String onclass = tempMethodList.get(j).getIndirectObject();
+					if(onclass == null)
+						onclass = tempMethodList.get(j).getDirectObject();
+					String type = tempMethodList.get(j).getMethodType();
+					String name = tempMethodList.get(j).getMethodName();
+					MethodPlotFormat x = new MethodPlotFormat(ofclass, onclass, type, name);
+					methodPlotFormatList.add(x);
+				}
+			}
+		}
+		System.out.println(methodPlotFormatList);
+	}	
+}
+
+class MethodPlotFormat {
+	String ofClass;
+	String onClass;
+	String type;
+	String name;
+	
+	public MethodPlotFormat(String a, String b, String c,  String d) {
+		// TODO Auto-generated constructor stub
+		ofClass = a;
+		onClass = b;
+		type = c;
+		name = d;
+	}
+	
+	public String toString() {
+		String toReturn = ofClass+" "+onClass+" "+type+" "+name;
+		return toReturn;
 	}
 }
