@@ -14,11 +14,11 @@ public class Classes implements Comparable<Classes> {
 	private List<Method> methods = new ArrayList<Method>();
 	private List<Attribute> attributes = new ArrayList<Attribute>();
 	
-	Classes(String cname) {
+	public Classes(String cname) {
 		this.cname = cname.toLowerCase();
 	}
 	
-	Classes(String compound, String cname) {
+	public Classes(String compound, String cname) {
 		this.compound = compound.toLowerCase();
 		this.cname = cname.toLowerCase();
 	}
@@ -43,12 +43,26 @@ public class Classes implements Comparable<Classes> {
 		methods.add(m);
 	}
 	
+	public boolean removeMethod(Method m) {
+		if(this.getMethodsList().contains(m)) {
+			return this.methods.remove(m);
+		}
+		return false;
+	}
+	
 	public void addAttribute(String name) {
 		attributes.add(new Attribute(name, this.getClassFullName()));
 	}
 	
 	public void addAttribute(Attribute a) {
 		attributes.add(a);
+	}
+	
+	public boolean removeAttribute(Attribute a) {
+		if(this.getAttributesList().contains(a)) {
+			 return this.attributes.remove(a);
+		}
+		return false;
 	}
 	
 	public String getClassName() {
@@ -78,12 +92,20 @@ public class Classes implements Comparable<Classes> {
 	}
 	
 	public String toString() {
-		if(compound == "")
-			System.out.println("Class full name = "+cname);
-		else System.out.println("Class full name = "+compound+"_"+cname);
-		System.out.println("Methods = "+methods);
-		System.out.println("Attributes = "+attributes);
-		return "";
+		String toReturn  = null;
+		if(compound == "") {
+			//System.out.println("Class full name = "+cname);
+			toReturn = "Class full name = "+cname;
+		}
+		else {
+			//System.out.println("Class full name = "+compound+"_"+cname);
+			toReturn = "Class full name = "+compound+"_"+cname;
+		}
+		//System.out.println("Relations = "+methods);
+		//System.out.println("Attributes = "+attributes);
+		toReturn += "\nRelations = "+methods;
+		toReturn += "\nAttributes = "+attributes;
+		return toReturn+"\n\n";
 	}
 	
 	public static void main(String[] args) {

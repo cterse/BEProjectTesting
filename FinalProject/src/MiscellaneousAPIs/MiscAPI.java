@@ -56,6 +56,12 @@ public class MiscAPI {
 		return 1;
 	}
 	
+	public static void printListPerLine(List<?> list) {
+		for(int i=0; i<list.size(); i++)
+			System.out.println(list.get(i));
+		System.out.println();
+	}
+	
 	public static void main(String[] args) {
 		String sentence = "This is test                  .      ";
 		

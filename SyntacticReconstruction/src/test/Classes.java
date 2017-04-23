@@ -51,6 +51,13 @@ public class Classes implements Comparable<Classes> {
 		attributes.add(a);
 	}
 	
+	public boolean removeAttribute(Attribute a) {
+		if(this.getAttributesList().contains(a)) {
+			 return this.getAttributesList().remove(a);
+		}
+		return false;
+	}
+	
 	public String getClassName() {
 		return cname;
 	}
@@ -78,12 +85,20 @@ public class Classes implements Comparable<Classes> {
 	}
 	
 	public String toString() {
-		if(compound == "")
-			System.out.println("Class full name = "+cname);
-		else System.out.println("Class full name = "+compound+"_"+cname);
-		System.out.println("Methods = "+methods);
-		System.out.println("Attributes = "+attributes);
-		return "";
+		String toReturn  = null;
+		if(compound == "") {
+			//System.out.println("Class full name = "+cname);
+			toReturn = "Class full name = "+cname;
+		}
+		else {
+			//System.out.println("Class full name = "+compound+"_"+cname);
+			toReturn = "Class full name = "+compound+"_"+cname;
+		}
+		//System.out.println("Relations = "+methods);
+		//System.out.println("Attributes = "+attributes);
+		toReturn += "\nRelations = "+methods;
+		toReturn += "\nAttributes = "+attributes;
+		return toReturn+"\n\n";
 	}
 	
 	public static void main(String[] args) {

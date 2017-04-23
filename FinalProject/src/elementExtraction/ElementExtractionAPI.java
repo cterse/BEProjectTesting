@@ -1,4 +1,4 @@
-package test;
+package elementExtraction;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
+import MiscellaneousAPIs.Attribute;
+import MiscellaneousAPIs.Classes;
+import MiscellaneousAPIs.Method;
+import MiscellaneousAPIs.Parser;
+import MiscellaneousAPIs.Stemmer;
 import edu.stanford.nlp.ie.NumberNormalizer;
 import edu.stanford.nlp.ling.IndexedWord;
 import edu.stanford.nlp.trees.Tree;
@@ -29,7 +34,7 @@ public class ElementExtractionAPI {
 		return false;
 	}
 	
-	static void fillPossessionVerbsList() {
+	public static void fillPossessionVerbsList() {
 		File possVerbsFile = new File("possessionVerbs.txt");
 		Scanner possVerbsFileScanner = null;
 		try {
@@ -43,7 +48,7 @@ public class ElementExtractionAPI {
 		}
 	}
 	
-	static List<Classes> extractClasses(String sentence) {
+	public static List<Classes> extractClasses(String sentence) {
 		List<Classes> classList = new ArrayList<Classes>();
 		Tree parse = Parser.getParseTree(sentence);
 		
@@ -78,7 +83,7 @@ public class ElementExtractionAPI {
 		return classList;
 	}
 	
-	static List<Classes> extractClasses(Tree parse) {
+	public static List<Classes> extractClasses(Tree parse) {
 		List<Classes> classList = new ArrayList<Classes>();
 		
 		Iterator<Tree> it = parse.iterator();
@@ -149,7 +154,7 @@ public class ElementExtractionAPI {
 		return null;
 	}
 	
-	static List<Attribute> extractAttributes(String sentence) {
+	public static List<Attribute> extractAttributes(String sentence) {
 		List<Attribute> attrList = new ArrayList<Attribute>();
 		
 		if(possessionVerbs.isEmpty()) {
@@ -195,7 +200,7 @@ public class ElementExtractionAPI {
 		return attrList;
 	}
 
-	static String getNmodOfNsubj(List<TypedDependency> tdl) {
+	public static String getNmodOfNsubj(List<TypedDependency> tdl) {
 		String nmod = null;
 		String nsubjgov = "", nsubjdep = "";
 		for(int i=0; i<tdl.size(); i++) {
@@ -217,7 +222,7 @@ public class ElementExtractionAPI {
 		return nmod;
 	}
 	
-	static List<Method> extractMethods(String sentence) {
+	public static List<Method> extractMethods(String sentence) {
 		List<Method> methodsList = new ArrayList<Method>();
 		
 		if(possessionVerbs.isEmpty()) {
@@ -301,7 +306,7 @@ public class ElementExtractionAPI {
 		return methodsList;
 	}
 	
-	static List<Method> extractMethods(Tree parse) {
+	public static List<Method> extractMethods(Tree parse) {
 		List<Method> methodsList = new ArrayList<Method>();
 		List<TypedDependency> tdl = Parser.getTypedDependencies(parse);
 		//Parser.printDependencyList(tdl);
@@ -443,7 +448,7 @@ public class ElementExtractionAPI {
 		return methodsList;
 	}
 	
-	static List<Classes> extractEntities(String sentence) {
+	public static List<Classes> extractEntities(String sentence) {
 		List<Classes> classList = extractClasses(sentence);
 		List<Method> methodsList = extractMethods(Parser.getParseTree(sentence));
 		List<Attribute> attributesList = extractAttributes(sentence);
@@ -480,7 +485,7 @@ public class ElementExtractionAPI {
 		return classList;
 	}
 	
-	static List<Classes> extractEntities(List<String> sentences) {
+	public static List<Classes> extractEntities(List<String> sentences) {
 		List<Classes> classList = new ArrayList<Classes>();
 		List<Method> methodsList = new ArrayList<Method>();
 		List<Attribute> attributesList = new ArrayList<Attribute>();
@@ -538,7 +543,7 @@ public class ElementExtractionAPI {
 		return classList;
 	}
 	
-	static String extractMulitplicity(IndexedWord entity, List<TypedDependency> tdl) {
+	public static String extractMulitplicity(IndexedWord entity, List<TypedDependency> tdl) {
 		String multi = null;
 		for(int i=0; i<tdl.size(); i++) {
 			if(tdl.get(i).reln().toString().equalsIgnoreCase("nummod")) {

@@ -1,5 +1,11 @@
 package MiscellaneousAPIs;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 public class Method {
 	private String methodName;
 	private String ofClass;
@@ -8,10 +14,11 @@ public class Method {
 	private String ofClassQuantity;
 	private String onClassQuantity;
 	private String dObjectQuantity;
+	private String type;
 	
 	public Method(String name) {
 		methodName = name;
-		ofClass = iObject = dobject = null;
+		ofClass = iObject = dobject = type = null;
 	}
 	
 	public Method(String name, String c1, String o, String c2) {
@@ -19,6 +26,7 @@ public class Method {
 		ofClass = c1==null?null:c1.toLowerCase();
 		dobject = o==null?null:o.toLowerCase();
 		iObject = c2==null?null:c2.toLowerCase();
+		type = null;
 	}
 	
 	public String getMethodName() {
@@ -37,6 +45,10 @@ public class Method {
 		return dobject;
 	}
 	
+	public String getMethodType() {
+		return type;
+	}
+	
 	public void setOfClass(String c1) {
 		ofClass = c1.toLowerCase();
 	}
@@ -49,8 +61,38 @@ public class Method {
 		dobject = o.toLowerCase();
 	}
 	
+	public void setMethodType(String type) {
+		this.type = type;
+	}
+	
+	public String findAndSetMethodType() {
+		String foundType = null;
+		Scanner possVerbsFileScanner = null;
+		List<String> possVerbs = new ArrayList<String>();
+		try {
+			possVerbsFileScanner = new Scanner(new File("possessionVerbs.txt"));
+			while(possVerbsFileScanner.hasNext()) {
+				possVerbs.add(possVerbsFileScanner.next());
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(possVerbs.contains(this.getMethodName())) {
+			foundType = "association";
+		}
+		else if(this.getMethodName().equalsIgnoreCase("is") || this.getMethodName().equalsIgnoreCase("are")) {
+			foundType = "generalization";
+		}
+		else {
+			foundType = "method";
+		}
+		this.setMethodType(foundType);
+		return foundType;
+	}
+	
 	public String toString() {
-		String toReturn = methodName+"("+ofClass+", "+dobject+", "+iObject+")";
+		String toReturn = methodName+"("+ofClass+", "+dobject+", "+iObject+", "+type+")";
 		return toReturn;
 	}
 }

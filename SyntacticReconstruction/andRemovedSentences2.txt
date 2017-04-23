@@ -1,5 +1,5 @@
 A hockey league is made up of at least four hockey teams.
-Each hockey team is  composed of six to twelve players.
+Each hockey team is  composed of 6 to 12 players.
 A team has a name.
 A team has a record.
 Players have a position.
