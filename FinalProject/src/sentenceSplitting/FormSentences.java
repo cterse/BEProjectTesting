@@ -2,7 +2,6 @@ package sentenceSplitting;
 
 /*
  * Code to form proper sentences given a paragraph of text.
- * Called by Test.java
 */
 
 import java.io.File;

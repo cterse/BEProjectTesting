@@ -18,10 +18,10 @@ public class FinalProject {
 		
 		//Step 1: Initiate the input file
 		String pathToInputFile = null;
-		if(args.length != 0) {
+		if(args!=null && args.length != 0) {
 			pathToInputFile = args[0];
 		} else {
-			pathToInputFile = "input.txt";
+			pathToInputFile = "inputs/inputUniversity.txt";
 		}
 		//System.out.println(pathToInputFile);
 		

@@ -1,0 +1,1 @@
+A master student can take courses at the TUHH. Courses can be lectures or labs. Each master student must take at least one course. A research department holds each course. Each research department has at least one professor and 0 to 30 research assistants. Students, professors and research assistants are people. People have a first name, a last name and a date of birth. 

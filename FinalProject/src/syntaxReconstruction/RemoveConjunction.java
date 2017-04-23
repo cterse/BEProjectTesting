@@ -1,5 +1,8 @@
 package syntaxReconstruction;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+
 /*
  * Also removes semi-colons
  */
@@ -8,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 
 import MiscellaneousAPIs.*;
@@ -15,6 +19,10 @@ import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TypedDependency;
 
 public class RemoveConjunction {
+	
+	/*
+	 * for and nor but or yet so
+	 */
 	
 	public static String removeSemicolon(String sentence) {
 		String temp = "";
@@ -414,8 +422,14 @@ public class RemoveConjunction {
 				//For now, consider only one conj is present in the sentence.
 				
 				//Store parent of the CC node
-				Tree CCNode = conjNodes.get(0).ancestor(1, parse);
+				Tree CCNode = null;
+				if(!conj.equals(","))
+					CCNode = conjNodes.get(0).ancestor(1, parse);
+				else if(conj.equals(","))
+					CCNode = conjNodes.get(1).ancestor(1, parse);
 				Tree CCParent = CCNode.ancestor(1, parse);
+				
+				System.out.println(CCNode.nodeNumber(parse));
 				
 				//Get the 1st sentence
 				Iterator<Tree> CCIterator = parse.iterator();
@@ -519,6 +533,16 @@ public class RemoveConjunction {
 			}
 		}
 		
+		//remove commas before conjunctions
+		for(int i=0; i<conjRemovedSentences.size(); i++) {
+			if(conjRemovedSentences.get(i).substring(conjRemovedSentences.get(i).length()-2, conjRemovedSentences.get(i).length()-1).equals(",")) {
+				String temp = conjRemovedSentences.get(i).substring(0, conjRemovedSentences.get(i).length()-2);
+				temp = temp.trim();
+				temp += conjRemovedSentences.get(i).charAt(conjRemovedSentences.get(i).length()-1);
+				conjRemovedSentences.remove(i);
+				conjRemovedSentences.add(i, temp);
+			}
+		}
 		return conjRemovedSentences;
 	}
 	
@@ -557,6 +581,8 @@ public class RemoveConjunction {
 		conjRemovedSentences = removeMultipleSpecifiedConjunctions("and", 
 								removeMultipleSpecifiedConjunctions("but", 
 								removeMultipleSpecifiedConjunctions("or", sentence)));
+		if(sentence.contains(", so"))
+			conjRemovedSentences = removeMultipleSpecifiedConjunctions("so", conjRemovedSentences);
 		return conjRemovedSentences;
 	}
 	
@@ -572,8 +598,17 @@ public class RemoveConjunction {
 		return conjRemovedSentences;
 	}
 	
+	public static List<String> resolveSeries(String sentence) {
+		List<String> simpleSentences = null;
+		
+		
+		return simpleSentences;
+	}
+	
 	public static void main(String[] args) {
-		String[] sentence = {"Each research department has at least one professor and 0 to 30 research assistants.",
+		String[] sentence = {" It is difficult to relax during the week, so I like to get away on weekends.",
+								"People have a first name, a last name and a date of birth.",
+								"Each research department has at least one professor and 0 to 30 research assistants.",
 								"Each hockey team consists of six to twelve players and one player is the team captain.",
 								"Library issues books and loans to students.",
 								"Library issues books and gives loans to students.",
@@ -582,6 +617,8 @@ public class RemoveConjunction {
 								"I really want to go to work but I am too sick to drive.",
 								"Library issues books to students and school is a building.",
 								"This is a sentence and this is another sentence."};
+		
+		
 		
 		String scrs = removeSemicolon(sentence[0]);
 		
