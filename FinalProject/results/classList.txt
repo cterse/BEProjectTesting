@@ -1,0 +1,30 @@
+Class full name = team
+Relations = []
+Attributes = [name(team), record(team)]
+
+
+Class full name = player
+Relations = [are(player, people, null, generalization)]
+Attributes = [position(player), number(player)]
+
+
+Class full name = hockey_team
+Relations = [play(hockey_team, game, null, method)]
+Attributes = []
+
+
+Class full name = game
+Relations = []
+Attributes = [score(game), location(game)]
+
+
+Class full name = coach
+Relations = [can_teach(coach, team, null, method)]
+Attributes = [number(coach), level(coach)]
+
+
+Class full name = people
+Relations = []
+Attributes = [name(people)]
+
+

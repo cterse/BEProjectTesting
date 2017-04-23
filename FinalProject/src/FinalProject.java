@@ -12,6 +12,7 @@ import elementExtraction.ElementExtractionAPI;
 
 public class FinalProject {
 	static Scanner t = new Scanner(System.in);
+	static PrintWriter pw = null;
 	
 	public static void main(String[] args) {	
 		
@@ -30,6 +31,11 @@ public class FinalProject {
 			sentences = FormSentences.getSentences(pathToInputFile);
 			System.out.println("\nEXTRACTED SENTENCES:");
 			MiscAPI.printListPerLine(sentences);
+			pw = new PrintWriter("results/extractedSentences.txt");
+			for(int i=0; i<sentences.size(); i++) {
+				pw.println(sentences.get(i));
+			}
+			pw.close();
 			System.out.print("\n\nPRESS ANY KEY TO CONTINUE...\n");
 			t.next();
 		} catch (FileNotFoundException e) {
@@ -42,6 +48,16 @@ public class FinalProject {
 		System.out.println("\nSIMPLIFIED SENTENCES:");
 		MiscAPI.printListPerLine(simplifiedSentences);
 		System.out.print("\n\nPRESS ANY KEY TO CONTINUE...\n");
+		try {
+			pw = new PrintWriter("results/simplifiedSentences.txt");
+			for(int i=0; i<simplifiedSentences.size(); i++) {
+				pw.println(simplifiedSentences.get(i));
+			}
+			pw.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		t.next();
 		
 		//Step 4: Entities Extraction
@@ -96,5 +112,15 @@ public class FinalProject {
 			System.exit(0);
 		}
 		System.out.println(classList);
+		try {
+			pw = new PrintWriter("results/classList.txt");
+			for(int i=0; i<classList.size(); i++) {
+				pw.println(classList.get(i));
+			}
+			pw.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
