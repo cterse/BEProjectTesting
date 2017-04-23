@@ -575,7 +575,7 @@ public class ElementExtractionAPI {
 	}
 	
 	public static void main(String[] args) {
-		String sentence = "People have a last name.";
+		String sentence = "The class went home after the prayer.";
 		List<String> sentences = new ArrayList<String>();
 		File inputFile = null;
 		if(args.length!=0)
@@ -621,7 +621,7 @@ public class ElementExtractionAPI {
 		sentences.add("Some research departments have research heads.");
 		System.out.println(extractEntities(sentences));
 		*/
-		System.out.println(extractAttributes(sentence));
+		System.out.println(extractEntities(sentence));
 		
 	}
 }

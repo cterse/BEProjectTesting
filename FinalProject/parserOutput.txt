@@ -1,17 +1,21 @@
-People/NNS have/VBP a/DT first/JJ name/NN ./.
+The/DT class/NN went/VBD home/NN after/IN the/DT prayer/NN ./.
 
-(ROOT (S (NP (NNS People)) (VP (VBP have) (NP (DT a) (JJ first) (NN name))) (. .)))
+(ROOT (S (NP (DT The) (NN class)) (VP (VBD went) (NP (NN home)) (PP (IN after) (NP (DT the) (NN prayer)))) (. .)))
 
-nsubj(have-2, People-1)
-root(ROOT-0, have-2)
-det(name-5, a-3)
-amod(name-5, first-4)
-dobj(have-2, name-5)
+det(class-2, The-1)
+nsubj(went-3, class-2)
+root(ROOT-0, went-3)
+dobj(went-3, home-4)
+case(prayer-7, after-5)
+det(prayer-7, the-6)
+nmod:after(went-3, prayer-7)
 
 (ROOT
   (S
-    (NP (NNS People))
-    (VP (VBP have)
-      (NP (DT a) (JJ first) (NN name)))
+    (NP (DT The) (NN class))
+    (VP (VBD went)
+      (NP (NN home))
+      (PP (IN after)
+        (NP (DT the) (NN prayer))))
     (. .)))
 

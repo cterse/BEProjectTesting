@@ -87,6 +87,8 @@ public class Method {
 		else {
 			if(this.getIndirectObject()!=null || this.getDirectObject()!=null)
 				foundType = "association";
+			if(this.getIndirectObject()==null && this.getDirectObject()==null)
+				foundType = "method";
 		}
 		this.setMethodType(foundType);
 		return foundType;
